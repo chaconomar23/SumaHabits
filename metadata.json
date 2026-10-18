@@ -1,0 +1,6 @@
+{
+  "name": "SUMA+ HABITS",
+  "description": "Gestión del tiempo, hábitos, bienestar digital, time-blocking vertical 24h y analítica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
