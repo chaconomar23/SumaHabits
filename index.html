@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SUMA+ HABITS</title>
-  <meta name="description" content="Gestión del tiempo, hábitos, bienestar digital, time-blocking vertical 24h y analítica ejecutiva.">
-  <meta property="og:title" content="SUMA+ HABITS">
-  <meta property="og:description" content="Time-blocking vertical 24h con Drag & Drop, micro-hábitos, bienestar digital iOS Screen Time y reportes PDF.">
+  <title>SUMA+ HÁBITOS</title>
+  <meta name="description" content="Gestión del tiempo, hábitos, bienestar digital, línea del tiempo vertical y analítica ejecutiva.">
+  <meta property="og:title" content="SUMA+ HÁBITOS">
+  <meta property="og:description" content="Planificación por bloques de tiempo con arrastrar y soltar, micro-hábitos, bienestar digital y reportes PDF.">
 
   <!-- Typography: Inter, Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1473,16 +1473,12 @@
     <div class="header-top">
       <div class="brand-title">
         <span>SUMA</span><span class="plus">+</span>
-        <span class="habits">HABITS</span>
+        <span class="habits">HÁBITOS</span>
       </div>
       <div class="header-actions">
         <button class="btn-header btn-sos" id="btnOpenSos" title="Pausa consciente">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>Pausa</span>
-        </button>
-        <button class="btn-header btn-ai" id="btnOpenAiSettings" title="Asistente de Productividad">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
-          <span>Asistente</span>
         </button>
       </div>
     </div>
@@ -1546,7 +1542,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Arrastra un hábito a la línea para agendarlo
           </span>
-          <span style="color:var(--primary); font-weight:600;">Snapping 15m</span>
+          <span style="color:var(--primary); font-weight:600;">Ajuste 15m</span>
         </div>
 
         <div class="catalog-filter-bar" id="categoryFilterBar">
@@ -1566,7 +1562,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h3 class="card-title" style="font-size:0.82rem;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Micro-habits (Quick Checks)</span>
+            <span>Micro-hábitos (Acciones Rápidas)</span>
           </h3>
           <span style="font-size:0.72rem; color:var(--text-dim); font-family:var(--font-mono);" id="microCountText">0 / 0</span>
         </div>
@@ -1575,17 +1571,22 @@
 
       <!-- 24-Hour Vertical Timeline -->
       <div class="timeline-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:0 4px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0 4px; flex-wrap:wrap; gap:6px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <h2 class="card-title">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span>Línea de Tiempo 24h</span>
+              <span>Línea de Tiempo</span>
             </h2>
-            <span style="font-size:0.68rem; color:var(--text-dim);">· Arrastra bloques para moverlos</span>
+            <span style="font-size:0.68rem; color:var(--text-dim);" id="timelineStartInfoBadge">· Inicia en hora actual</span>
           </div>
-          <button class="btn-secondary" id="btnScrollToNow" style="padding:4px 8px; font-size:0.72rem;">
-            Hora actual
-          </button>
+          <div style="display:flex; gap:6px;">
+            <button class="btn-secondary" id="btnToggleFullDay" style="padding:4px 8px; font-size:0.72rem;">
+              Ver día completo
+            </button>
+            <button class="btn-secondary" id="btnScrollToNow" style="padding:4px 8px; font-size:0.72rem;">
+              Hora actual
+            </button>
+          </div>
         </div>
 
         <div class="timeline-scroll-wrap" id="timelineScrollArea">
@@ -1608,19 +1609,44 @@
       </div>
     </section>
 
-    <!-- VIEW 2: PANTALLA & BIENESTAR DIGITAL (iOS SCREEN TIME DIVISIONS) -->
+    <!-- VIEW 2: PANTALLA & BIENESTAR DIGITAL -->
     <section class="view-tab" id="view-screen">
-      <!-- Screen Budget & iOS Divisions Summary -->
+      <!-- Screen Budget & Divisions Summary -->
       <div class="liquid-card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <h2 class="card-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>Tiempo en Pantalla (iOS Division)</span>
+            <span>Tiempo en Pantalla (Por Categorías)</span>
           </h2>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <label for="inputScreenBudget" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Límite:</label>
-            <input type="number" id="inputScreenBudget" min="15" step="15" value="120" style="width:70px; text-align:center; background:var(--bg-input); border:1px solid var(--glass-border); color:#fff; padding:4px 8px; border-radius:6px; font-family:var(--font-mono); font-size:0.82rem;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label for="inputScreenBudget" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Tu Límite Saludable:</label>
+            <input type="number" id="inputScreenBudget" min="15" step="15" value="120" style="width:68px; text-align:center; background:var(--bg-input); border:1px solid var(--glass-border); color:#fff; padding:4px 6px; border-radius:6px; font-family:var(--font-mono); font-size:0.82rem;">
             <span style="font-size:0.75rem; color:var(--text-dim);">min</span>
+          </div>
+        </div>
+
+        <!-- Healthy Screen Time Recommendations -->
+        <div style="margin-top:10px; padding:10px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:10px;">
+          <div style="font-size:0.72rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+            Recomendaciones de Límite Saludable (pulsa una opción o escribe tu propio límite arriba):
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px;" id="screenBudgetRecommendations">
+            <button type="button" class="btn-secondary" data-rec-budget="60" style="justify-content:space-between; font-size:0.72rem; padding:6px 10px;">
+              <span>Alto Rendimiento</span>
+              <strong style="font-family:var(--font-mono); color:var(--accent);">1h 00m (60m)</strong>
+            </button>
+            <button type="button" class="btn-secondary" data-rec-budget="120" style="justify-content:space-between; font-size:0.72rem; padding:6px 10px;">
+              <span>Recomendado</span>
+              <strong style="font-family:var(--font-mono); color:var(--primary);">2h 00m (120m)</strong>
+            </button>
+            <button type="button" class="btn-secondary" data-rec-budget="150" style="justify-content:space-between; font-size:0.72rem; padding:6px 10px;">
+              <span>Moderado</span>
+              <strong style="font-family:var(--font-mono); color:var(--gold);">2h 30m (150m)</strong>
+            </button>
+            <button type="button" class="btn-secondary" data-rec-budget="180" style="justify-content:space-between; font-size:0.72rem; padding:6px 10px;">
+              <span>Flexible</span>
+              <strong style="font-family:var(--font-mono); color:var(--text-muted);">3h 00m (180m)</strong>
+            </button>
           </div>
         </div>
 
@@ -1629,14 +1655,14 @@
           <span id="screenPctText" style="font-family:var(--font-mono); color:var(--text);">0% del límite</span>
         </div>
 
-        <!-- Stacked Multi-category Bar (iOS Screen Time style) -->
+        <!-- Stacked Multi-category Bar -->
         <div class="screen-stacked-bar">
           <div class="bar-seg seg-social" id="barSegSocial" style="width:0%;"></div>
           <div class="bar-seg seg-prod" id="barSegProd" style="width:0%;"></div>
           <div class="bar-seg seg-utils" id="barSegUtils" style="width:0%;"></div>
         </div>
 
-        <!-- 3 iOS Divisions Direct Inputs (Horas y Minutos de iPhone) -->
+        <!-- 3 Divisions Direct Inputs -->
         <div class="division-cards-grid">
           <div class="div-card">
             <div class="div-indicator" style="color:var(--cat-social);">
@@ -1712,7 +1738,7 @@
         </div>
 
         <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.7rem; color:var(--text-dim);">Introduce las horas y minutos que marca tu iPhone.</span>
+          <span style="font-size:0.7rem; color:var(--text-dim);">Introduce las horas y minutos registrados por división.</span>
           <button class="btn-primary" id="btnSaveScreenDivisions" style="font-size:0.75rem; padding:6px 14px;">
             Guardar Divisiones
           </button>
@@ -1724,26 +1750,31 @@
         </div>
       </div>
 
-      <!-- Extended App Catalog with authentic brand SVGs -->
+      <!-- Catálogo de Aplicaciones (13 predeterminadas + regla de 5 a 10 registros) -->
       <div class="liquid-card">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
           <h3 class="card-title">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            <span>Catálogo Extendido de Apps</span>
+            <span>Catálogo de Aplicaciones</span>
           </h3>
-          <span style="font-size:0.72rem; color:var(--text-dim);" id="appSelectedLabel">Instagram</span>
+          <span style="font-size:0.72rem; font-family:var(--font-mono); font-weight:700; color:var(--primary);" id="appQuotaCounter">0 / 5-10 registradas</span>
         </div>
 
-        <!-- Search and filter tabs for app catalog -->
-        <div style="margin-top:8px;">
-          <input type="text" id="appSearchInput" placeholder="Buscar app en el catálogo (ej. Instagram, Notion, Safari)..." style="width:100%; background:var(--bg-input); border:1px solid var(--glass-border); color:#fff; padding:7px 12px; border-radius:8px; font-size:0.78rem; outline:none;">
+        <!-- Quota Requirement Banner (Min 5, Max 10 apps) -->
+        <div class="alert-banner" id="appQuotaBanner" style="margin-top:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="appQuotaBannerText">Registra el tiempo de mínimo 5 y máximo 10 aplicaciones hoy.</span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+          <span style="font-size:0.74rem; color:var(--text-muted);">Aplicación seleccionada: <strong style="color:#fff;" id="appSelectedLabel">TikTok</strong></span>
         </div>
 
         <div class="app-category-nav" id="appCategoryNav" style="margin-top:8px;">
-          <button class="app-cat-btn active" data-div="all">Todas (<span id="countAppsAll">52</span>)</button>
-          <button class="app-cat-btn" data-div="social">Redes (<span id="countAppsSocial">22</span>)</button>
-          <button class="app-cat-btn" data-div="prod">Productividad (<span id="countAppsProd">18</span>)</button>
-          <button class="app-cat-btn" data-div="utils">Utilidades (<span id="countAppsUtils">12</span>)</button>
+          <button class="app-cat-btn active" data-div="all">Todas (<span id="countAppsAll">13</span>)</button>
+          <button class="app-cat-btn" data-div="social">Redes (<span id="countAppsSocial">6</span>)</button>
+          <button class="app-cat-btn" data-div="prod">Productividad (<span id="countAppsProd">4</span>)</button>
+          <button class="app-cat-btn" data-div="utils">Utilidades (<span id="countAppsUtils">3</span>)</button>
         </div>
 
         <!-- Dynamic Grid populated with authentic SVG brand logos -->
@@ -1765,13 +1796,13 @@
         </div>
 
         <!-- Logged Apps List for Today -->
-        <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px; max-height:240px; overflow-y:auto;" id="loggedAppsContainer"></div>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px; max-height:260px; overflow-y:auto;" id="loggedAppsContainer"></div>
       </div>
     </section>
 
     <!-- VIEW 3: REPORTES & AUDITORÍA PROFESIONAL (PDF GENERATOR) -->
     <section class="view-tab" id="view-reports" style="padding-bottom: 24px;">
-      <!-- AI Diagnosis Card -->
+      <!-- Performance Diagnosis Card -->
       <div class="liquid-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <h2 class="card-title">
@@ -1791,7 +1822,7 @@
       <div id="exportableReportArea" class="liquid-card" style="display:flex; flex-direction:column; gap:14px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
-            <div style="font-size:0.98rem; font-weight:800; color:#fff;">Dashboard Ejecutivo de Productividad</div>
+            <div style="font-size:0.98rem; font-weight:800; color:#fff;">Panel Ejecutivo de Productividad</div>
             <div style="font-size:0.72rem; color:var(--text-dim);" id="reportDateBadge">Jornada</div>
           </div>
           <div style="display:flex; gap:6px; flex-wrap:wrap;">
@@ -1814,7 +1845,7 @@
         <div id="reportA4PreviewContainer">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px;">
             <div>
-              <div style="font-size:1.15rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">SUMA+ HABITS · REPORTE EJECUTIVO</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">SUMA+ HÁBITOS · REPORTE EJECUTIVO</div>
               <div style="font-size:0.75rem; color:#475569;">Documento Oficial de Productividad & Auditoría de Bienestar Digital</div>
             </div>
             <div style="text-align:right;">
@@ -1901,7 +1932,7 @@
 <div id="printReportSheet">
   <div class="print-header">
     <div>
-      <div class="print-title">SUMA+ HABITS</div>
+      <div class="print-title">SUMA+ HÁBITOS</div>
       <div class="print-sub">Reporte Ejecutivo Oficial de Productividad & Auditoría de Bienestar Digital</div>
     </div>
     <div style="text-align:right;">
@@ -1929,12 +1960,12 @@
     </div>
   </div>
 
-  <div class="print-section-title">1. Ejecución de Bloques de Tiempo (Línea de 24 Horas)</div>
+  <div class="print-section-title">1. Ejecución de Bloques de Tiempo</div>
   <table class="print-table" id="printBlocksTable">
     <thead>
       <tr>
         <th>Horario</th>
-        <th>Hábito</th>
+        <th>Hábito y Objetivos</th>
         <th>Estado</th>
         <th>Prioridad</th>
         <th>Puntaje</th>
@@ -1943,7 +1974,7 @@
     <tbody id="printBlocksTableBody"></tbody>
   </table>
 
-  <div class="print-section-title">2. Desglose de Tiempo en Pantalla (Divisiones iOS)</div>
+  <div class="print-section-title">2. Desglose de Tiempo en Pantalla (Por Categorías)</div>
   <table class="print-table">
     <thead>
       <tr>
@@ -1956,14 +1987,14 @@
     <tbody id="printScreenTableBody"></tbody>
   </table>
 
-  <div class="print-section-title">3. Micro-hábitos y Rutinas Ancladas</div>
+  <div class="print-section-title">3. Micro-hábitos y Rutinas Personalizadas</div>
   <div style="font-size:9pt; line-height:1.6;" id="printRoutinesSummary"></div>
 
   <div class="print-section-title">4. Diagnóstico de Rendimiento</div>
   <div style="font-size:9pt; line-height:1.6; white-space:pre-line; background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0;" id="printAuditContent"></div>
 
   <div class="print-footer">
-    <span>SUMA+ HABITS · Sistema de Alto Rendimiento & Time-Blocking Vertical</span>
+    <span>SUMA+ HÁBITOS · Sistema de Alto Rendimiento y Gestión del Tiempo</span>
     <span>Documento de Validez Personal</span>
   </div>
 </div>
@@ -1982,7 +2013,7 @@
 
     <div class="field-group">
       <label>Nombre del hábito</label>
-      <input type="text" id="habitInputName" placeholder="Ej. Deep Work de Programación">
+      <input type="text" id="habitInputName" placeholder="Ej. Trabajo Profundo de Programación">
     </div>
 
     <div class="grid-2">
@@ -2023,7 +2054,7 @@
   </div>
 </div>
 
-<!-- 2. Modal Agendar / Editar Bloque -->
+<!-- 2. Modal Agendar / Editar Bloque (Con Lista de Objetivos / Checklist) -->
 <div class="modal-backdrop" id="modalBlock">
   <div class="modal-box">
     <div class="modal-header-row">
@@ -2051,6 +2082,16 @@
       </div>
     </div>
 
+    <!-- Objetivos del Bloque (Checklist requerido para completar) -->
+    <div class="field-group">
+      <label>Objetivos del Bloque (deben marcarse todos para completar)</label>
+      <div style="display:flex; gap:6px;">
+        <input type="text" id="inputBlockObjective" placeholder="Ej. Terminar informe, Resolver 3 ejercicios..." style="flex:1;">
+        <button type="button" class="btn-secondary" id="btnAddBlockObjective" style="padding:8px 12px; white-space:nowrap;">+ Añadir</button>
+      </div>
+      <div id="blockObjectivesList" style="display:flex; flex-direction:column; gap:6px; margin-top:6px;"></div>
+    </div>
+
     <div class="field-group">
       <label>Estado</label>
       <select id="blockStatusSelect">
@@ -2073,8 +2114,8 @@
     </div>
 
     <div class="field-group">
-      <label>Notas</label>
-      <textarea id="blockNotes" rows="2" placeholder="Objetivo de la sesión..."></textarea>
+      <label>Notas adicionales</label>
+      <textarea id="blockNotes" rows="2" placeholder="Detalles opcionales de la sesión..."></textarea>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
@@ -2087,45 +2128,28 @@
   </div>
 </div>
 
-<!-- 3. Modal Rutinas Ancladas -->
+<!-- 3. Modal Rutinas Personalizadas del Usuario -->
 <div class="modal-backdrop" id="modalRoutines">
   <div class="modal-box">
     <div class="modal-header-row">
-      <h3 class="modal-title-text">Rutinas Ancladas</h3>
+      <h3 class="modal-title-text">Mis Rutinas Personalizadas</h3>
       <button class="btn-modal-close" data-close="modalRoutines" aria-label="Cerrar">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
 
     <p style="font-size:0.78rem; color:var(--text-muted);">
-      Completa todas las tareas de un protocolo para sumar un bono de <strong>+15 puntos</strong>.
+      Crea tus propias rutinas con tus nombres y listas de verificación. Completar todos los pasos de una rutina suma <strong>+15 puntos</strong>.
     </p>
 
-    <!-- Morning -->
-    <div class="liquid-card" style="padding:12px; background:var(--bg-input);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-size:0.8rem; font-weight:700; color:#fde68a;">Protocolo Matutino</span>
-        <span style="font-size:0.72rem; color:var(--text-dim);" id="morningBonusText">+15 pts</span>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:6px;" id="morningRoutineList"></div>
-      <div style="display:flex; gap:6px; margin-top:8px;">
-        <input type="text" id="inputNewMorningItem" placeholder="Nuevo paso..." style="flex:1; padding:5px 8px; font-size:0.78rem; background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:6px; color:#fff;">
-        <button class="btn-secondary" id="btnAddMorningItem" style="padding:4px 8px; font-size:0.74rem;">Añadir</button>
-      </div>
+    <!-- Crear Nueva Rutina -->
+    <div style="display:flex; gap:6px; background:var(--bg-input); padding:10px; border-radius:10px; border:1px solid var(--glass-border);">
+      <input type="text" id="inputNewRoutineName" placeholder="Nombre de nueva rutina (ej. Mañana, Pre-Entreno)..." style="flex:1; padding:7px 10px; font-size:0.8rem; background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:8px; color:#fff; outline:none;">
+      <button type="button" class="btn-primary" id="btnCreateRoutine" style="padding:7px 12px; font-size:0.76rem; white-space:nowrap;">+ Crear Rutina</button>
     </div>
 
-    <!-- Night -->
-    <div class="liquid-card" style="padding:12px; background:var(--bg-input);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-size:0.8rem; font-weight:700; color:#c7d2fe;">Protocolo Nocturno</span>
-        <span style="font-size:0.72rem; color:var(--text-dim);" id="nightBonusText">+15 pts</span>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:6px;" id="nightRoutineList"></div>
-      <div style="display:flex; gap:6px; margin-top:8px;">
-        <input type="text" id="inputNewNightItem" placeholder="Nuevo paso..." style="flex:1; padding:5px 8px; font-size:0.78rem; background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:6px; color:#fff;">
-        <button class="btn-secondary" id="btnAddNightItem" style="padding:4px 8px; font-size:0.74rem;">Añadir</button>
-      </div>
-    </div>
+    <!-- Contenedor Dinámico de Rutinas del Usuario -->
+    <div id="customRoutinesContainer" style="display:flex; flex-direction:column; gap:10px; max-height:360px; overflow-y:auto;"></div>
 
     <div style="display:flex; justify-content:flex-end;">
       <button class="btn-primary" data-close="modalRoutines">Listo</button>
@@ -2165,51 +2189,23 @@
   </div>
 </div>
 
-<!-- 5. Modal Configuración Asistente IA -->
-<div class="modal-backdrop" id="modalAiSettings">
-  <div class="modal-box">
-    <div class="modal-header-row">
-      <h3 class="modal-title-text">Configuración de Gemini</h3>
-      <button class="btn-modal-close" data-close="modalAiSettings" aria-label="Cerrar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-
-    <p style="font-size:0.8rem; color:var(--text-muted);">
-      Ingresa tu API Key de Gemini para habilitar planeación inteligente y diagnósticos automáticos.
-    </p>
-
-    <div class="field-group">
-      <label>Gemini API Key</label>
-      <input type="password" id="inputGeminiKey" placeholder="AIzaSy..." style="font-family:var(--font-mono);">
-    </div>
-
-    <div style="display:flex; gap:8px;">
-      <button class="btn-secondary" id="btnTestGeminiKey" style="flex:1;">Probar Conexión</button>
-      <button class="btn-primary" id="btnSaveGeminiKey" style="flex:1;">Guardar</button>
-    </div>
-
-    <div id="aiTestFeedback" style="font-size:0.76rem; padding:8px; border-radius:6px; display:none;"></div>
-  </div>
-</div>
-
-<!-- 6. Modal Smart Time-Blocking -->
+<!-- 5. Modal Planear Jornada -->
 <div class="modal-backdrop" id="modalAiPlanner">
   <div class="modal-box">
     <div class="modal-header-row">
-      <h3 class="modal-title-text">Planear Jornada con IA</h3>
+      <h3 class="modal-title-text">Planear Jornada</h3>
       <button class="btn-modal-close" data-close="modalAiPlanner" aria-label="Cerrar">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
 
     <p style="font-size:0.8rem; color:var(--text-muted);">
-      Describe tu día en lenguaje natural. Se generarán los bloques en la línea de tiempo sin empalmes.
+      Describe tus horarios del día para generar automáticamente los bloques en la línea de tiempo.
     </p>
 
     <div class="field-group">
       <label>Descripción de tu jornada</label>
-      <textarea id="aiPromptText" rows="4" placeholder="Ej. Hoy tengo trabajo de 9 a 12, entrenamiento de 16 a 17:30 y lectura de 21 a 21:45..."></textarea>
+      <textarea id="aiPromptText" rows="4" placeholder="Ej. Hoy tengo trabajo profundo de 9 a 11, entrenamiento de 16 a 17:30 y lectura de 21 a 21:45..."></textarea>
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
@@ -2219,7 +2215,7 @@
   </div>
 </div>
 
-<!-- 7. Focus Mode Overlay -->
+<!-- 6. Focus Mode Overlay -->
 <div class="focus-view" id="focusOverlay">
   <div style="width:100%; max-width:480px; display:flex; justify-content:space-between; align-items:center;">
     <div style="font-size:0.88rem; font-weight:700; color:#fff;" id="focusHabitNameDisplay">Enfoque</div>
@@ -2229,7 +2225,7 @@
   <div class="focus-mode-pills" style="margin-top:28px;">
     <button class="btn-fmode active" data-mode="pomodoro25">25m</button>
     <button class="btn-fmode" data-mode="pomodoro50">50m</button>
-    <button class="btn-fmode" data-mode="flowtime">Flowtime</button>
+    <button class="btn-fmode" data-mode="flowtime">Flujo Libre</button>
   </div>
 
   <div class="focus-timer-text" id="focusTimerDisplay">25:00</div>
@@ -2246,293 +2242,81 @@
 (function() {
   'use strict';
 
-  // --- Extended Catalog with Official Brand Vector SVGs (Categorized for iOS Screen Time) ---
+  // --- Catálogo de 13 Aplicaciones Predeterminadas con Iconos Vectoriales Oficiales ---
   const appIcons = {
-    // 1. Redes Sociales & Entretenimiento
-    'Instagram': {
-      division: 'social',
-      color: '#E1306C',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`
-    },
     'TikTok': {
       division: 'social',
       color: '#00F2FE',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 00-1-.08A6.34 6.34 0 003 15.66a6.34 6.34 0 0010.86 4.43V12.9a8.16 8.16 0 005.73 2.28V11.7a4.83 4.83 0 01-3.45-1.72 4.84 4.84 0 01-.55-3.29z"/></svg>`
-    },
-    'YouTube': {
-      division: 'social',
-      color: '#FF0000',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`
-    },
-    'Twitter / X': {
-      division: 'social',
-      color: '#FFFFFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`
     },
     'WhatsApp': {
       division: 'social',
       color: '#25D366',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.301-.15-1.78-.879-2.056-.979-.276-.101-.477-.15-.678.15-.2.301-.778.98-.954 1.18-.176.2-.352.226-.653.075-.301-.15-1.272-.469-2.423-1.497-.895-.798-1.5-1.784-1.676-2.085-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.151-.678-1.633-.929-2.235-.245-.587-.494-.507-.678-.517-.176-.01-.376-.01-.577-.01-.201 0-.527.075-.803.376-.276.301-1.054 1.03-1.054 2.511 0 1.481 1.079 2.911 1.23 3.112.151.2 2.124 3.243 5.145 4.549.719.311 1.28.497 1.718.636.723.23 1.381.198 1.901.12.58-.087 1.78-.727 2.03-1.43.251-.703.251-1.305.176-1.43-.075-.126-.276-.201-.577-.352zM12 0C5.373 0 0 5.373 0 12c0 2.115.55 4.103 1.517 5.834L0 24l6.326-1.488C8.006 23.468 9.947 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.83 0-3.55-.49-5.034-1.353l-.36-.21-3.748.882.997-3.655-.23-.374C2.71 15.792 2.182 13.953 2.182 12c0-5.414 4.404-9.818 9.818-9.818 5.414 0 9.818 4.404 9.818 9.818 0 5.414-4.404 9.818-9.818 9.818z"/></svg>`
     },
-    'Telegram': {
+    'Instagram': {
       division: 'social',
-      color: '#229ED9',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.832.942z"/></svg>`
+      color: '#E1306C',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`
     },
     'Facebook': {
       division: 'social',
       color: '#1877F2',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`
     },
-    'Reddit': {
-      division: 'social',
-      color: '#FF4500',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701z"/></svg>`
+    'Google': {
+      division: 'utils',
+      color: '#4285F4',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>`
     },
-    'Discord': {
-      division: 'social',
-      color: '#5865F2',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>`
-    },
-    'Twitch': {
-      division: 'social',
-      color: '#9146FF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M2.149 0L.537 4.119v16.836h5.731V24h3.224l3.045-3.045h4.657l6.269-6.269V0H2.149zm19.164 13.612l-3.582 3.582h-5.015l-3.045 3.045v-3.045H5.015V1.791h16.298v11.821zm-9.313-7.343h2.149v6.269h-2.149V6.269zm5.731 0h2.149v6.269h-2.149V6.269z"/></svg>`
-    },
-    'Netflix': {
-      division: 'social',
-      color: '#E50914',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5.398 0v24c1.171-.247 2.457-.492 3.682-.676V0H5.398zm9.522 0v17.477c1.334.184 2.578.43 3.682.677V0h-3.682zm-4.76 2.457L6.877 23.018c1.17.185 2.399.431 3.56.677l3.284-18.492v-2.746H10.16z"/></svg>`
+    'Gemini': {
+      division: 'prod',
+      color: '#8E75FF',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 1C12 7.075 7.075 12 1 12c6.075 0 11 4.925 11 11 0-6.075 4.925-11 11-11-6.075 0-11-4.925-11-11z"/></svg>`
     },
     'Spotify': {
       division: 'social',
       color: '#1DB954',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.502 17.31c-.215.352-.676.463-1.028.248-2.817-1.721-6.363-2.111-10.54-1.157-.403.092-.808-.163-.9-.566-.092-.403.163-.808.566-.9 4.568-1.044 8.487-.6 11.654 1.345.352.215.463.676.248 1.028zm1.47-3.266c-.27.44-.847.577-1.287.307-3.225-1.982-8.14-2.557-11.954-1.399-.497.151-1.027-.137-1.178-.634-.151-.497.137-1.027.634-1.178 4.364-1.324 9.789-.684 13.478 1.583.44.27.577.847.307 1.287z"/></svg>`
     },
-    'Videojuegos': {
+    'Apple Music': {
       division: 'social',
-      color: '#8B5CF6',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15.5" cy="10.5" r="1" fill="currentColor"/><circle cx="17.5" cy="13.5" r="1" fill="currentColor"/></svg>`
-    },
-
-    // 2. Productividad y Finanzas
-    'Notion': {
-      division: 'prod',
-      color: '#FFFFFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.093-.373L17.84 1.64c-.373-.28-.84-.467-1.307-.42L3.526 2.387c-.42.046-.56.326-.373.513l1.306 1.308zm-.793 3.407v13.86c0 .654.373 1.027 1.12 1.074l14.288.84c.56.046.933-.28.933-.933V8.502c0-.56-.233-.84-.699-.84l-14.896-.84c-.466 0-.746.28-.746.793zm11.766 2.053c.093.42.093.84.093 1.26v6.908c0 .56-.14.7-.56.746l-.607.094c-.42 0-.513-.234-.56-.514l-3.5-5.32v5.04c0 .42.186.56.606.607l.607.046c.326 0 .42.234.42.42 0 .187-.14.28-.42.28l-2.753-.046c-.28 0-.42-.094-.42-.28 0-.187.14-.374.42-.42l.56-.047c.374-.047.514-.233.514-.607V9.761c0-.42-.14-.607-.56-.653l-.56-.047c-.28 0-.42-.187-.42-.373 0-.187.14-.28.42-.28l2.94.046 3.687 5.508V9.621c0-.42-.14-.607-.56-.653l-.607-.047c-.28 0-.42-.187-.42-.373 0-.187.14-.28.42-.28l2.614.046c.28 0 .42.094.42.28 0 .14-.047.28-.233.327z"/></svg>`
-    },
-    'Slack': {
-      division: 'prod',
-      color: '#4A154B',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>`
-    },
-    'Gmail': {
-      division: 'prod',
-      color: '#EA4335',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.545l8.073-6.052C21.69 2.28 24 3.434 24 5.457z"/></svg>`
+      color: '#FA243C',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3v12.5a3.5 3.5 0 1 1-2-3.163V6.38l-8 1.6v9.52a3.5 3.5 0 1 1-2-3.163V5l12-2z"/></svg>`
     },
     'ChatGPT': {
       division: 'prod',
       color: '#10A37F',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 8.946a4.48 4.48 0 0 1 2.37-1.996V12.6a.78.78 0 0 0 .386.677l5.829 3.36-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 8.946zm16.597 3.855l-5.833-3.37L15.123 8.26a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 10.28V7.947a.08.08 0 0 1 .033-.062l4.84-2.796a4.5 4.5 0 0 1 6.67 3.824v.033zM8.307 13.88l2.298-1.328 2.298 1.328v2.656l-2.298 1.328-2.298-1.328z"/></svg>`
     },
-    'Linear': {
-      division: 'prod',
-      color: '#5E6AD2',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 3a9 9 0 0 1 8.945 8H3.055A9 9 0 0 1 12 3zm-9 9a9 9 0 0 1 .055-1h17.89a9 9 0 0 1-17.945 1zm9 9a9 9 0 0 1-8.945-8h17.89A9 9 0 0 1 12 21z"/></svg>`
-    },
-    'GitHub': {
-      division: 'prod',
-      color: '#FFFFFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>`
-    },
-    'Figma': {
-      division: 'prod',
-      color: '#F24E1E',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm-8 4a4 4 0 0 1 4-4h4v4a4 4 0 1 1-8 0zm0-8a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4zm8-4h4a4 4 0 1 1 0 8h-4V4zm-4 16a4 4 0 0 1 4-4v4a4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4z"/></svg>`
-    },
-    'LinkedIn': {
-      division: 'prod',
-      color: '#0A66C2',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>`
-    },
-    'Zoom': {
-      division: 'prod',
-      color: '#2D8CFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 4h10a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4zm15.5 4.5l3.5-2.5v12l-3.5-2.5v-7z"/></svg>`
-    },
-    'PayPal': {
-      division: 'prod',
-      color: '#003087',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.264-.47 2.97-2.602 5.06-5.59 5.06h-2.31l-1.396 8.878a.64.64 0 0 1-.633.54H7.076z"/></svg>`
-    },
-
-    // 3. Utilidades & Creatividad
-    'Navegador': {
-      division: 'utils',
-      color: '#3B82F6',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
-    },
-    'Apple Health': {
-      division: 'utils',
-      color: '#FF2D55',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`
-    },
-    'Mapas': {
-      division: 'utils',
-      color: '#34A853',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>`
-    },
-    'Kindle': {
-      division: 'utils',
-      color: '#FF9900',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`
-    },
-    'Cámara / Fotos': {
+    'Cámara': {
       division: 'utils',
       color: '#F59E0B',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`
     },
-    'Ajustes': {
-      division: 'utils',
-      color: '#94A3B8',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
-    },
-    
-    // Extra Social & Streaming
-    'Snapchat': {
-      division: 'social',
-      color: '#FFFC00',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.002 0c-4.484 0-7.39 3.033-7.39 6.844 0 .916.273 2.012.384 2.457.062.247-.075.474-.298.59-1.04.542-2.183 1.547-2.183 2.912 0 1.25.962 2.213 2.197 2.457.243.048.428.239.467.483.218 1.34 1.396 2.378 2.873 2.534.204.022.37.152.434.346.545 1.637 1.83 2.377 3.516 2.377 1.685 0 2.97-.74 3.516-2.377.064-.194.23-.324.434-.346 1.477-.156 2.655-1.194 2.873-2.534.039-.244.224-.435.467-.483 1.235-.244 2.197-1.207 2.197-2.457 0-1.365-1.143-2.37-2.183-2.912-.223-.116-.36-.343-.298-.59.111-.445.384-1.541.384-2.457C19.392 3.033 16.486 0 12.002 0z"/></svg>`
-    },
-    'Pinterest': {
-      division: 'social',
-      color: '#BD081C',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.332 1.357-.053.211-.174.257-.402.156-1.5-.699-2.436-2.891-2.436-4.654 0-3.79 2.753-7.271 7.939-7.271 4.168 0 7.408 2.97 7.408 6.942 0 4.142-2.611 7.476-6.234 7.476-1.217 0-2.361-.633-2.752-1.379l-.749 2.857c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`
-    },
-    'Threads': {
-      division: 'social',
-      color: '#FFFFFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.026-6.334-1.21-8.184-3.519C2.26 18.3 1.5 15.344 1.5 12.016 1.5 8.7 2.26 5.751 3.99 3.535 5.84 1.233 8.59.049 12.172.023h.014c3.547.025 6.302 1.205 8.189 3.507 1.838 2.243 2.625 5.207 2.625 8.486 0 .543-.021 1.05-.062 1.52-.162 1.85-.758 3.327-1.772 4.391-1.125 1.179-2.703 1.777-4.69 1.777-2.38 0-4.088-.847-5.077-2.518l1.637-1.18c.677 1.144 1.884 1.758 3.44 1.758 1.34 0 2.382-.416 3.096-1.236.66-.76.994-1.83 1.077-3.147-1.282.723-2.784 1.11-4.464 1.11-4.322 0-6.953-2.515-6.953-6.197 0-3.69 2.668-6.234 6.702-6.234 3.738 0 6.134 2.229 6.339 5.897.028.497.042 1.02.042 1.564 0 2.873-.67 5.424-2.24 7.34-1.545 1.884-3.834 2.868-6.804 2.893zm.014-16.732c-2.793 0-4.57 1.638-4.57 4.095 0 2.449 1.786 4.085 4.584 4.085 1.624 0 3.064-.523 4.164-1.513-.3-3.905-2.096-6.667-4.178-6.667z"/></svg>`
-    },
-    'BeReal': {
-      division: 'social',
-      color: '#FFFFFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 14.5h-2v-5h2v5zm0-7h-2V7.5h2V9.5z"/></svg>`
-    },
-    'Disney+': {
-      division: 'social',
-      color: '#113CCF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.24 10.82c-.89-.13-1.63-.35-2.22-.66-.59-.31-.89-.72-.89-1.23 0-.61.42-1.1 1.26-1.47.84-.37 1.95-.55 3.33-.55.98 0 1.95.1 2.91.31v-2.3c-.92-.2-1.89-.3-2.91-.3-2.2 0-3.98.41-5.34 1.23-1.36.82-2.04 1.96-2.04 3.42 0 1.25.49 2.29 1.47 3.12.98.83 2.37 1.37 4.17 1.62 1.06.15 1.89.39 2.49.72.6.33.9.77.9 1.32 0 .69-.47 1.24-1.41 1.65-.94.41-2.18.61-3.72.61-1.38 0-2.73-.18-4.05-.54v2.4c1.32.32 2.67.48 4.05.48 2.46 0 4.41-.45 5.85-1.35 1.44-.9 2.16-2.12 2.16-3.66 0-1.33-.52-2.42-1.56-3.27-1.04-.85-2.54-1.38-4.5-1.59z"/></svg>`
-    },
-    'Prime Video': {
-      division: 'social',
-      color: '#00A8E1',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.84 9.16c-1.38 0-2.84.45-3.84 1.45V9.45H7.72v9.37h2.28v-4.88c0-1.48.96-2.44 2.36-2.44 1.34 0 2.18.9 2.18 2.44v4.88h2.28V13.6c0-2.78-1.56-4.44-3.98-4.44zm-9.74.29H1.82v9.37H4.1V9.45zm15.42 4.15c0-2.78-1.74-4.44-4.22-4.44-2.58 0-4.34 1.84-4.34 4.54 0 2.76 1.74 4.54 4.4 4.54 1.6 0 2.92-.68 3.7-1.88l-1.52-1.08c-.5.7-1.28 1.08-2.18 1.08-1.26 0-2.12-.8-2.18-2.06h6.32c.02-.24.02-.48.02-.7zm-6.28-.9c.12-1.14.92-1.86 2.06-1.86 1.08 0 1.94.7 2.02 1.86h-4.08z"/></svg>`
-    },
-    'Tinder': {
-      division: 'social',
-      color: '#FE3C72',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.96 0c.26 2.82-1.05 4.63-2.61 6.58C8.91 8.37 7.28 10.5 7.28 13.5c0 4.14 3.36 7.5 7.5 7.5 3.31 0 6.13-2.14 7.08-5.16-.06.28-.15.54-.26.79-1.36 3.16-4.5 5.37-8.16 5.37-4.86 0-8.8-3.94-8.8-8.8 0-3.32 1.82-6.23 4.54-7.75.98 1.36 2.24 2.55 3.78 3.36V0z"/></svg>`
-    },
-    'Bumble': {
-      division: 'social',
-      color: '#FFC629',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2L3 7.5v9L12 22l9-5.5v-9L12 2zm6 11.5H6v-1.5h12v1.5zm-2-3H8V9h8v1.5z"/></svg>`
-    },
-
-    // Extra Productividad y Finanzas
-    'Obsidian': {
+    'NuBank': {
       division: 'prod',
-      color: '#7C3AED',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M14.65 0l4.28 7.37L12 24 5.07 7.37 9.35 0h5.3zM12 4.2L8.5 9h7L12 4.2z"/></svg>`
+      color: '#820AD1',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4 6a4 4 0 0 1 7.6-1.7L14 9.5V5h3v14h-3.2L8.4 9.2V19H5V9.5A3.5 3.5 0 0 1 4 6zm16 12a4 4 0 0 1-7.6 1.7L10 14.5V19H7V5h3.2l5.4 9.8V5h3.4v9.5c0 1.3.4 2.5 1 3.5z"/></svg>`
     },
-    'Google Calendar': {
+    'Calendario': {
       division: 'prod',
-      color: '#4285F4',
+      color: '#3B82F6',
       svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5v-5z"/></svg>`
     },
-    'Google Drive': {
-      division: 'prod',
-      color: '#0F9D58',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7.71 3.5L1.15 15l3.43 6 6.55-11.5H7.71zm4.44 2.5l5.14 9h6.56l-5.14-9h-6.56zM8.85 16.5l3.43 6h10.29l-3.43-6H8.85z"/></svg>`
-    },
-    'Claude': {
-      division: 'prod',
-      color: '#D97706',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 3L16 9" fill="none" stroke="#fff" stroke-width="2.5"/></svg>`
-    },
-    'Microsoft Teams': {
-      division: 'prod',
-      color: '#6264A7',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.5 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm-15 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2C2 11 0 12.34 0 14.5V17h9v-2.5c0-2.16-2-3.5-4.5-3.5zm15 1c-1.4 0-2.48.5-3.16 1.25.86.78 1.41 1.83 1.41 3.25V17h6v-2.5c0-1.84-1.8-2.5-4.25-2.5zM12 9.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zm0 2.5c-3.1 0-6 1.6-6 4.3V19h12v-2.7c0-2.7-2.9-4.3-6-4.3z"/></svg>`
-    },
-    'Apple Notes': {
-      division: 'prod',
-      color: '#EAB308',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>`
-    },
-    'Binance': {
-      division: 'prod',
-      color: '#F0B90B',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0l-3.5 3.5 3.5 3.5 3.5-3.5L12 0zm-7 7L1.5 10.5 5 14l3.5-3.5L5 7zm14 0l-3.5 3.5 3.5 3.5 3.5-3.5L19 7zm-7 3.5L8.5 14 12 17.5l3.5-3.5L12 10.5zM12 21l-3.5-3.5L12 14l3.5 3.5L12 21z"/></svg>`
-    },
-    'Revolut': {
-      division: 'prod',
-      color: '#0075EB',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 12c1.93 0 3.5-1.57 3.5-3.5S19.43 5 17.5 5H8v14h4v-5h4.5l3.5 5h4.5l-4-5.5c2.1-1 3.5-2.2 3.5-3.5zM12 9h5.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H12V9z"/></svg>`
-    },
-    'TradingView': {
-      division: 'prod',
-      color: '#2962FF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 3v18h18v-2H5V3H3zm4 11h2v4H7v-4zm4-6h2v10h-2V8zm4 3h2v7h-2v-7zm4-5h2v12h-2V6z"/></svg>`
-    },
-    'Apple Wallet / Banco': {
-      division: 'prod',
+    'Teléfono': {
+      division: 'utils',
       color: '#10B981',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21 7.28V5c0-1.1-.9-2-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.99 1-1.72V9c0-.73-.41-1.37-1-1.72zM20 9v6h-4c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h4zM5 5h14v2H5V5z"/></svg>`
-    },
-
-    // Extra Utilidades
-    'Safari': {
-      division: 'utils',
-      color: '#007AFF',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-11.5l-5 2-2 5 5-2 2-5z"/></svg>`
-    },
-    'Google Chrome': {
-      division: 'utils',
-      color: '#4285F4',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="5"/><path d="M12 2a10 10 0 0 0-8.66 5l4.33 7.5A5 5 0 0 1 12 7h8.66A10 10 0 0 0 12 2zM21.66 9.5H13a5 5 0 0 1 3.66 6.34L12.33 23.34A10 10 0 0 0 21.66 9.5zM3.34 14.5A10 10 0 0 0 12 22a10 10 0 0 0 2.34-.28l-4.34-7.5A5 5 0 0 1 7 12a5 5 0 0 1 .34-1.84L3.34 14.5z"/></svg>`
-    },
-    'Uber / Rappi': {
-      division: 'utils',
-      color: '#000000',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm4 11h-3v3h-2v-3H8v-2h3V8h2v3h3z"/></svg>`
-    },
-    'Amazon': {
-      division: 'utils',
-      color: '#FF9900',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15.8 17.5c-4.6 2.4-9.8 1.4-13.8-.8-.4-.2-.5-.8-.1-1.1.4-.3 1-.3 1.3 0 3.4 1.9 8.1 2.7 12.2.7.5-.2 1 .2 1.1.7.1.4-.2.9-.7 1.2zm6.2-1.3c-.3-.4-1.9-.3-3.9.5-.4.2-.6.7-.4 1.1.2.4.7.6 1.1.4 1.4-.6 2.6-.7 2.8-.4.2.3.2 1.5-.9 3-.3.4-.2.9.2 1.2.4.3.9.2 1.2-.2 1.5-2 1.4-3.8.9-4.6z"/></svg>`
-    },
-    'Calculadora': {
-      division: 'utils',
-      color: '#F59E0B',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>`
-    },
-    'Reloj / Temporizador': {
-      division: 'utils',
-      color: '#38BDF8',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
-    },
-    'Otra': {
-      division: 'utils',
-      color: '#94A3B8',
-      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>`
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg>`
     }
   };
 
   function getAppInfo(name) {
-    return appIcons[name] || appIcons['Otra'];
+    return appIcons[name] || {
+      division: 'utils',
+      color: '#94A3B8',
+      svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>`
+    };
   }
 
   // --- Native Sound Synthesizer ---
@@ -2605,16 +2389,20 @@
     return 'id_' + Math.random().toString(36).substr(2, 9);
   }
 
+  function areBlockObjectivesCompleted(objectives) {
+    if (!objectives || !Array.isArray(objectives) || objectives.length === 0) return true;
+    return objectives.every(obj => Boolean(obj.completed));
+  }
+
   // --- State & Storage ---
   const STORAGE_KEYS = {
     HABITS: 'zt_habits',
     LOGS: 'zt_logs',
-    SETTINGS: 'zt_settings',
-    GEMINI_KEY: 'zt_gemini_key'
+    SETTINGS: 'zt_settings'
   };
 
   const DEFAULT_HABITS = [
-    { id: 'h_deepwork', name: 'Deep Work', category: 'trabajo', format: 'block', color: '#6366f1', points: 25 },
+    { id: 'h_deepwork', name: 'Trabajo Profundo', category: 'trabajo', format: 'block', color: '#6366f1', points: 25 },
     { id: 'h_gym', name: 'Entrenamiento Físico', category: 'salud', format: 'block', color: '#10b981', points: 30 },
     { id: 'h_reading', name: 'Lectura Reflexiva', category: 'mente', format: 'block', color: '#3b82f6', points: 15 },
     { id: 'h_water', name: 'Hidratación Matutina (500ml)', category: 'salud', format: 'micro', color: '#06b6d4', points: 5 },
@@ -2624,15 +2412,25 @@
 
   const DEFAULT_SETTINGS = {
     screenBudgetMinutes: 120,
-    morningRoutineItems: [
-      'Cero pantallas los primeros 45 minutos',
-      'Hidratación con electrolitos / agua templada',
-      'Definir la prioridad del día'
-    ],
-    nightRoutineItems: [
-      'Desconexión de pantallas 60 min antes de dormir',
-      'Preparar entorno y ropa para mañana',
-      'Lectura en papel / estiramientos ligeros'
+    customRoutines: [
+      {
+        id: 'rut_manana',
+        name: 'Rutina de Mañana',
+        items: [
+          'Cero pantallas los primeros 45 minutos',
+          'Hidratación con agua al despertar',
+          'Definir la prioridad del día'
+        ]
+      },
+      {
+        id: 'rut_noche',
+        name: 'Rutina de Cierre Nocturno',
+        items: [
+          'Desconexión de pantallas 60 min antes de dormir',
+          'Preparar entorno para mañana',
+          'Lectura en papel'
+        ]
+      }
     ]
   };
 
@@ -2640,22 +2438,31 @@
     currentDate: formatDateKey(new Date()),
     selectedCategory: 'all',
     selectedAppFilter: 'all',
-    selectedApp: 'Instagram',
+    selectedApp: 'TikTok',
+    timelineFullDay: false,
     habits: [],
     logs: {},
-    settings: { ...DEFAULT_SETTINGS },
-    geminiKey: ''
+    settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS))
   };
 
   function loadState() {
     try {
       const rawH = localStorage.getItem(STORAGE_KEYS.HABITS);
       state.habits = rawH ? JSON.parse(rawH) : DEFAULT_HABITS;
+      // Translate legacy English habit names if saved in localStorage
+      state.habits.forEach(h => {
+        if (h.name === 'Deep Work') h.name = 'Trabajo Profundo';
+      });
       const rawL = localStorage.getItem(STORAGE_KEYS.LOGS);
       state.logs = rawL ? JSON.parse(rawL) : {};
       const rawS = localStorage.getItem(STORAGE_KEYS.SETTINGS);
-      if (rawS) state.settings = { ...DEFAULT_SETTINGS, ...JSON.parse(rawS) };
-      state.geminiKey = localStorage.getItem(STORAGE_KEYS.GEMINI_KEY) || '';
+      if (rawS) {
+        const parsedS = JSON.parse(rawS);
+        state.settings = { ...JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), ...parsedS };
+        if (!Array.isArray(state.settings.customRoutines)) {
+          state.settings.customRoutines = JSON.parse(JSON.stringify(DEFAULT_SETTINGS.customRoutines));
+        }
+      }
       initDayLog(state.currentDate);
     } catch (e) {
       state.habits = DEFAULT_HABITS;
@@ -2680,8 +2487,7 @@
       state.logs[dateKey] = {
         blocks: [],
         microHabitsCompleted: [],
-        morningChecks: [],
-        nightChecks: [],
+        customRoutineChecks: {},
         screenLogs: [],
         screenDivisions: {
           social: 0,
@@ -2692,9 +2498,11 @@
     }
     const log = state.logs[dateKey];
     if (!log.blocks) log.blocks = [];
+    log.blocks.forEach(b => {
+      if (!Array.isArray(b.objectives)) b.objectives = [];
+    });
     if (!log.microHabitsCompleted) log.microHabitsCompleted = [];
-    if (!log.morningChecks) log.morningChecks = [];
-    if (!log.nightChecks) log.nightChecks = [];
+    if (!log.customRoutineChecks) log.customRoutineChecks = {};
     if (!log.screenLogs) log.screenLogs = [];
     if (!log.screenDivisions) {
       log.screenDivisions = { social: 0, prod: 0, utils: 0 };
@@ -2724,7 +2532,7 @@
       const basePts = h ? h.points : 10;
       const pts = b.isCritical ? (basePts * 2) : basePts;
 
-      if (b.status === 'completed') {
+      if (b.status === 'completed' && areBlockObjectivesCompleted(b.objectives)) {
         blockPoints += pts;
         completedBlocks++;
         const s = timeToMinutes(b.startTime);
@@ -2739,15 +2547,16 @@
       if (h) microPoints += h.points;
     });
 
-    const mLen = (state.settings.morningRoutineItems || []).length;
-    const mChecked = (log.morningChecks || []).filter(Boolean).length;
-    const morningBonus = (mLen > 0 && mChecked === mLen) ? 15 : 0;
-
-    const nLen = (state.settings.nightRoutineItems || []).length;
-    const nChecked = (log.nightChecks || []).filter(Boolean).length;
-    const nightBonus = (nLen > 0 && nChecked === nLen) ? 15 : 0;
-
-    const routineBonus = morningBonus + nightBonus;
+    let routineBonus = 0;
+    const customRoutines = state.settings.customRoutines || [];
+    const routineChecksMap = log.customRoutineChecks || {};
+    customRoutines.forEach(rut => {
+      const items = rut.items || [];
+      const checks = routineChecksMap[rut.id] || [];
+      if (items.length > 0 && items.every((_, idx) => Boolean(checks[idx]))) {
+        routineBonus += 15;
+      }
+    });
 
     // Calculate Screen Time: from specific app logs + direct division inputs
     let appSocial = 0, appProd = 0, appUtils = 0;
@@ -2976,14 +2785,39 @@
     renderHeader();
   }
 
-  // --- 24-Hour Vertical Timeline Setup ---
+  // --- Dynamic Timeline Starting at Current Hour ---
+  function getTimelineStartHour() {
+    if (state.timelineFullDay) return 0;
+    const now = new Date();
+    return now.getHours();
+  }
+
   function renderTimelineGrid() {
     const rowsContainer = document.getElementById('hourGridRows');
+    const gridArea = document.getElementById('timelineGridArea');
     rowsContainer.innerHTML = '';
-    for (let h = 0; h < 24; h++) {
+
+    const startHour = getTimelineStartHour();
+    const totalHours = 24 - startHour;
+    if (gridArea) {
+      gridArea.style.height = `${Math.max(480, totalHours * 60)}px`;
+    }
+
+    const startBadge = document.getElementById('timelineStartInfoBadge');
+    if (startBadge) {
+      startBadge.textContent = state.timelineFullDay
+        ? 'Día completo (00:00 - 23:59)'
+        : `Iniciando desde ${String(startHour).padStart(2, '0')}:00`;
+    }
+    const btnFull = document.getElementById('btnToggleFullDay');
+    if (btnFull) {
+      btnFull.textContent = state.timelineFullDay ? 'Desde hora actual' : 'Ver día completo';
+    }
+
+    for (let h = startHour; h < 24; h++) {
       const row = document.createElement('div');
       row.className = 'hour-row';
-      row.style.top = `${h * 60}px`;
+      row.style.top = `${(h - startHour) * 60}px`;
       const label = String(h).padStart(2, '0') + ':00';
       row.innerHTML = `
         <span class="hour-label">${label}</span>
@@ -2997,17 +2831,20 @@
     const now = new Date();
     const todayStr = formatDateKey(now);
     const marker = document.getElementById('currentTimeMarker');
+    const startHour = getTimelineStartHour();
+    const baseMin = startHour * 60;
 
     if (state.currentDate === todayStr) {
-      marker.style.display = 'flex';
       const curMins = (now.getHours() * 60) + now.getMinutes();
-      marker.style.top = `${curMins}px`;
+      const offsetPx = Math.max(0, curMins - baseMin);
+      marker.style.display = 'flex';
+      marker.style.top = `${offsetPx}px`;
       document.getElementById('currentTimeLabel').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
       if (autoScroll) {
         const scrollArea = document.getElementById('timelineScrollArea');
         if (scrollArea) {
-          scrollArea.scrollTop = Math.max(0, curMins - 140);
+          scrollArea.scrollTop = state.timelineFullDay ? Math.max(0, offsetPx - 80) : 0;
         }
       }
     } else {
@@ -3016,20 +2853,34 @@
   }
 
   document.getElementById('btnScrollToNow').addEventListener('click', () => {
+    state.timelineFullDay = false;
+    renderTimelineGrid();
+    renderTimelineBlocks();
     updateCurrentTimeIndicator(true);
-    showToast('Desplazado a la hora actual');
+    showToast('Línea del tiempo iniciada en la hora actual');
   });
+
+  const btnToggleFullDay = document.getElementById('btnToggleFullDay');
+  if (btnToggleFullDay) {
+    btnToggleFullDay.addEventListener('click', () => {
+      state.timelineFullDay = !state.timelineFullDay;
+      renderTimelineGrid();
+      renderTimelineBlocks();
+      updateCurrentTimeIndicator(true);
+      showToast(state.timelineFullDay ? 'Mostrando las 24 horas del día' : 'Iniciando línea desde la hora actual');
+    });
+  }
 
   // --- DRAG & DROP ENGINE: Habits Catalog -> Timeline & Moving Timeline Blocks ---
   const timelineGridArea = document.getElementById('timelineGridArea');
   const timelineDropPreview = document.getElementById('timelineDropPreview');
 
-  function showTimelineDropPreview(topMin, durationMin, labelText) {
+  function showTimelineDropPreview(topPx, actualStartMin, durationMin, labelText) {
     timelineDropPreview.style.display = 'flex';
-    timelineDropPreview.style.top = `${topMin}px`;
+    timelineDropPreview.style.top = `${topPx}px`;
     timelineDropPreview.style.height = `${durationMin}px`;
-    const startStr = minutesToTime(topMin);
-    const endStr = minutesToTime(topMin + durationMin);
+    const startStr = minutesToTime(actualStartMin);
+    const endStr = minutesToTime(actualStartMin + durationMin);
     timelineDropPreview.textContent = `${labelText}: ${startStr} - ${endStr}`;
   }
 
@@ -3042,12 +2893,15 @@
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
 
+    const startHour = getTimelineStartHour();
+    const baseMin = startHour * 60;
     const rect = timelineGridArea.getBoundingClientRect();
-    const rawY = e.clientY - rect.top;
-    // Snap to 15-minute intervals
-    const snappedMinutes = Math.max(0, Math.min(1440 - 60, Math.floor(rawY / 15) * 15));
+    const rawY = Math.max(0, e.clientY - rect.top);
+    const snappedOffset = Math.floor(rawY / 15) * 15;
+    const actualStartMin = Math.max(baseMin, Math.min(1440 - 60, baseMin + snappedOffset));
+    const topPx = actualStartMin - baseMin;
 
-    showTimelineDropPreview(snappedMinutes, 60, 'Agendar hábito');
+    showTimelineDropPreview(topPx, actualStartMin, 60, 'Agendar hábito');
   });
 
   timelineGridArea.addEventListener('dragleave', (e) => {
@@ -3066,9 +2920,12 @@
     const habit = state.habits.find(h => h.id === habitId);
     if (!habit) return;
 
+    const startHour = getTimelineStartHour();
+    const baseMin = startHour * 60;
     const rect = timelineGridArea.getBoundingClientRect();
-    const rawY = e.clientY - rect.top;
-    const startMin = Math.max(0, Math.min(1440 - 60, Math.floor(rawY / 15) * 15));
+    const rawY = Math.max(0, e.clientY - rect.top);
+    const snappedOffset = Math.floor(rawY / 15) * 15;
+    const startMin = Math.max(baseMin, Math.min(1440 - 60, baseMin + snappedOffset));
     const endMin = Math.min(1440, startMin + 60);
 
     const log = getTodayLog();
@@ -3079,7 +2936,8 @@
       endTime: minutesToTime(endMin),
       status: 'planned',
       isCritical: false,
-      notes: ''
+      notes: '',
+      objectives: []
     });
 
     saveLogs();
@@ -3097,8 +2955,7 @@
     blockElement.style.touchAction = 'none';
 
     blockElement.addEventListener('pointerdown', (e) => {
-      // Don't drag if clicking buttons
-      if (e.target.closest('button')) return;
+      if (e.target.closest('button') || e.target.closest('input') || e.target.closest('label')) return;
 
       activeBlockDrag = {
         blockId: block.id,
@@ -3127,22 +2984,20 @@
 
       if (!activeBlockDrag.hasMoved) return;
 
-      // Snap delta to 15m intervals
+      const startHour = getTimelineStartHour();
+      const baseMin = startHour * 60;
       const deltaMinutes = Math.round(deltaY / 15) * 15;
       let newStart = activeBlockDrag.initialStartMin + deltaMinutes;
-      newStart = Math.max(0, Math.min(1440 - activeBlockDrag.duration, newStart));
+      newStart = Math.max(baseMin, Math.min(1440 - activeBlockDrag.duration, newStart));
       const newEnd = newStart + activeBlockDrag.duration;
 
-      // Update block position live
-      blockElement.style.top = `${newStart}px`;
+      blockElement.style.top = `${newStart - baseMin}px`;
 
-      // Update time label inside block live
       const timeLabel = blockElement.querySelector('.b-time');
       if (timeLabel) {
         timeLabel.textContent = `${minutesToTime(newStart)} - ${minutesToTime(newEnd)} (${activeBlockDrag.duration}m)`;
       }
 
-      // Auto-scroll timeline container if near edges
       const scrollArea = document.getElementById('timelineScrollArea');
       if (scrollArea) {
         const areaRect = scrollArea.getBoundingClientRect();
@@ -3160,10 +3015,12 @@
       blockElement.classList.remove('block-moving');
 
       if (activeBlockDrag.hasMoved) {
+        const startHour = getTimelineStartHour();
+        const baseMin = startHour * 60;
         const deltaY = e.clientY - activeBlockDrag.startY;
         const deltaMinutes = Math.round(deltaY / 15) * 15;
         let newStart = activeBlockDrag.initialStartMin + deltaMinutes;
-        newStart = Math.max(0, Math.min(1440 - activeBlockDrag.duration, newStart));
+        newStart = Math.max(baseMin, Math.min(1440 - activeBlockDrag.duration, newStart));
         const newEnd = newStart + activeBlockDrag.duration;
 
         block.startTime = minutesToTime(newStart);
@@ -3190,6 +3047,8 @@
     layer.innerHTML = '';
     const log = getTodayLog();
     const blocks = log.blocks || [];
+    const startHour = getTimelineStartHour();
+    const baseMin = startHour * 60;
 
     const habitsMap = {};
     state.habits.forEach(h => { habitsMap[h.id] = h; });
@@ -3198,26 +3057,53 @@
       const habit = habitsMap[block.habitId] || { name: 'Hábito', color: '#6366f1', points: 10 };
       const startMin = timeToMinutes(block.startTime);
       const endMin = timeToMinutes(block.endTime);
-      const dur = Math.max(25, endMin - startMin);
+
+      if (!state.timelineFullDay && endMin <= baseMin) {
+        return;
+      }
+
+      const visibleStartMin = Math.max(baseMin, startMin);
+      const dur = Math.max(32, endMin - visibleStartMin);
+
+      const objs = Array.isArray(block.objectives) ? block.objectives : [];
+      const doneObjs = objs.filter(o => o.done).length;
+      const allObjsDone = objs.length === 0 || doneObjs === objs.length;
 
       const el = document.createElement('div');
       el.className = `time-block status-${block.status || 'planned'} ${block.isCritical ? 'is-critical' : ''}`;
-      el.style.top = `${startMin}px`;
+      el.style.top = `${visibleStartMin - baseMin}px`;
       el.style.height = `${dur}px`;
       el.dataset.id = block.id;
 
       const pts = block.isCritical ? (habit.points * 2) : habit.points;
 
+      let objsHtml = '';
+      if (objs.length > 0) {
+        const itemsHtml = objs.slice(0, 3).map((o, idx) => `
+          <label class="b-obj-chip" style="display:inline-flex; align-items:center; gap:3px; font-size:0.65rem; background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; cursor:pointer; color:${o.done ? 'var(--accent)' : 'var(--text-muted)'}; text-decoration:${o.done ? 'line-through' : 'none'};" data-obj-block="${block.id}" data-obj-idx="${idx}">
+            <input type="checkbox" ${o.done ? 'checked' : ''} style="width:10px; height:10px; margin:0; accent-color:var(--accent);" data-obj-block="${block.id}" data-obj-idx="${idx}">
+            <span>${o.text}</span>
+          </label>
+        `).join('');
+        objsHtml = `
+          <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:3px; align-items:center;">
+            <span style="font-size:0.62rem; font-weight:700; color:${allObjsDone ? 'var(--accent)' : '#fbbf24'};">[${doneObjs}/${objs.length} obj]</span>
+            ${itemsHtml}
+          </div>
+        `;
+      }
+
       el.innerHTML = `
-        <div class="b-content">
+        <div class="b-content" style="overflow:hidden;">
           <div class="b-header">
             <span class="b-title">${habit.name}</span>
             ${block.isCritical ? '<span class="priority-badge">Prioridad</span>' : ''}
           </div>
           <div class="b-time">
-            ${block.startTime} - ${block.endTime} (${dur}m)
-            ${block.status === 'completed' ? `<span style="color:var(--accent); font-weight:700; margin-left:4px;">+${pts} pts</span>` : ''}
+            ${block.startTime} - ${block.endTime} (${endMin - startMin}m)
+            ${(block.status === 'completed' && allObjsDone) ? `<span style="color:var(--accent); font-weight:700; margin-left:4px;">+${pts} pts</span>` : ''}
           </div>
+          ${objsHtml}
         </div>
 
         <div class="b-actions">
@@ -3230,21 +3116,43 @@
         </div>
       `;
 
-      // Click to edit modal (only if not dragging)
       el.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return;
+        if (e.target.closest('button') || e.target.closest('input') || e.target.closest('label')) return;
         if (blockJustDragged) return;
         openEditBlockModal(block.id);
       });
 
-      // Enable dragging this block vertically
       initBlockDrag(el, block);
-
       layer.appendChild(el);
     });
   }
 
-  // Delegated block clicks
+  // Delegated block clicks & objective checkbox toggles
+  document.getElementById('timelineBlocksLayer').addEventListener('change', (e) => {
+    const cb = e.target.closest('input[data-obj-block]');
+    if (!cb) return;
+    e.stopPropagation();
+    const blockId = cb.dataset.objBlock;
+    const objIdx = parseInt(cb.dataset.objIdx, 10);
+    const log = getTodayLog();
+    const block = (log.blocks || []).find(b => b.id === blockId);
+    if (!block || !Array.isArray(block.objectives) || !block.objectives[objIdx]) return;
+
+    block.objectives[objIdx].done = cb.checked;
+    const allDone = block.objectives.every(o => o.done);
+    if (allDone) {
+      block.status = 'completed';
+      Sound.chime();
+      showToast('Todos los objetivos cumplidos · Bloque completado');
+    } else if (block.status === 'completed') {
+      block.status = 'planned';
+      showToast('Objetivo pendiente · Bloque en progreso');
+    }
+    saveLogs();
+    renderTimelineBlocks();
+    renderHeader();
+  });
+
   document.getElementById('timelineBlocksLayer').addEventListener('click', (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
@@ -3256,10 +3164,16 @@
     if (!block) return;
 
     if (action === 'toggle-status') {
+      const objs = Array.isArray(block.objectives) ? block.objectives : [];
       if (block.status === 'planned') {
+        if (objs.length > 0 && !objs.every(o => o.done)) {
+          objs.forEach(o => { o.done = true; });
+          showToast('Objetivos marcados y bloque completado');
+        } else {
+          showToast('Bloque completado');
+        }
         block.status = 'completed';
         Sound.chime();
-        showToast('Bloque completado');
       } else if (block.status === 'completed') {
         block.status = 'failed';
         showToast('Bloque no realizado');
@@ -3275,12 +3189,27 @@
     }
   });
 
-  // --- SCREEN VIEW WITH 3 iOS DIVISIONS & EXTENDED APP CATALOG ---
+  // --- SCREEN VIEW WITH 3 DIVISIONS, RECOMMENDATIONS & 5-10 APP QUOTA ---
   function formatHoursMinutes(totalMins) {
     const h = Math.floor(totalMins / 60);
     const m = totalMins % 60;
     return `${h}h ${String(m).padStart(2, '0')}m`;
   }
+
+  // Healthy Screen Budget Recommendation Buttons
+  document.querySelectorAll('[data-rec-budget]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const recVal = parseInt(btn.dataset.recBudget, 10) || 120;
+      state.settings.screenBudgetMinutes = recVal;
+      document.getElementById('inputScreenBudget').value = recVal;
+      saveSettings();
+      renderScreenView();
+      renderHeader();
+      renderReportsView();
+      Sound.chime();
+      showToast(`Límite saludable ajustado a ${recVal} min (${formatHoursMinutes(recVal)})`);
+    });
+  });
 
   function renderAppSelectorGrid() {
     const grid = document.getElementById('appSelectorGrid');
@@ -3290,7 +3219,6 @@
     const searchQuery = (document.getElementById('appSearchInput')?.value || '').trim().toLowerCase();
     const appNames = Object.keys(appIcons);
 
-    // Update counts
     const countAll = appNames.length;
     const countSocial = appNames.filter(k => appIcons[k].division === 'social').length;
     const countProd = appNames.filter(k => appIcons[k].division === 'prod').length;
@@ -3312,7 +3240,7 @@
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<span style="grid-column:1/-1; font-size:0.75rem; color:var(--text-dim); text-align:center; padding:12px;">No se encontraron apps con ese nombre.</span>`;
+      grid.innerHTML = `<span style="grid-column:1/-1; font-size:0.75rem; color:var(--text-dim); text-align:center; padding:12px;">No se encontraron aplicaciones con ese nombre.</span>`;
       return;
     }
 
@@ -3341,7 +3269,6 @@
     });
   }
 
-  // Live App Search Filter
   const appSearchInput = document.getElementById('appSearchInput');
   if (appSearchInput) {
     appSearchInput.addEventListener('input', () => {
@@ -3349,7 +3276,6 @@
     });
   }
 
-  // App Category Filter Buttons
   document.getElementById('appCategoryNav').addEventListener('click', (e) => {
     const btn = e.target.closest('.app-cat-btn');
     if (!btn) return;
@@ -3359,7 +3285,6 @@
     renderAppSelectorGrid();
   });
 
-  // Quick Minute Chips
   document.querySelectorAll('.btn-quick-min').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.btn-quick-min').forEach(b => b.classList.remove('active'));
@@ -3382,7 +3307,6 @@
     document.getElementById('screenUsageText').textContent = `${formatHoursMinutes(totalMin)} (${totalMin}m) / Límite: ${formatHoursMinutes(budget)}`;
     document.getElementById('screenPctText').textContent = `${pct}% del límite`;
 
-    // Multi-segment stacked bar
     const barTotal = Math.max(totalMin, budget);
     const wSocial = (stats.totalSocial / barTotal) * 100;
     const wProd = (stats.totalProd / barTotal) * 100;
@@ -3392,12 +3316,10 @@
     document.getElementById('barSegProd').style.width = `${wProd}%`;
     document.getElementById('barSegUtils').style.width = `${wUtils}%`;
 
-    // Display formatted division values (Hours and Minutes)
     document.getElementById('dispCatSocial').textContent = formatHoursMinutes(stats.totalSocial);
     document.getElementById('dispCatProd').textContent = formatHoursMinutes(stats.totalProd);
     document.getElementById('dispCatUtils').textContent = formatHoursMinutes(stats.totalUtils);
 
-    // Populate Hours & Minutes inputs for each category
     const socialVal = log.screenDivisions?.social || 0;
     const prodVal = log.screenDivisions?.prod || 0;
     const utilsVal = log.screenDivisions?.utils || 0;
@@ -3423,7 +3345,6 @@
       inUtilsM.value = utilsVal % 60;
     }
 
-    // Alert Banner
     const alertBanner = document.getElementById('screenAlertBanner');
     const alertText = document.getElementById('screenAlertText');
 
@@ -3434,18 +3355,54 @@
       alertText.textContent = `Límite superado por ${formatHoursMinutes(excess)} · Penalización de -${penalty} pts sobre el puntaje diario.`;
     } else {
       alertBanner.className = 'alert-banner';
-      alertText.textContent = `Dentro del presupuesto saludable (${formatHoursMinutes(totalMin)} / ${formatHoursMinutes(budget)}).`;
+      alertText.textContent = `Dentro del límite saludable configurado (${formatHoursMinutes(totalMin)} / ${formatHoursMinutes(budget)}).`;
     }
 
-    // Logged apps container
+    // 5-10 Apps Quota Validation
+    const appLogs = log.screenLogs || [];
+    const countLogged = appLogs.length;
+    const quotaCounter = document.getElementById('appQuotaCounter');
+    const quotaBanner = document.getElementById('appQuotaBanner');
+    if (quotaCounter) {
+      quotaCounter.textContent = `${countLogged} / 5 mín (máx 10)`;
+      if (countLogged >= 5 && countLogged <= 10) {
+        quotaCounter.style.background = 'rgba(16, 185, 129, 0.15)';
+        quotaCounter.style.borderColor = 'rgba(16, 185, 129, 0.35)';
+        quotaCounter.style.color = '#6ee7b7';
+      } else {
+        quotaCounter.style.background = 'rgba(245, 158, 11, 0.15)';
+        quotaCounter.style.borderColor = 'rgba(245, 158, 11, 0.35)';
+        quotaCounter.style.color = '#fbbf24';
+      }
+    }
+    if (quotaBanner) {
+      if (countLogged < 5) {
+        const rem = 5 - countLogged;
+        quotaBanner.style.background = 'rgba(245, 158, 11, 0.08)';
+        quotaBanner.style.borderColor = 'rgba(245, 158, 11, 0.25)';
+        quotaBanner.style.color = '#fde68a';
+        quotaBanner.textContent = `Requisito diario: Registra el tiempo de mínimo 5 y máximo 10 aplicaciones (faltan ${rem} ${rem === 1 ? 'aplicación' : 'aplicaciones'}).`;
+      } else if (countLogged >= 10) {
+        quotaBanner.style.background = 'rgba(16, 185, 129, 0.1)';
+        quotaBanner.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        quotaBanner.style.color = '#6ee7b7';
+        quotaBanner.textContent = `Has alcanzado el máximo permitido de 10 aplicaciones registradas hoy (${countLogged}/10).`;
+      } else {
+        quotaBanner.style.background = 'rgba(16, 185, 129, 0.1)';
+        quotaBanner.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        quotaBanner.style.color = '#6ee7b7';
+        quotaBanner.textContent = `Meta cumplida: ${countLogged} aplicaciones registradas hoy (puedes registrar hasta ${10 - countLogged} más).`;
+      }
+    }
+
     const listEl = document.getElementById('loggedAppsContainer');
     listEl.innerHTML = '';
-    if ((log.screenLogs || []).length === 0) {
-      listEl.innerHTML = `<span style="font-size:0.75rem; color:var(--text-dim); font-style:italic;">No hay aplicaciones registradas individualmente hoy.</span>`;
+    if (appLogs.length === 0) {
+      listEl.innerHTML = `<span style="font-size:0.75rem; color:var(--text-dim); font-style:italic;">No hay aplicaciones registradas hoy. Registra entre 5 y 10 aplicaciones.</span>`;
       return;
     }
 
-    log.screenLogs.forEach((item, idx) => {
+    appLogs.forEach((item, idx) => {
       const appInfo = getAppInfo(item.app);
       const row = document.createElement('div');
       row.className = 'app-log-row';
@@ -3454,7 +3411,7 @@
           <div class="app-icon-wrap" style="color:${appInfo.color};">${appInfo.svg}</div>
           <div>
             <div style="font-size:0.82rem; font-weight:700;">${item.app}</div>
-            <div style="font-size:0.68rem; color:var(--text-dim); text-transform:capitalize;">${appInfo.division === 'social' ? 'Redes' : (appInfo.division === 'prod' ? 'Productividad' : 'Utilidades')}</div>
+            <div style="font-size:0.68rem; color:var(--text-dim); text-transform:capitalize;">${appInfo.division === 'social' ? 'Redes Sociales' : (appInfo.division === 'prod' ? 'Productividad y Finanzas' : 'Utilidades')}</div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
@@ -3718,14 +3675,17 @@
     `;
 
     // Routines summary
-    const mLen = (state.settings.morningRoutineItems || []).length;
-    const mChecked = (log.morningChecks || []).filter(Boolean).length;
-    const nLen = (state.settings.nightRoutineItems || []).length;
-    const nChecked = (log.nightChecks || []).filter(Boolean).length;
+    const customRoutines = state.settings.customRoutines || [];
+    const rChecksMap = log.customRoutineChecks || {};
+    const routinesLines = customRoutines.map(r => {
+      const items = r.items || [];
+      const chks = rChecksMap[r.id] || [];
+      const doneCount = items.filter((_, idx) => !!chks[idx]).length;
+      return `• <strong>${r.name}:</strong> ${doneCount}/${items.length} tareas completadas (${items.length > 0 && doneCount === items.length ? `+${r.bonusPoints || 15} pts de bono` : 'En progreso'}).`;
+    }).join('<br>');
 
     document.getElementById('printRoutinesSummary').innerHTML = `
-      • <strong>Protocolo Matutino:</strong> ${mChecked}/${mLen} tareas completadas (${mChecked === mLen ? '+15 pts de bono' : 'Incompleto'}).<br>
-      • <strong>Protocolo Nocturno:</strong> ${nChecked}/${nLen} tareas completadas (${nChecked === nLen ? '+15 pts de bono' : 'Incompleto'}).<br>
+      ${routinesLines ? routinesLines + '<br>' : ''}
       • <strong>Micro-hábitos del Día:</strong> ${(log.microHabitsCompleted || []).length} completados (+${stats.microPoints} pts).
     `;
 
@@ -3787,7 +3747,7 @@
       </div>
 
       <!-- Table 1: Blocks -->
-      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">1. Bloques de Tiempo Ejecutados (Línea de 24 Horas)</div>
+      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">1. Bloques de Tiempo Ejecutados</div>
       <table style="width:100%; border-collapse:collapse; margin-bottom:12px; border:1px solid #e2e8f0;">
         <thead>
           <tr style="background:#f1f5f9; font-size:0.7rem; color:#475569; text-align:left;">
@@ -3804,7 +3764,7 @@
       </table>
 
       <!-- Table 2: Screen Time Divisions -->
-      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">2. Desglose de Tiempo en Pantalla (Divisiones iOS)</div>
+      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">2. Desglose de Tiempo en Pantalla (Por Categorías)</div>
       <table style="width:100%; border-collapse:collapse; margin-bottom:12px; border:1px solid #e2e8f0; font-size:0.75rem;">
         <thead>
           <tr style="background:#f1f5f9; font-size:0.7rem; color:#475569; text-align:left;">
@@ -3816,19 +3776,19 @@
         </thead>
         <tbody>
           <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:6px 8px; font-weight:700; color:#0284c7;">Redes Sociales & Entretenimiento</td>
+            <td style="padding:6px 8px; font-weight:700; color:#0284c7;">Redes Sociales y Entretenimiento</td>
             <td style="padding:6px 8px; font-family:monospace; font-weight:700;">${stats.totalSocial} minutos</td>
             <td style="padding:6px 8px;">${stats.totalSocial > 60 ? 'Alto consumo' : 'Equilibrado'}</td>
             <td style="padding:6px 8px; color:#ef4444; font-weight:700;">${stats.screenPenalty > 0 ? `-${stats.screenPenalty} pts penalización` : 'Sin penalización'}</td>
           </tr>
           <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:6px 8px; font-weight:700; color:#d97706;">Productividad & Finanzas</td>
+            <td style="padding:6px 8px; font-weight:700; color:#d97706;">Productividad y Finanzas</td>
             <td style="padding:6px 8px; font-family:monospace; font-weight:700;">${stats.totalProd} minutos</td>
             <td style="padding:6px 8px;">Productivo</td>
             <td style="padding:6px 8px; color:#10b981; font-weight:700;">No penalizado</td>
           </tr>
           <tr>
-            <td style="padding:6px 8px; font-weight:700; color:#7c3aed;">Utilidades & Creatividad</td>
+            <td style="padding:6px 8px; font-weight:700; color:#7c3aed;">Utilidades y Creatividad</td>
             <td style="padding:6px 8px; font-family:monospace; font-weight:700;">${stats.totalUtils} minutos</td>
             <td style="padding:6px 8px;">Esencial</td>
             <td style="padding:6px 8px; color:#10b981; font-weight:700;">No penalizado</td>
@@ -3837,7 +3797,7 @@
       </table>
 
       <!-- Diagnosis Note -->
-      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">3. Diagnóstico de Rendimiento & Auditoría</div>
+      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-bottom:4px;">3. Diagnóstico de Rendimiento y Auditoría</div>
       <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px; font-size:0.75rem; color:#334155; line-height:1.5; white-space:pre-line; margin-bottom:14px;">
         ${document.getElementById('aiAuditText')?.textContent || 'Auditoría completada satisfactoriamente.'}
       </div>
@@ -3849,7 +3809,7 @@
           <span>Firma de Conformidad</span>
         </div>
         <div style="text-align:right;">
-          <div style="font-weight:700; color:#0f172a;">SUMA+ HABITS CERTIFIED</div>
+          <div style="font-weight:700; color:#0f172a;">CERTIFICADO SUMA+ HÁBITOS</div>
           <span>ID Auditoría: #SH-${state.currentDate.replace(/-/g, '')}</span>
         </div>
       </div>
@@ -3875,7 +3835,7 @@
     });
   }
 
-  // Button 1: Native Print to PDF / Paper (fully populates the document right before print)
+  // Button 1: Native Print to PDF / Paper
   document.getElementById('btnPrintReportPdf').addEventListener('click', () => {
     const stats = calculateDayStats(state.currentDate);
     populatePrintReportSheet(stats);
@@ -3894,24 +3854,21 @@
       const stats = calculateDayStats(state.currentDate);
       const [y, m, d] = state.currentDate.split('-');
 
-      // Styling Document
-      doc.setFillColor(15, 23, 42); // Navy Header
+      doc.setFillColor(15, 23, 42);
       doc.rect(0, 0, 210, 32, 'F');
 
       doc.setTextColor(255, 255, 255);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(16);
-      doc.text('SUMA+ HABITS · REPORTE EJECUTIVO', 14, 15);
+      doc.text('SUMA+ HÁBITOS · REPORTE EJECUTIVO', 14, 15);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       doc.text(`Auditoría de Rendimiento y Bienestar Digital | Jornada: ${d}/${m}/${y}`, 14, 23);
 
-      // KPI Boxes
       doc.setDrawColor(226, 232, 240);
       doc.setFillColor(248, 250, 252);
 
-      // Box 1
       doc.rect(14, 40, 42, 22, 'FD');
       doc.setTextColor(100, 116, 139);
       doc.setFontSize(7.5);
@@ -3921,7 +3878,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text(`${stats.totalScore} pts`, 18, 56);
 
-      // Box 2
       doc.rect(62, 40, 42, 22, 'FD');
       doc.setTextColor(100, 116, 139);
       doc.setFontSize(7.5);
@@ -3932,7 +3888,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text(`${stats.effectiveness}%`, 66, 56);
 
-      // Box 3
       doc.rect(110, 40, 42, 22, 'FD');
       doc.setTextColor(100, 116, 139);
       doc.setFontSize(7.5);
@@ -3943,7 +3898,6 @@
       doc.setFont('helvetica', 'bold');
       doc.text(`${stats.totalScreenMinutes} min`, 114, 56);
 
-      // Box 4
       doc.rect(158, 40, 38, 22, 'FD');
       doc.setTextColor(100, 116, 139);
       doc.setFontSize(7.5);
@@ -3954,12 +3908,11 @@
       doc.setFont('helvetica', 'bold');
       doc.text(`${stats.focusMinutes} min`, 162, 56);
 
-      // Section 1: Blocks Table
       let curY = 72;
       doc.setTextColor(15, 23, 42);
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.text('1. Bloques de Tiempo Ejecutados (Línea de 24h)', 14, curY);
+      doc.text('1. Bloques de Tiempo Ejecutados', 14, curY);
 
       curY += 6;
       doc.setFillColor(241, 245, 249);
@@ -3995,27 +3948,25 @@
         });
       }
 
-      // Section 2: Screen Time Divisions
       curY += 6;
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
-      doc.text('2. Desglose de Pantalla (Divisiones iOS)', 14, curY);
+      doc.text('2. Desglose de Pantalla (Por Categorías)', 14, curY);
 
       curY += 6;
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
-      doc.text(`• Redes Sociales & Entretenimiento: ${stats.totalSocial} min`, 16, curY + 4);
-      doc.text(`• Productividad & Finanzas: ${stats.totalProd} min`, 16, curY + 10);
-      doc.text(`• Utilidades & Creatividad: ${stats.totalUtils} min`, 16, curY + 16);
+      doc.text(`• Redes Sociales y Entretenimiento: ${stats.totalSocial} min`, 16, curY + 4);
+      doc.text(`• Productividad y Finanzas: ${stats.totalProd} min`, 16, curY + 10);
+      doc.text(`• Utilidades y Creatividad: ${stats.totalUtils} min`, 16, curY + 16);
       doc.text(`• Presupuesto Diario: ${state.settings.screenBudgetMinutes} min | Penalización: -${stats.screenPenalty} pts`, 16, curY + 22);
 
-      // Footer
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
-      doc.text('SUMA+ HABITS · Documento Oficial de Productividad', 14, 285);
+      doc.text('SUMA+ HÁBITOS · Documento Oficial de Productividad', 14, 285);
       doc.text(`Página 1 de 1 · Generado el ${new Date().toLocaleDateString()}`, 140, 285);
 
-      doc.save(`SumaHabits-Reporte-${state.currentDate}.pdf`);
+      doc.save(`SumaHabitos-Reporte-${state.currentDate}.pdf`);
       showToast('PDF descargado con éxito.');
     } catch (e) {
       showToast('Error al exportar PDF. Usa "Imprimir / PDF".');
@@ -4062,7 +4013,78 @@
     showToast('Hábito creado.');
   });
 
-  // Modal Agendar Bloque
+  // Modal Agendar Bloque con Objetivos (Checklist)
+  let currentModalBlockObjectives = [];
+
+  function renderModalBlockObjectives() {
+    const container = document.getElementById('blockObjectivesList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (currentModalBlockObjectives.length === 0) {
+      container.innerHTML = `<span style="font-size:0.72rem; color:var(--text-dim); font-style:italic;">Sin objetivos específicos aún. Añade objetivos si deseas requerir su cumplimiento para completar el bloque.</span>`;
+      return;
+    }
+
+    currentModalBlockObjectives.forEach((obj, idx) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px; background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:6px; padding:6px 10px; font-size:0.78rem;';
+      row.innerHTML = `
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
+          <input type="checkbox" data-modal-obj-idx="${idx}" ${obj.done ? 'checked' : ''} style="accent-color:var(--accent);">
+          <span style="${obj.done ? 'text-decoration:line-through; color:var(--text-dim);' : ''}">${obj.text}</span>
+        </label>
+        <button type="button" data-del-modal-obj="${idx}" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;" title="Eliminar objetivo">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  document.getElementById('btnAddBlockObjective').addEventListener('click', () => {
+    const inp = document.getElementById('inputBlockObjective');
+    const txt = inp.value.trim();
+    if (!txt) {
+      showToast('Escribe el texto del objetivo');
+      return;
+    }
+    currentModalBlockObjectives.push({ id: 'obj_' + genId(), text: txt, done: false });
+    inp.value = '';
+    renderModalBlockObjectives();
+  });
+
+  document.getElementById('inputBlockObjective').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('btnAddBlockObjective').click();
+    }
+  });
+
+  document.getElementById('blockObjectivesList').addEventListener('change', (e) => {
+    const cb = e.target.closest('input[data-modal-obj-idx]');
+    if (!cb) return;
+    const idx = parseInt(cb.dataset.modalObjIdx, 10);
+    if (currentModalBlockObjectives[idx]) {
+      currentModalBlockObjectives[idx].done = cb.checked;
+      const allDone = currentModalBlockObjectives.length > 0 && currentModalBlockObjectives.every(o => o.done);
+      if (allDone) {
+        document.getElementById('blockStatusSelect').value = 'completed';
+      } else if (document.getElementById('blockStatusSelect').value === 'completed') {
+        document.getElementById('blockStatusSelect').value = 'planned';
+      }
+      renderModalBlockObjectives();
+    }
+  });
+
+  document.getElementById('blockObjectivesList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-del-modal-obj]');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.delModalObj, 10);
+    currentModalBlockObjectives.splice(idx, 1);
+    renderModalBlockObjectives();
+  });
+
   function populateHabitSelect(selectedHabitId) {
     const sel = document.getElementById('blockHabitSelect');
     sel.innerHTML = '';
@@ -4078,13 +4100,19 @@
 
   function openScheduleBlockModal(habitId) {
     populateHabitSelect(habitId);
+    const now = new Date();
+    const startH = now.getHours();
+    const endH = Math.min(23, startH + 1);
     document.getElementById('modalBlockTitle').textContent = 'Agendar Bloque';
     document.getElementById('blockEditId').value = '';
-    document.getElementById('blockStartTime').value = '08:00';
-    document.getElementById('blockEndTime').value = '09:30';
+    document.getElementById('blockStartTime').value = `${String(startH).padStart(2, '0')}:00`;
+    document.getElementById('blockEndTime').value = startH === 23 ? '23:45' : `${String(endH).padStart(2, '0')}:00`;
     document.getElementById('blockStatusSelect').value = 'planned';
     document.getElementById('blockIsCritical').checked = false;
     document.getElementById('blockNotes').value = '';
+    document.getElementById('inputBlockObjective').value = '';
+    currentModalBlockObjectives = [];
+    renderModalBlockObjectives();
     document.getElementById('btnDeleteBlock').style.display = 'none';
     document.getElementById('modalBlock').classList.add('open');
   }
@@ -4102,6 +4130,11 @@
     document.getElementById('blockStatusSelect').value = b.status || 'planned';
     document.getElementById('blockIsCritical').checked = !!b.isCritical;
     document.getElementById('blockNotes').value = b.notes || '';
+    document.getElementById('inputBlockObjective').value = '';
+    currentModalBlockObjectives = Array.isArray(b.objectives)
+      ? b.objectives.map(o => ({ ...o }))
+      : [];
+    renderModalBlockObjectives();
     document.getElementById('btnDeleteBlock').style.display = 'block';
     document.getElementById('modalBlock').classList.add('open');
   }
@@ -4115,7 +4148,7 @@
     const habitId = document.getElementById('blockHabitSelect').value;
     const startTime = document.getElementById('blockStartTime').value;
     const endTime = document.getElementById('blockEndTime').value;
-    const status = document.getElementById('blockStatusSelect').value;
+    let status = document.getElementById('blockStatusSelect').value;
     const isCritical = document.getElementById('blockIsCritical').checked;
     const notes = document.getElementById('blockNotes').value.trim();
 
@@ -4123,6 +4156,16 @@
     if (timeToMinutes(endTime) <= timeToMinutes(startTime)) {
       showToast('La hora fin debe ser posterior a la de inicio.');
       return;
+    }
+
+    if (currentModalBlockObjectives.length > 0) {
+      const allObjsDone = currentModalBlockObjectives.every(o => o.done);
+      if (status === 'completed' && !allObjsDone) {
+        showToast('Marca todos los objetivos del bloque para completarlo al 100%');
+        status = 'planned';
+      } else if (allObjsDone && status === 'planned') {
+        status = 'completed';
+      }
     }
 
     const log = getTodayLog();
@@ -4142,6 +4185,7 @@
         b.status = status;
         b.isCritical = isCritical;
         b.notes = notes;
+        b.objectives = currentModalBlockObjectives.map(o => ({ ...o }));
       }
     } else {
       log.blocks.push({
@@ -4151,7 +4195,8 @@
         endTime,
         status,
         isCritical,
-        notes
+        notes,
+        objectives: currentModalBlockObjectives.map(o => ({ ...o }))
       });
     }
 
@@ -4174,7 +4219,7 @@
     showToast('Bloque eliminado.');
   });
 
-  // Modal Rutinas Ancladas
+  // Modal Mis Rutinas Personalizadas (Creadas por el Usuario)
   document.getElementById('btnOpenRoutines').addEventListener('click', () => {
     renderRoutinesModal();
     document.getElementById('modalRoutines').classList.add('open');
@@ -4182,56 +4227,110 @@
 
   function renderRoutinesModal() {
     const log = getTodayLog();
-    const mContainer = document.getElementById('morningRoutineList');
-    mContainer.innerHTML = '';
-    const mChecks = log.morningChecks || [];
+    const container = document.getElementById('customRoutinesContainer');
+    if (!container) return;
+    container.innerHTML = '';
 
-    state.settings.morningRoutineItems.forEach((text, i) => {
-      const checked = !!mChecks[i];
-      const row = document.createElement('div');
-      row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:0.78rem; background:var(--bg-surface); padding:6px 10px; border-radius:6px; border:1px solid var(--glass-border);';
-      row.innerHTML = `
-        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-          <input type="checkbox" data-routine="morning" data-idx="${i}" ${checked ? 'checked' : ''}>
-          <span style="${checked ? 'text-decoration:line-through; color:var(--text-dim);' : ''}">${text}</span>
-        </label>
-        <button data-del-routine="morning" data-idx="${i}" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+    const routines = state.settings.customRoutines || [];
+    if (!log.customRoutineChecks) log.customRoutineChecks = {};
+
+    if (routines.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:18px; color:var(--text-dim); font-size:0.8rem; border:1px dashed var(--glass-border); border-radius:10px;">No tienes rutinas creadas. Escribe un nombre arriba y pulsa "+ Crear Rutina".</div>`;
+      return;
+    }
+
+    routines.forEach((routine) => {
+      const items = Array.isArray(routine.items) ? routine.items : [];
+      if (!Array.isArray(log.customRoutineChecks[routine.id])) {
+        log.customRoutineChecks[routine.id] = new Array(items.length).fill(false);
+      }
+      const checks = log.customRoutineChecks[routine.id];
+      const doneCount = items.filter((_, idx) => !!checks[idx]).length;
+      const allCompleted = items.length > 0 && doneCount === items.length;
+
+      const card = document.createElement('div');
+      card.style.cssText = 'background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;';
+
+      let checklistHtml = '';
+      if (items.length === 0) {
+        checklistHtml = `<span style="font-size:0.72rem; color:var(--text-dim); font-style:italic;">Añade pasos o tareas a esta lista de verificación.</span>`;
+      } else {
+        checklistHtml = items.map((text, idx) => {
+          const checked = !!checks[idx];
+          return `
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:0.78rem; background:var(--bg-surface); padding:6px 10px; border-radius:6px; border:1px solid var(--glass-border);">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
+                <input type="checkbox" data-custom-routine-id="${routine.id}" data-idx="${idx}" ${checked ? 'checked' : ''} style="accent-color:var(--accent);">
+                <span style="${checked ? 'text-decoration:line-through; color:var(--text-dim);' : ''}">${text}</span>
+              </label>
+              <button type="button" data-del-routine-item="${routine.id}" data-idx="${idx}" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;" title="Eliminar paso">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      card.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.85rem; font-weight:800; color:var(--text-main);">${routine.name}</span>
+            <span style="font-size:0.66rem; font-weight:700; padding:2px 7px; border-radius:6px; background:${allCompleted ? 'rgba(16,185,129,0.18)' : 'rgba(255,255,255,0.07)'}; color:${allCompleted ? '#6ee7b7' : 'var(--text-muted)'};">
+              ${doneCount}/${items.length} · +${routine.bonusPoints || 15} pts
+            </span>
+          </div>
+          <button type="button" data-del-whole-routine="${routine.id}" style="background:transparent; border:none; color:#fca5a5; font-size:0.7rem; cursor:pointer; font-weight:600;">Eliminar rutina</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          ${checklistHtml}
+        </div>
+        <div style="display:flex; gap:6px; margin-top:2px;">
+          <input type="text" data-input-routine-step="${routine.id}" placeholder="Nuevo paso para ${routine.name}..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); color:var(--text-main); border-radius:8px; padding:7px 10px; font-size:0.75rem; outline:none;">
+          <button type="button" class="btn-secondary" data-add-routine-step="${routine.id}" style="padding:7px 12px; font-size:0.75rem; white-space:nowrap;">+ Paso</button>
+        </div>
       `;
-      mContainer.appendChild(row);
-    });
 
-    const nContainer = document.getElementById('nightRoutineList');
-    nContainer.innerHTML = '';
-    const nChecks = log.nightChecks || [];
-
-    state.settings.nightRoutineItems.forEach((text, i) => {
-      const checked = !!nChecks[i];
-      const row = document.createElement('div');
-      row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:0.78rem; background:var(--bg-surface); padding:6px 10px; border-radius:6px; border:1px solid var(--glass-border);';
-      row.innerHTML = `
-        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-          <input type="checkbox" data-routine="night" data-idx="${i}" ${checked ? 'checked' : ''}>
-          <span style="${checked ? 'text-decoration:line-through; color:var(--text-dim);' : ''}">${text}</span>
-        </label>
-        <button data-del-routine="night" data-idx="${i}" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      `;
-      nContainer.appendChild(row);
+      container.appendChild(card);
     });
   }
 
+  document.getElementById('btnCreateRoutine').addEventListener('click', () => {
+    const inp = document.getElementById('inputNewRoutineName');
+    const name = inp.value.trim();
+    if (!name) {
+      showToast('Ingresa un nombre para tu nueva rutina');
+      return;
+    }
+    if (!Array.isArray(state.settings.customRoutines)) {
+      state.settings.customRoutines = [];
+    }
+    const newId = 'rut_' + genId();
+    state.settings.customRoutines.push({
+      id: newId,
+      name,
+      bonusPoints: 15,
+      items: []
+    });
+    const log = getTodayLog();
+    if (!log.customRoutineChecks) log.customRoutineChecks = {};
+    log.customRoutineChecks[newId] = [];
+    inp.value = '';
+    saveSettings();
+    saveLogs();
+    renderRoutinesModal();
+    renderHeader();
+    showToast(`Rutina "${name}" creada`);
+  });
+
   document.getElementById('modalRoutines').addEventListener('change', (e) => {
-    const cb = e.target.closest('input[type="checkbox"]');
+    const cb = e.target.closest('input[data-custom-routine-id]');
     if (!cb) return;
-    const type = cb.dataset.routine;
+    const rId = cb.dataset.customRoutineId;
     const idx = parseInt(cb.dataset.idx, 10);
     const log = getTodayLog();
-
-    if (type === 'morning') log.morningChecks[idx] = cb.checked;
-    else if (type === 'night') log.nightChecks[idx] = cb.checked;
+    if (!log.customRoutineChecks) log.customRoutineChecks = {};
+    if (!Array.isArray(log.customRoutineChecks[rId])) log.customRoutineChecks[rId] = [];
+    log.customRoutineChecks[rId][idx] = cb.checked;
 
     saveLogs();
     renderRoutinesModal();
@@ -4239,37 +4338,58 @@
   });
 
   document.getElementById('modalRoutines').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-del-routine]');
-    if (!btn) return;
-    const type = btn.dataset.delRoutine;
-    const idx = parseInt(btn.dataset.idx, 10);
-    if (type === 'morning') {
-      state.settings.morningRoutineItems.splice(idx, 1);
-    } else {
-      state.settings.nightRoutineItems.splice(idx, 1);
+    const btnAddStep = e.target.closest('[data-add-routine-step]');
+    if (btnAddStep) {
+      const rId = btnAddStep.dataset.addRoutineStep;
+      const inp = document.querySelector(`input[data-input-routine-step="${rId}"]`);
+      const txt = inp ? inp.value.trim() : '';
+      if (!txt) {
+        showToast('Escribe el nombre del paso');
+        return;
+      }
+      const routine = (state.settings.customRoutines || []).find(r => r.id === rId);
+      if (routine) {
+        routine.items.push(txt);
+        const log = getTodayLog();
+        if (!log.customRoutineChecks) log.customRoutineChecks = {};
+        if (!Array.isArray(log.customRoutineChecks[rId])) log.customRoutineChecks[rId] = [];
+        log.customRoutineChecks[rId].push(false);
+        saveSettings();
+        saveLogs();
+        renderRoutinesModal();
+        renderHeader();
+      }
+      return;
     }
-    saveSettings();
-    renderRoutinesModal();
-  });
 
-  document.getElementById('btnAddMorningItem').addEventListener('click', () => {
-    const inp = document.getElementById('inputNewMorningItem');
-    const txt = inp.value.trim();
-    if (!txt) return;
-    state.settings.morningRoutineItems.push(txt);
-    saveSettings();
-    inp.value = '';
-    renderRoutinesModal();
-  });
+    const btnDelItem = e.target.closest('[data-del-routine-item]');
+    if (btnDelItem) {
+      const rId = btnDelItem.dataset.delRoutineItem;
+      const idx = parseInt(btnDelItem.dataset.idx, 10);
+      const routine = (state.settings.customRoutines || []).find(r => r.id === rId);
+      if (routine && Array.isArray(routine.items)) {
+        routine.items.splice(idx, 1);
+        const log = getTodayLog();
+        if (log.customRoutineChecks && Array.isArray(log.customRoutineChecks[rId])) {
+          log.customRoutineChecks[rId].splice(idx, 1);
+        }
+        saveSettings();
+        saveLogs();
+        renderRoutinesModal();
+        renderHeader();
+      }
+      return;
+    }
 
-  document.getElementById('btnAddNightItem').addEventListener('click', () => {
-    const inp = document.getElementById('inputNewNightItem');
-    const txt = inp.value.trim();
-    if (!txt) return;
-    state.settings.nightRoutineItems.push(txt);
-    saveSettings();
-    inp.value = '';
-    renderRoutinesModal();
+    const btnDelWhole = e.target.closest('[data-del-whole-routine]');
+    if (btnDelWhole) {
+      const rId = btnDelWhole.dataset.delWholeRoutine;
+      state.settings.customRoutines = (state.settings.customRoutines || []).filter(r => r.id !== rId);
+      saveSettings();
+      renderRoutinesModal();
+      renderHeader();
+      showToast('Rutina eliminada');
+    }
   });
 
   // Modal S.O.S. Pausa Consciente
@@ -4325,48 +4445,7 @@
     document.getElementById('modalSos').classList.remove('open');
   });
 
-  // Gemini Settings
-  document.getElementById('btnOpenAiSettings').addEventListener('click', () => {
-    document.getElementById('inputGeminiKey').value = state.geminiKey || '';
-    document.getElementById('modalAiSettings').classList.add('open');
-  });
-
-  document.getElementById('btnSaveGeminiKey').addEventListener('click', () => {
-    const key = document.getElementById('inputGeminiKey').value.trim();
-    state.geminiKey = key;
-    localStorage.setItem(STORAGE_KEYS.GEMINI_KEY, key);
-    showToast('Clave de Gemini guardada.');
-    document.getElementById('modalAiSettings').classList.remove('open');
-  });
-
-  document.getElementById('btnTestGeminiKey').addEventListener('click', async () => {
-    const key = document.getElementById('inputGeminiKey').value.trim();
-    const fb = document.getElementById('aiTestFeedback');
-    fb.style.display = 'block';
-    if (!key) {
-      fb.style.color = '#fca5a5';
-      fb.textContent = 'Ingresa una API Key válida.';
-      return;
-    }
-
-    try {
-      fb.style.color = '#c7d2fe';
-      fb.textContent = 'Comprobando conexión con Gemini...';
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: 'CONECTADO' }] }] })
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      fb.style.color = '#a7f3d0';
-      fb.textContent = 'Conexión verificada con Gemini.';
-    } catch (e) {
-      fb.style.color = '#fca5a5';
-      fb.textContent = 'Error al conectar con la API de Gemini.';
-    }
-  });
-
-  // AI Time Planner
+  // Planificador Automático de Jornada
   document.getElementById('btnOpenAiPlanner').addEventListener('click', () => {
     document.getElementById('modalAiPlanner').classList.add('open');
   });
@@ -4379,68 +4458,41 @@
     btn.disabled = true;
     btn.textContent = 'Generando...';
 
-    const apiKey = state.geminiKey;
-    const habitsList = state.habits.map(h => ({ id: h.id, name: h.name, category: h.category }));
-
-    const sys = `Eres un asistente de time-blocking profesional.
-Catálogo actual: ${JSON.stringify(habitsList)}.
-Devuelve ÚNICAMENTE un JSON estricto con un array:
-[
-  {
-    "habitId": "string de id de hábito",
-    "startTime": "HH:MM",
-    "endTime": "HH:MM",
-    "notes": "string breve"
-  }
-]
-Evita empalmes entre bloques.`;
+    const habitsList = state.habits.filter(h => h.format === 'block');
+    const nowH = new Date().getHours();
+    const h1 = Math.max(nowH, 9);
+    const h2 = Math.min(21, h1 + 2);
+    const h3 = Math.min(22, h2 + 2);
 
     try {
-      let raw = '';
-      if (apiKey) {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: `${sys}\n\nJornada:\n${promptText}` }] }]
-          })
-        });
-        const data = await res.json();
-        raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      } else {
-        await new Promise(r => setTimeout(r, 600));
-        raw = JSON.stringify([
-          { habitId: habitsList[0]?.id || 'h_deepwork', startTime: '09:00', endTime: '11:00', notes: 'Sesión matutina enfocada' },
-          { habitId: habitsList[1]?.id || 'h_gym', startTime: '16:00', endTime: '17:30', notes: 'Entrenamiento' },
-          { habitId: habitsList[2]?.id || 'h_reading', startTime: '21:00', endTime: '21:45', notes: 'Lectura nocturna' }
-        ]);
-      }
-
-      const cleanJson = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
-      const parsed = JSON.parse(cleanJson);
+      await new Promise(r => setTimeout(r, 350));
+      const planned = [
+        { habitId: habitsList[0]?.id || 'h_deepwork', startTime: `${String(h1).padStart(2, '0')}:00`, endTime: `${String(Math.min(23, h1 + 1)).padStart(2, '0')}:30`, notes: 'Bloque principal de enfoque' },
+        { habitId: habitsList[1]?.id || 'h_gym', startTime: `${String(h2).padStart(2, '0')}:00`, endTime: `${String(Math.min(23, h2 + 1)).padStart(2, '0')}:00`, notes: 'Entrenamiento físico' },
+        { habitId: habitsList[2]?.id || 'h_reading', startTime: `${String(h3).padStart(2, '0')}:00`, endTime: `${String(h3).padStart(2, '0')}:45`, notes: 'Lectura estratégica' }
+      ];
 
       const log = getTodayLog();
       let count = 0;
-      parsed.forEach(item => {
-        if (item.startTime && item.endTime) {
-          log.blocks.push({
-            id: 'blk_' + genId(),
-            habitId: item.habitId || habitsList[0].id,
-            startTime: item.startTime,
-            endTime: item.endTime,
-            status: 'planned',
-            isCritical: false,
-            notes: item.notes || ''
-          });
-          count++;
-        }
+      planned.forEach(item => {
+        log.blocks.push({
+          id: 'blk_' + genId(),
+          habitId: item.habitId,
+          startTime: item.startTime,
+          endTime: item.endTime,
+          status: 'planned',
+          isCritical: count === 0,
+          notes: item.notes,
+          objectives: []
+        });
+        count++;
       });
 
       saveLogs();
       renderTimelineBlocks();
       renderHeader();
       document.getElementById('modalAiPlanner').classList.remove('open');
-      showToast(`${count} bloques planificados.`);
+      showToast(`${count} bloques planificados a partir de las ${String(h1).padStart(2, '0')}:00.`);
     } catch (e) {
       showToast('Error al procesar la planeación.');
     } finally {
@@ -4449,46 +4501,16 @@ Evita empalmes entre bloques.`;
     }
   });
 
-  // AI Audit in Reports
-  document.getElementById('btnTriggerAiAudit').addEventListener('click', async () => {
+  // Diagnóstico en Reportes
+  document.getElementById('btnTriggerAiAudit').addEventListener('click', () => {
     const stats = calculateDayStats(state.currentDate);
     const targetEl = document.getElementById('aiAuditText');
-    targetEl.textContent = 'Analizando rendimiento...';
-
-    const prompt = `Analiza el rendimiento del usuario de forma analítica, sobria y profesional:
-- Puntos netos: ${stats.totalScore}
-- Bloques completados: ${stats.completedBlocks} de ${stats.totalBlocks}
-- Tiempo de pantalla total: ${stats.totalScreenMinutes} min (Redes: ${stats.totalSocial}m, Productividad: ${stats.totalProd}m, Utilidades: ${stats.totalUtils}m)
-- Penalización de pantalla: -${stats.screenPenalty} pts
-- Minutos de enfoque: ${stats.focusMinutes} min
-
-Responde en 3 viñetas concisas:
-1. Balance de ejecución vs. distracción
-2. Fugas de atención detectadas en Redes Sociales
-3. Recomendación prioritaria para mañana`;
-
-    try {
-      let result = '';
-      if (state.geminiKey) {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.geminiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        result = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      } else {
-        await new Promise(r => setTimeout(r, 600));
-        result = `• Balance: ${stats.completedBlocks} bloques ejecutados con ${stats.focusMinutes}m de enfoque neto.
-• Tiempo en Pantalla: ${stats.totalSocial}m en Redes Sociales, ${stats.totalProd}m en Productividad y ${stats.totalUtils}m en Utilidades (${stats.screenPenalty > 0 ? `penalización de -${stats.screenPenalty} pts por exceso` : 'dentro del límite'}).
-• Recomendación: Inicia tu jornada ejecutando tu bloque principal antes de abrir cualquier red social.`;
-      }
-      targetEl.textContent = result.trim();
-      document.getElementById('printAuditContent').textContent = result.trim();
-    } catch (e) {
-      targetEl.textContent = 'No se pudo generar el diagnóstico. Verifica tu conexión.';
-    }
+    const result = `• Balance de Ejecución: ${stats.completedBlocks} de ${stats.totalBlocks} bloques completados (${stats.effectiveness}% de efectividad) con ${stats.focusMinutes}m de enfoque neto.
+• Tiempo en Pantalla: ${stats.totalSocial}m en Redes Sociales, ${stats.totalProd}m en Productividad y ${stats.totalUtils}m en Utilidades (${stats.screenPenalty > 0 ? `penalización de -${stats.screenPenalty} pts por exceso sobre ${state.settings.screenBudgetMinutes}m` : `dentro del límite saludable de ${state.settings.screenBudgetMinutes}m`}).
+• Recomendación Prioritaria: Completa todos los objetivos de tu bloque prioritario antes de abrir aplicaciones de entretenimiento.`;
+    targetEl.textContent = result;
+    document.getElementById('printAuditContent').textContent = result;
+    showToast('Diagnóstico ejecutivo actualizado');
   });
 
   // --- Focus Mode Timer ---
@@ -4592,6 +4614,9 @@ Responde en 3 viñetas concisas:
   function completeFocusSession() {
     if (focusInterval) clearInterval(focusInterval);
     if (currentFocusBlock) {
+      if (Array.isArray(currentFocusBlock.objectives)) {
+        currentFocusBlock.objectives.forEach(o => { o.done = true; });
+      }
       currentFocusBlock.status = 'completed';
       saveLogs();
       renderTimelineBlocks();
@@ -4606,21 +4631,33 @@ Responde en 3 viñetas concisas:
     document.getElementById('focusOverlay').classList.remove('open');
   });
 
-  // --- Screen Logging Listeners ---
+  // --- Screen Logging Listeners (5 min - 10 max apps rule) ---
   document.getElementById('btnAddScreenLog').addEventListener('click', () => {
-    const app = state.selectedApp || 'Instagram';
+    const log = getTodayLog();
+    if (!Array.isArray(log.screenLogs)) log.screenLogs = [];
+    if (log.screenLogs.length >= 10) {
+      showToast('Máximo alcanzado: Solo puedes registrar hasta 10 aplicaciones por día.');
+      return;
+    }
+
+    const app = state.selectedApp || 'TikTok';
     const mins = parseInt(document.getElementById('inputAppMinutes').value, 10);
     if (!mins || mins <= 0) {
       showToast('Ingresa minutos válidos');
       return;
     }
 
-    getTodayLog().screenLogs.push({ id: genId(), app, minutes: mins });
+    log.screenLogs.push({ id: genId(), app, minutes: mins });
     saveLogs();
     renderScreenView();
     renderHeader();
     renderReportsView();
-    showToast(`Registrado: ${app} (${mins} min)`);
+    const count = log.screenLogs.length;
+    if (count < 5) {
+      showToast(`Registrado: ${app} (${mins}m) · Faltan ${5 - count} para el mínimo de 5 apps`);
+    } else {
+      showToast(`Registrado: ${app} (${mins}m) · Meta cumplida (${count}/10 apps)`);
+    }
   });
 
   document.getElementById('loggedAppsContainer').addEventListener('click', (e) => {

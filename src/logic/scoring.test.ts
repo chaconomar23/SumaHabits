@@ -8,11 +8,17 @@ import {
   calculateFocusMinutes,
   calculateDailyScore,
   hasBlockOverlap,
+  areAllObjectivesCompleted,
+  syncBlockStatusWithObjectives,
+  validateAppRegistrationQuota,
+  calculateCustomRoutinesBonus,
+  DEFAULT_CATALOG_APPS,
 } from './scoring.ts';
 import type {
   Habit,
   DayLog,
   Settings,
+  TimelineBlock,
 } from './scoring.ts';
 
 test('timeToMinutes and minutesToTime conversions', () => {
@@ -27,37 +33,118 @@ test('timeToMinutes and minutesToTime conversions', () => {
 test('calculateScreenPenalty awards -5 points for every 15 min over budget', () => {
   assert.equal(calculateScreenPenalty(120, 120), 0);
   assert.equal(calculateScreenPenalty(110, 120), 0);
-  assert.equal(calculateScreenPenalty(134, 120), 0); // 14 min over -> 0 penalty
-  assert.equal(calculateScreenPenalty(135, 120), 5); // 15 min over -> 5 penalty
-  assert.equal(calculateScreenPenalty(150, 120), 10); // 30 min over -> 10 penalty
-  assert.equal(calculateScreenPenalty(180, 120), 20); // 60 min over -> 20 penalty
+  assert.equal(calculateScreenPenalty(134, 120), 0);
+  assert.equal(calculateScreenPenalty(135, 120), 5);
+  assert.equal(calculateScreenPenalty(150, 120), 10);
+  assert.equal(calculateScreenPenalty(180, 120), 20);
 });
 
-test('calculateEffectiveness calculates percentage of completed blocks', () => {
+test('calculateEffectiveness calculates percentage of completed blocks (requiring all objectives checked)', () => {
   assert.equal(calculateEffectiveness([]), 0);
-  const blocks = [
-    { id: '1', habitId: 'h1', startTime: '08:00', endTime: '09:00', status: 'completed' as const },
-    { id: '2', habitId: 'h2', startTime: '09:00', endTime: '10:00', status: 'planned' as const },
-    { id: '3', habitId: 'h3', startTime: '10:00', endTime: '11:00', status: 'failed' as const },
-    { id: '4', habitId: 'h4', startTime: '11:00', endTime: '12:00', status: 'completed' as const },
+  const blocks: TimelineBlock[] = [
+    {
+      id: '1',
+      habitId: 'h1',
+      startTime: '08:00',
+      endTime: '09:00',
+      status: 'completed',
+      objectives: [
+        { id: 'o1', text: 'Objetivo 1', completed: true },
+        { id: 'o2', text: 'Objetivo 2', completed: true },
+      ],
+    },
+    {
+      id: '2',
+      habitId: 'h2',
+      startTime: '09:00',
+      endTime: '10:00',
+      status: 'completed',
+      objectives: [
+        { id: 'o3', text: 'Objetivo A', completed: true },
+        { id: 'o4', text: 'Objetivo B', completed: false }, // Incomplete objective prevents completion!
+      ],
+    },
+    { id: '3', habitId: 'h3', startTime: '10:00', endTime: '11:00', status: 'failed' },
+    { id: '4', habitId: 'h4', startTime: '11:00', endTime: '12:00', status: 'completed' },
   ];
   assert.equal(calculateEffectiveness(blocks), 50);
 });
 
+test('syncBlockStatusWithObjectives requires all sub-objectives checked to complete a block', () => {
+  const blockPartial: TimelineBlock = {
+    id: 'b1',
+    habitId: 'h1',
+    startTime: '10:00',
+    endTime: '11:00',
+    status: 'planned',
+    objectives: [
+      { id: 'o1', text: 'Leer capítulo 1', completed: true },
+      { id: 'o2', text: 'Tomar notas', completed: false },
+    ],
+  };
+
+  assert.equal(areAllObjectivesCompleted(blockPartial.objectives), false);
+  assert.equal(syncBlockStatusWithObjectives(blockPartial).status, 'planned');
+
+  const blockAllChecked: TimelineBlock = {
+    ...blockPartial,
+    objectives: [
+      { id: 'o1', text: 'Leer capítulo 1', completed: true },
+      { id: 'o2', text: 'Tomar notas', completed: true },
+    ],
+  };
+
+  assert.equal(areAllObjectivesCompleted(blockAllChecked.objectives), true);
+  assert.equal(syncBlockStatusWithObjectives(blockAllChecked).status, 'completed');
+});
+
+test('calculateCustomRoutinesBonus awards +15 pts per completed user-created routine', () => {
+  const routines = [
+    { id: 'r_manana', name: 'Rutina de Mañana', items: ['Agua', 'Estiramiento'] },
+    { id: 'r_cierre', name: 'Cierre Nocturno', items: ['Planear día', 'Modo avión'] },
+  ];
+
+  assert.equal(calculateCustomRoutinesBonus(routines, { r_manana: [true, true], r_cierre: [true, false] }), 15);
+  assert.equal(calculateCustomRoutinesBonus(routines, { r_manana: [true, true], r_cierre: [true, true] }), 30);
+});
+
+test('validateAppRegistrationQuota enforces minimum 5 and maximum 10 apps', () => {
+  assert.equal(DEFAULT_CATALOG_APPS.length, 13);
+  assert.ok(DEFAULT_CATALOG_APPS.includes('TikTok'));
+  assert.ok(DEFAULT_CATALOG_APPS.includes('NuBank'));
+  assert.ok(DEFAULT_CATALOG_APPS.includes('Calendario'));
+  assert.ok(DEFAULT_CATALOG_APPS.includes('Teléfono'));
+
+  const q3 = validateAppRegistrationQuota(3);
+  assert.equal(q3.isValidQuota, false);
+  assert.equal(q3.remainingForMin, 2);
+  assert.equal(q3.canAddMore, true);
+
+  const q5 = validateAppRegistrationQuota(5);
+  assert.equal(q5.isValidQuota, true);
+  assert.equal(q5.remainingForMin, 0);
+  assert.equal(q5.canAddMore, true);
+
+  const q10 = validateAppRegistrationQuota(10);
+  assert.equal(q10.isValidQuota, true);
+  assert.equal(q10.canAddMore, false);
+  assert.equal(q10.maxReached, true);
+});
+
 test('calculateFocusMinutes aggregates duration of completed blocks only', () => {
-  const blocks = [
-    { id: '1', habitId: 'h1', startTime: '08:00', endTime: '09:30', status: 'completed' as const }, // 90 min
-    { id: '2', habitId: 'h2', startTime: '10:00', endTime: '11:00', status: 'planned' as const },   // 0 (planned)
-    { id: '3', habitId: 'h3', startTime: '12:00', endTime: '13:15', status: 'completed' as const }, // 75 min
+  const blocks: TimelineBlock[] = [
+    { id: '1', habitId: 'h1', startTime: '08:00', endTime: '09:30', status: 'completed' }, // 90 min
+    { id: '2', habitId: 'h2', startTime: '10:00', endTime: '11:00', status: 'planned' },   // 0 (planned)
+    { id: '3', habitId: 'h3', startTime: '12:00', endTime: '13:15', status: 'completed' }, // 75 min
   ];
   assert.equal(calculateFocusMinutes(blocks), 165);
 });
 
-test('calculateDailyScore calculates points, Eat the Frog x2, micro-habits, routine bonus and screen penalty', () => {
+test('calculateDailyScore calculates points, Prioridad x2, micro-habits, custom routine bonus and screen penalty', () => {
   const habitsMap: Record<string, Habit> = {
-    h1: { id: 'h1', name: 'Deep Work', category: 'estudio', format: 'block', color: '#6366f1', icon: '💻', points: 20 },
-    h2: { id: 'h2', name: 'Gimnasio', category: 'salud', format: 'block', color: '#10b981', icon: '🏋️', points: 30 },
-    m1: { id: 'm1', name: 'Tomar 500ml agua', category: 'salud', format: 'micro', color: '#38bdf8', icon: '💧', points: 5 },
+    h1: { id: 'h1', name: 'Trabajo Profundo', category: 'estudio', format: 'block', color: '#6366f1', points: 20 },
+    h2: { id: 'h2', name: 'Gimnasio', category: 'salud', format: 'block', color: '#10b981', points: 30 },
+    m1: { id: 'm1', name: 'Tomar 500ml agua', category: 'salud', format: 'micro', color: '#38bdf8', points: 5 },
   };
 
   const dayLog: DayLog = {
@@ -66,9 +153,9 @@ test('calculateDailyScore calculates points, Eat the Frog x2, micro-habits, rout
       { id: 'b2', habitId: 'h2', startTime: '17:00', endTime: '18:00', status: 'planned' }, // 0 pts
     ],
     microHabitsCompleted: ['m1'], // +5 pts
-    routines: {
-      morning: [true, true], // 100% complete -> +15 pts
-      night: [true, false],  // not 100% -> 0 pts
+    customRoutineChecks: {
+      r1: [true, true], // +15 pts
+      r2: [true, false], // 0 pts
     },
     screenLogs: [
       { id: 's1', app: 'Instagram', minutes: 90 },
@@ -78,8 +165,10 @@ test('calculateDailyScore calculates points, Eat the Frog x2, micro-habits, rout
 
   const settings: Settings = {
     screenBudgetMinutes: 120,
-    morningRoutineItems: ['Agua', 'Sol'],
-    nightRoutineItems: ['Sin pantallas', 'Lectura'],
+    customRoutines: [
+      { id: 'r1', name: 'Rutina Matutina', items: ['Agua', 'Sol'] },
+      { id: 'r2', name: 'Rutina Nocturna', items: ['Sin pantallas', 'Lectura'] },
+    ],
   };
 
   const result = calculateDailyScore(dayLog, habitsMap, settings);
@@ -93,20 +182,16 @@ test('calculateDailyScore calculates points, Eat the Frog x2, micro-habits, rout
 });
 
 test('hasBlockOverlap correctly identifies colliding times', () => {
-  const existing = [
-    { id: 'b1', habitId: 'h1', startTime: '08:00', endTime: '10:00', status: 'planned' as const },
+  const existing: TimelineBlock[] = [
+    { id: 'b1', habitId: 'h1', startTime: '08:00', endTime: '10:00', status: 'planned' },
   ];
 
-  // Overlaps
   assert.equal(hasBlockOverlap('07:30', '08:30', existing), true);
   assert.equal(hasBlockOverlap('09:00', '10:30', existing), true);
   assert.equal(hasBlockOverlap('08:30', '09:30', existing), true);
   assert.equal(hasBlockOverlap('07:00', '11:00', existing), true);
 
-  // Non-overlapping (adjacent is permitted)
   assert.equal(hasBlockOverlap('07:00', '08:00', existing), false);
   assert.equal(hasBlockOverlap('10:00', '11:00', existing), false);
-
-  // Ignore self on edit
   assert.equal(hasBlockOverlap('08:00', '10:30', existing, 'b1'), false);
 });
