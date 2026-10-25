@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SUMA+ HÁBITOS</title>
-  <meta name="description" content="Gestión del tiempo, hábitos, bienestar digital, línea del tiempo vertical y analítica ejecutiva.">
-  <meta property="og:title" content="SUMA+ HÁBITOS">
+  <title>SUMA+ HABITS</title>
+  <meta name="description" content="Gestión del tiempo, hábitos, bienestar digital, línea del tiempo vertical 24h y analítica ejecutiva.">
+  <meta property="og:title" content="SUMA+ HABITS">
   <meta property="og:description" content="Planificación por bloques de tiempo con arrastrar y soltar, micro-hábitos, bienestar digital y reportes PDF.">
 
   <!-- Typography: Inter, Plus Jakarta Sans & JetBrains Mono -->
@@ -298,10 +298,10 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 14px var(--primary-glow), inset 0 1px 1px rgba(255, 255, 255, 0.3);
       padding: 8px 16px;
       border-radius: var(--radius-sm);
       font-size: 0.8rem;
@@ -315,7 +315,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+      box-shadow: 0 6px 18px var(--primary-glow);
     }
 
     .btn-secondary {
@@ -347,8 +347,8 @@
       font-size: 0.72rem;
       color: var(--text-dim);
       padding: 6px 10px;
-      background: rgba(99, 102, 241, 0.06);
-      border: 1px solid rgba(99, 102, 241, 0.16);
+      background: var(--primary-dim);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius-sm);
       margin-bottom: 10px;
     }
@@ -378,7 +378,7 @@
       background: var(--primary);
       border-color: var(--primary);
       color: #fff;
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 2px 8px var(--primary-glow);
     }
 
     .habits-row {
@@ -1473,7 +1473,7 @@
     <div class="header-top">
       <div class="brand-title">
         <span>SUMA</span><span class="plus">+</span>
-        <span class="habits">HÁBITOS</span>
+        <span class="habits">HABITS</span>
       </div>
       <div class="header-actions">
         <button class="btn-header btn-sos" id="btnOpenSos" title="Pausa consciente">
@@ -1519,10 +1519,6 @@
         <button class="btn-secondary" id="btnOpenRoutines">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           <span>Rutinas</span>
-        </button>
-        <button class="btn-secondary" id="btnOpenAiPlanner" style="margin-left:auto;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8 12 2"/></svg>
-          <span>Planear</span>
         </button>
       </div>
 
@@ -1845,7 +1841,7 @@
         <div id="reportA4PreviewContainer">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px;">
             <div>
-              <div style="font-size:1.15rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">SUMA+ HÁBITOS · REPORTE EJECUTIVO</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">SUMA+ HABITS · REPORTE EJECUTIVO</div>
               <div style="font-size:0.75rem; color:#475569;">Documento Oficial de Productividad & Auditoría de Bienestar Digital</div>
             </div>
             <div style="text-align:right;">
@@ -1907,6 +1903,193 @@
       </div>
     </section>
 
+    <!-- VIEW 4: AJUSTES & PERSONALIZACIÓN -->
+    <section class="view-tab" id="view-settings">
+
+      <!-- 1. Personalización de Colores (Modo Oscuro Liquid Glass) -->
+      <div class="liquid-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+              <span>Apariencia y Colores (Modo Oscuro)</span>
+            </h2>
+            <p class="card-sub">Personaliza la atmósfera oscura Liquid Glass y los acentos visuales de toda la aplicación.</p>
+          </div>
+          <span style="font-size:0.68rem; font-family:var(--font-mono); padding:3px 8px; border-radius:6px; background:var(--primary-dim); color:var(--primary); border:1px solid var(--glass-border);">Modo Oscuro Activo</span>
+        </div>
+
+        <!-- Selector de Temas Oscuros Curados -->
+        <div id="darkThemesGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:8px;"></div>
+
+        <!-- Ajuste Fino de Colores de Acento -->
+        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--glass-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+            <span style="font-size:0.78rem; font-weight:700; color:var(--text);">Personalización Manual de Acentos</span>
+            <button type="button" class="btn-secondary" id="btnResetCustomColors" style="padding:4px 10px; font-size:0.7rem;">Restaurar Colores del Tema</button>
+          </div>
+          <div class="grid-2">
+            <div class="field-group">
+              <label>Color Principal (Botones y Enfoque)</label>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="color" id="settingCustomPrimary" value="#6366f1" style="width:44px; height:36px; padding:2px; cursor:pointer; border-radius:8px;">
+                <span id="labelCustomPrimaryHex" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">#6366f1</span>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Color de Acento (Logros y Puntaje)</label>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="color" id="settingCustomAccent" value="#10b981" style="width:44px; height:36px; padding:2px; cursor:pointer; border-radius:8px;">
+                <span id="labelCustomAccentHex" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">#10b981</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Preferencias Operativas y Perfil para Reportes -->
+      <div class="liquid-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Preferencias de Rendimiento y Reportes</span>
+            </h2>
+            <p class="card-sub">Configura tus metas diarias, tiempos por defecto y firma en los reportes ejecutivos PDF.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Nombre o Titular (Para Reportes PDF)</label>
+            <input type="text" id="settingUserName" placeholder="Ej. Ejecutivo / Tu Nombre...">
+          </div>
+          <div class="field-group">
+            <label>Meta de Puntaje Diario (pts)</label>
+            <input type="number" id="settingDailyScoreGoal" value="100" min="20" max="500" step="10">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Duración Predeterminada al Agendar</label>
+            <select id="settingDefaultBlockDuration">
+              <option value="30">30 minutos</option>
+              <option value="45">45 minutos</option>
+              <option value="60" selected>60 minutos (1 hora)</option>
+              <option value="90">90 minutos (1.5 horas)</option>
+              <option value="120">120 minutos (2 horas)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Vista Inicial de Línea de Tiempo</label>
+            <select id="settingTimelineStartMode">
+              <option value="current">Iniciar en la hora actual</option>
+              <option value="fullday">Mostrar día completo (00:00 - 23:59)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="switch-card">
+          <div class="switch-info">
+            <span class="switch-label">Sonidos Armónicos de Confirmación</span>
+            <span class="switch-sub">Reproducir tonos sutiles al completar bloques, objetivos o sesiones de enfoque.</span>
+          </div>
+          <label class="clean-switch">
+            <input type="checkbox" id="settingSoundEnabled" checked>
+            <span class="clean-switch-track"></span>
+          </label>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end;">
+          <button type="button" class="btn-primary" id="btnSaveGeneralSettings">Guardar Preferencias</button>
+        </div>
+      </div>
+
+      <!-- 3. Gestión de Catálogo de Hábitos y Respaldo JSON -->
+      <div class="liquid-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Gestión de Hábitos y Copia de Seguridad</span>
+            </h2>
+            <p class="card-sub">Administra tus hábitos registrados o exporta/importa una copia de seguridad completa.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">Hábitos en tu Catálogo</span>
+            <button type="button" class="btn-secondary" id="btnRestoreDefaultHabits" style="padding:4px 10px; font-size:0.7rem;">Restaurar Hábitos Base</button>
+          </div>
+          <div id="settingsHabitsManageList" style="display:flex; flex-direction:column; gap:6px; max-height:190px; overflow-y:auto;"></div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; padding-top:8px; border-top:1px solid var(--glass-border);">
+          <button type="button" class="btn-secondary" id="btnExportBackupJson" style="flex:1; justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Exportar Respaldo (.JSON)</span>
+          </button>
+          <button type="button" class="btn-secondary" id="btnImportBackupJson" style="flex:1; justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Importar Respaldo (.JSON)</span>
+          </button>
+          <input type="file" id="inputImportBackupFile" accept=".json" style="display:none;">
+        </div>
+      </div>
+
+      <!-- 4. Zona de Reinicio y Borrado de Datos (Empezar de Cero) -->
+      <div class="liquid-card" style="border-color:rgba(239, 68, 68, 0.28);">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title" style="color:#fca5a5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+              <span>Restablecimiento y Borrado de Datos</span>
+            </h2>
+            <p class="card-sub">Opciones para limpiar los registros del día actual o eliminar todos los datos para empezar de cero en cualquier momento.</p>
+          </div>
+        </div>
+
+        <!-- Opción A: Reiniciar solo el día actual -->
+        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--glass-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <div>
+              <div style="font-size:0.82rem; font-weight:700; color:var(--text);">Reiniciar Jornada Actual</div>
+              <div style="font-size:0.72rem; color:var(--text-dim);">Borra únicamente los bloques agendados, micro-hábitos y registros de pantalla del día seleccionado.</div>
+            </div>
+            <button type="button" class="btn-secondary" id="btnTriggerClearDay" style="color:#fcd34d; border-color:rgba(245,158,11,0.35);">Limpiar Día Actual</button>
+          </div>
+          <div id="confirmClearDayBox" style="display:none; align-items:center; justify-content:space-between; gap:8px; padding-top:8px; border-top:1px solid var(--glass-border);">
+            <span style="font-size:0.75rem; color:#fde68a; font-weight:600;">¿Confirmas vaciar todos los registros de hoy?</span>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn-secondary" id="btnCancelClearDay" style="padding:5px 10px; font-size:0.72rem;">Cancelar</button>
+              <button type="button" class="btn-primary" id="btnConfirmClearDay" style="background:#d97706; padding:5px 12px; font-size:0.72rem;">Sí, Limpiar Día</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opción B: Empezar de Cero (Borrado Total) -->
+        <div style="background:rgba(239, 68, 68, 0.06); border:1px solid rgba(239, 68, 68, 0.28); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <div>
+              <div style="font-size:0.82rem; font-weight:700; color:#fca5a5;">Eliminar Todos los Datos (Empezar de Cero)</div>
+              <div style="font-size:0.72rem; color:var(--text-muted);">Elimina todo el historial de días, hábitos personalizados, rutinas, tiempos en pantalla y ajustes para reiniciar la aplicación desde cero.</div>
+            </div>
+            <button type="button" class="btn-secondary" id="btnTriggerFactoryReset" style="background:rgba(239,68,68,0.15); color:#fca5a5; border-color:rgba(239,68,68,0.4);">Empezar de Cero</button>
+          </div>
+          <div id="confirmFactoryResetBox" style="display:none; align-items:center; justify-content:space-between; gap:8px; padding-top:8px; border-top:1px solid rgba(239,68,68,0.25);">
+            <span style="font-size:0.75rem; color:#fca5a5; font-weight:700;">Acción irreversible: Se borrarán todos los datos guardados.</span>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn-secondary" id="btnCancelFactoryReset" style="padding:5px 10px; font-size:0.72rem;">Cancelar</button>
+              <button type="button" class="btn-primary" id="btnConfirmFactoryReset" style="background:#ef4444; padding:5px 12px; font-size:0.72rem;">Confirmar Borrado Total</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
   <!-- Bottom Navigation -->
@@ -1924,6 +2107,10 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         <span>Reportes</span>
       </button>
+      <button class="nav-btn" data-tab="view-settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Ajustes</span>
+      </button>
     </div>
   </nav>
 </div>
@@ -1932,12 +2119,12 @@
 <div id="printReportSheet">
   <div class="print-header">
     <div>
-      <div class="print-title">SUMA+ HÁBITOS</div>
+      <div class="print-title">SUMA+ HABITS</div>
       <div class="print-sub">Reporte Ejecutivo Oficial de Productividad & Auditoría de Bienestar Digital</div>
     </div>
     <div style="text-align:right;">
       <div style="font-size:11pt; font-weight:700;" id="printDateHeading">Fecha: --/--/----</div>
-      <div style="font-size:8pt; color:#64748b;">Generado automáticamente</div>
+      <div style="font-size:8pt; color:#64748b;" id="printUserHeading">Generado automáticamente</div>
     </div>
   </div>
 
@@ -1994,7 +2181,7 @@
   <div style="font-size:9pt; line-height:1.6; white-space:pre-line; background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0;" id="printAuditContent"></div>
 
   <div class="print-footer">
-    <span>SUMA+ HÁBITOS · Sistema de Alto Rendimiento y Gestión del Tiempo</span>
+    <span>SUMA+ HABITS · Sistema de Alto Rendimiento y Gestión del Tiempo</span>
     <span>Documento de Validez Personal</span>
   </div>
 </div>
@@ -2189,32 +2376,6 @@
   </div>
 </div>
 
-<!-- 5. Modal Planear Jornada -->
-<div class="modal-backdrop" id="modalAiPlanner">
-  <div class="modal-box">
-    <div class="modal-header-row">
-      <h3 class="modal-title-text">Planear Jornada</h3>
-      <button class="btn-modal-close" data-close="modalAiPlanner" aria-label="Cerrar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-
-    <p style="font-size:0.8rem; color:var(--text-muted);">
-      Describe tus horarios del día para generar automáticamente los bloques en la línea de tiempo.
-    </p>
-
-    <div class="field-group">
-      <label>Descripción de tu jornada</label>
-      <textarea id="aiPromptText" rows="4" placeholder="Ej. Hoy tengo trabajo profundo de 9 a 11, entrenamiento de 16 a 17:30 y lectura de 21 a 21:45..."></textarea>
-    </div>
-
-    <div style="display:flex; justify-content:flex-end; gap:8px;">
-      <button class="btn-secondary" data-close="modalAiPlanner">Cancelar</button>
-      <button class="btn-primary" id="btnRunAiPlanner">Generar Bloques</button>
-    </div>
-  </div>
-</div>
-
 <!-- 6. Focus Mode Overlay -->
 <div class="focus-view" id="focusOverlay">
   <div style="width:100%; max-width:480px; display:flex; justify-content:space-between; align-items:center;">
@@ -2330,6 +2491,7 @@
       if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
     },
     chime() {
+      if (state && state.settings && state.settings.soundEnabled === false) return;
       try {
         this.init();
         if (!this.ctx) return;
@@ -2391,7 +2553,117 @@
 
   function areBlockObjectivesCompleted(objectives) {
     if (!objectives || !Array.isArray(objectives) || objectives.length === 0) return true;
-    return objectives.every(obj => Boolean(obj.completed));
+    return objectives.every(obj => Boolean(obj.done || obj.completed));
+  }
+
+  // --- Dark Mode Themes Engine ---
+  const DARK_THEMES = [
+    {
+      id: 'obsidian_indigo',
+      name: 'Índigo Obsidiana',
+      subtitle: 'Original Liquid Glass',
+      bgBody: '#070a13',
+      bgSurface: 'rgba(17, 24, 39, 0.65)',
+      bgCard: 'rgba(21, 29, 48, 0.55)',
+      bgCardHover: 'rgba(30, 41, 67, 0.65)',
+      bgInput: 'rgba(14, 20, 34, 0.85)',
+      primary: '#6366f1',
+      primaryHover: '#4f46e5',
+      accent: '#10b981'
+    },
+    {
+      id: 'titanium_emerald',
+      name: 'Esmeralda Titanio',
+      subtitle: 'Bio-Rendimiento Oscuro',
+      bgBody: '#050c0a',
+      bgSurface: 'rgba(12, 28, 23, 0.65)',
+      bgCard: 'rgba(15, 35, 29, 0.55)',
+      bgCardHover: 'rgba(20, 46, 38, 0.65)',
+      bgInput: 'rgba(9, 22, 18, 0.85)',
+      primary: '#10b981',
+      primaryHover: '#059669',
+      accent: '#38bdf8'
+    },
+    {
+      id: 'sapphire_cyber',
+      name: 'Zafiro Profundo',
+      subtitle: 'Enfoque Ejecutivo Azul',
+      bgBody: '#040914',
+      bgSurface: 'rgba(12, 23, 43, 0.65)',
+      bgCard: 'rgba(16, 30, 56, 0.55)',
+      bgCardHover: 'rgba(22, 41, 75, 0.65)',
+      bgInput: 'rgba(10, 19, 36, 0.85)',
+      primary: '#0ea5e9',
+      primaryHover: '#0284c7',
+      accent: '#6366f1'
+    },
+    {
+      id: 'crimson_onyx',
+      name: 'Ónix Carmesí',
+      subtitle: 'Intensidad Nocturna',
+      bgBody: '#0c0508',
+      bgSurface: 'rgba(31, 14, 22, 0.65)',
+      bgCard: 'rgba(40, 18, 28, 0.55)',
+      bgCardHover: 'rgba(54, 24, 38, 0.65)',
+      bgInput: 'rgba(24, 10, 17, 0.85)',
+      primary: '#f43f5e',
+      primaryHover: '#e11d48',
+      accent: '#f59e0b'
+    },
+    {
+      id: 'amber_carbon',
+      name: 'Carbono Ámbar',
+      subtitle: 'Contraste Cálido Oscuro',
+      bgBody: '#0b0905',
+      bgSurface: 'rgba(29, 23, 14, 0.65)',
+      bgCard: 'rgba(38, 30, 18, 0.55)',
+      bgCardHover: 'rgba(52, 41, 24, 0.65)',
+      bgInput: 'rgba(22, 18, 11, 0.85)',
+      primary: '#f59e0b',
+      primaryHover: '#d97706',
+      accent: '#10b981'
+    },
+    {
+      id: 'amethyst_void',
+      name: 'Amatista Nocturno',
+      subtitle: 'Creatividad y Calma',
+      bgBody: '#090512',
+      bgSurface: 'rgba(23, 14, 38, 0.65)',
+      bgCard: 'rgba(30, 18, 49, 0.55)',
+      bgCardHover: 'rgba(42, 25, 68, 0.65)',
+      bgInput: 'rgba(18, 11, 30, 0.85)',
+      primary: '#a855f7',
+      primaryHover: '#9333ea',
+      accent: '#ec4899'
+    }
+  ];
+
+  function hexToRgba(hex, alpha) {
+    const clean = (hex || '#6366f1').replace('#', '').trim();
+    if (clean.length !== 6) return `rgba(99, 102, 241, ${alpha})`;
+    const r = parseInt(clean.slice(0, 2), 16) || 99;
+    const g = parseInt(clean.slice(2, 4), 16) || 102;
+    const b = parseInt(clean.slice(4, 6), 16) || 241;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function applyTheme() {
+    const themeId = state.settings.themeId || 'obsidian_indigo';
+    const preset = DARK_THEMES.find(t => t.id === themeId) || DARK_THEMES[0];
+    const primary = state.settings.customPrimary || preset.primary;
+    const accent = state.settings.customAccent || preset.accent;
+
+    const root = document.documentElement;
+    root.style.setProperty('--bg-body', preset.bgBody);
+    root.style.setProperty('--bg-surface', preset.bgSurface);
+    root.style.setProperty('--bg-card', preset.bgCard);
+    root.style.setProperty('--bg-card-hover', preset.bgCardHover);
+    root.style.setProperty('--bg-input', preset.bgInput);
+    root.style.setProperty('--primary', primary);
+    root.style.setProperty('--primary-hover', state.settings.customPrimary ? primary : preset.primaryHover);
+    root.style.setProperty('--primary-dim', hexToRgba(primary, 0.16));
+    root.style.setProperty('--accent', accent);
+    root.style.setProperty('--accent-dim', hexToRgba(accent, 0.16));
   }
 
   // --- State & Storage ---
@@ -2412,6 +2684,14 @@
 
   const DEFAULT_SETTINGS = {
     screenBudgetMinutes: 120,
+    themeId: 'obsidian_indigo',
+    customPrimary: '',
+    customAccent: '',
+    userName: '',
+    dailyScoreGoal: 100,
+    defaultBlockDuration: 60,
+    timelineStartMode: 'current',
+    soundEnabled: true,
     customRoutines: [
       {
         id: 'rut_manana',
@@ -2448,8 +2728,7 @@
   function loadState() {
     try {
       const rawH = localStorage.getItem(STORAGE_KEYS.HABITS);
-      state.habits = rawH ? JSON.parse(rawH) : DEFAULT_HABITS;
-      // Translate legacy English habit names if saved in localStorage
+      state.habits = rawH ? JSON.parse(rawH) : JSON.parse(JSON.stringify(DEFAULT_HABITS));
       state.habits.forEach(h => {
         if (h.name === 'Deep Work') h.name = 'Trabajo Profundo';
       });
@@ -2463,10 +2742,13 @@
           state.settings.customRoutines = JSON.parse(JSON.stringify(DEFAULT_SETTINGS.customRoutines));
         }
       }
+      state.timelineFullDay = (state.settings.timelineStartMode === 'fullday');
+      applyTheme();
       initDayLog(state.currentDate);
     } catch (e) {
-      state.habits = DEFAULT_HABITS;
+      state.habits = JSON.parse(JSON.stringify(DEFAULT_HABITS));
       state.logs = {};
+      applyTheme();
     }
   }
 
@@ -2558,7 +2840,6 @@
       }
     });
 
-    // Calculate Screen Time: from specific app logs + direct division inputs
     let appSocial = 0, appProd = 0, appUtils = 0;
     (log.screenLogs || []).forEach(l => {
       const info = getAppInfo(l.app);
@@ -2626,6 +2907,7 @@
       if (target) target.classList.add('active');
       if (btn.dataset.tab === 'view-reports') renderReportsView();
       if (btn.dataset.tab === 'view-screen') renderScreenView();
+      if (btn.dataset.tab === 'view-settings') renderSettingsView();
       if (btn.dataset.tab === 'view-habits') {
         renderTimelineBlocks();
         updateCurrentTimeIndicator(true);
@@ -3621,6 +3903,10 @@
   function populatePrintReportSheet(stats) {
     const [y, m, d] = state.currentDate.split('-');
     document.getElementById('printDateHeading').textContent = `Jornada: ${d}/${m}/${y}`;
+    const userHeading = document.getElementById('printUserHeading');
+    if (userHeading) {
+      userHeading.textContent = state.settings.userName ? `Titular: ${state.settings.userName}` : 'Generado automáticamente';
+    }
     document.getElementById('printNetScore').textContent = `${stats.totalScore} pts`;
     document.getElementById('printEffectiveness').textContent = `${stats.effectiveness}% (${stats.completedBlocks}/${stats.totalBlocks})`;
     document.getElementById('printScreenTotal').textContent = `${stats.totalScreenMinutes} min`;
@@ -3809,7 +4095,7 @@
           <span>Firma de Conformidad</span>
         </div>
         <div style="text-align:right;">
-          <div style="font-weight:700; color:#0f172a;">CERTIFICADO SUMA+ HÁBITOS</div>
+          <div style="font-weight:700; color:#0f172a;">CERTIFICADO SUMA+ HABITS${state.settings.userName ? ' · ' + state.settings.userName : ''}</div>
           <span>ID Auditoría: #SH-${state.currentDate.replace(/-/g, '')}</span>
         </div>
       </div>
@@ -3860,11 +4146,12 @@
       doc.setTextColor(255, 255, 255);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(16);
-      doc.text('SUMA+ HÁBITOS · REPORTE EJECUTIVO', 14, 15);
+      doc.text('SUMA+ HABITS · REPORTE EJECUTIVO', 14, 15);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
-      doc.text(`Auditoría de Rendimiento y Bienestar Digital | Jornada: ${d}/${m}/${y}`, 14, 23);
+      const titularSuffix = state.settings.userName ? ` | Titular: ${state.settings.userName}` : '';
+      doc.text(`Auditoría de Rendimiento y Bienestar Digital | Jornada: ${d}/${m}/${y}${titularSuffix}`, 14, 23);
 
       doc.setDrawColor(226, 232, 240);
       doc.setFillColor(248, 250, 252);
@@ -4102,11 +4389,13 @@
     populateHabitSelect(habitId);
     const now = new Date();
     const startH = now.getHours();
-    const endH = Math.min(23, startH + 1);
+    const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+    const startTotalMins = startH * 60;
+    const endTotalMins = Math.min(1425, startTotalMins + durMins);
     document.getElementById('modalBlockTitle').textContent = 'Agendar Bloque';
     document.getElementById('blockEditId').value = '';
-    document.getElementById('blockStartTime').value = `${String(startH).padStart(2, '0')}:00`;
-    document.getElementById('blockEndTime').value = startH === 23 ? '23:45' : `${String(endH).padStart(2, '0')}:00`;
+    document.getElementById('blockStartTime').value = minutesToTime(startTotalMins);
+    document.getElementById('blockEndTime').value = minutesToTime(endTotalMins);
     document.getElementById('blockStatusSelect').value = 'planned';
     document.getElementById('blockIsCritical').checked = false;
     document.getElementById('blockNotes').value = '';
@@ -4445,60 +4734,281 @@
     document.getElementById('modalSos').classList.remove('open');
   });
 
-  // Planificador Automático de Jornada
-  document.getElementById('btnOpenAiPlanner').addEventListener('click', () => {
-    document.getElementById('modalAiPlanner').classList.add('open');
+  // --- Pantalla de Ajustes y Configuración (#view-settings) ---
+  function renderSettingsView() {
+    const grid = document.getElementById('darkThemesGrid');
+    if (!grid) return;
+
+    const currentThemeId = state.settings.themeId || 'obsidian_indigo';
+    const activeTheme = DARK_THEMES.find(t => t.id === currentThemeId) || DARK_THEMES[0];
+    const effectivePrimary = state.settings.customPrimary || activeTheme.primary;
+    const effectiveAccent = state.settings.customAccent || activeTheme.accent;
+
+    grid.innerHTML = DARK_THEMES.map(theme => {
+      const isBaseActive = theme.id === currentThemeId;
+      return `
+        <button type="button" data-theme-id="${theme.id}" style="
+          display:flex; flex-direction:column; gap:8px; padding:11px; border-radius:12px; text-align:left; cursor:pointer;
+          background:${theme.bgSurface};
+          border:${isBaseActive ? `2px solid ${theme.primary}` : '1px solid rgba(255,255,255,0.1)'};
+          box-shadow:${isBaseActive ? `0 0 18px ${hexToRgba(theme.primary, 0.25)}` : 'none'};
+          transition:all 0.18s ease;
+        ">
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="width:16px; height:16px; border-radius:50%; background:${theme.bgBody}; border:2px solid ${theme.primary}; display:inline-block;"></span>
+              <span style="width:14px; height:14px; border-radius:50%; background:${theme.primary}; display:inline-block;"></span>
+              <span style="width:14px; height:14px; border-radius:50%; background:${theme.accent}; display:inline-block;"></span>
+            </div>
+            ${isBaseActive ? `<span style="font-size:0.62rem; font-weight:800; padding:2px 6px; border-radius:5px; background:${hexToRgba(theme.primary, 0.22)}; color:#fff;">ACTIVO</span>` : ''}
+          </div>
+          <div>
+            <div style="font-size:0.78rem; font-weight:800; color:#f8fafc;">${theme.name}</div>
+            <div style="font-size:0.66rem; color:#94a3b8; margin-top:2px; line-height:1.3;">${theme.subtitle}</div>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    const inpPrimary = document.getElementById('settingCustomPrimary');
+    const lblPrimary = document.getElementById('labelCustomPrimaryHex');
+    const inpAccent = document.getElementById('settingCustomAccent');
+    const lblAccent = document.getElementById('labelCustomAccentHex');
+
+    if (inpPrimary) inpPrimary.value = effectivePrimary;
+    if (lblPrimary) lblPrimary.textContent = effectivePrimary.toUpperCase();
+    if (inpAccent) inpAccent.value = effectiveAccent;
+    if (lblAccent) lblAccent.textContent = effectiveAccent.toUpperCase();
+
+    const inpUserName = document.getElementById('settingUserName');
+    const inpGoal = document.getElementById('settingDailyScoreGoal');
+    const selDur = document.getElementById('settingDefaultBlockDuration');
+    const selStart = document.getElementById('settingTimelineStartMode');
+    const chkSound = document.getElementById('settingSoundEnabled');
+
+    if (inpUserName) inpUserName.value = state.settings.userName || '';
+    if (inpGoal) inpGoal.value = state.settings.dailyScoreGoal || 100;
+    if (selDur) selDur.value = String(state.settings.defaultBlockDuration || 60);
+    if (selStart) selStart.value = state.settings.timelineStartMode || 'current';
+    if (chkSound) chkSound.checked = state.settings.soundEnabled !== false;
+
+    // Renderizar lista de hábitos en Ajustes
+    const habitsListEl = document.getElementById('settingsHabitsManageList');
+    if (habitsListEl) {
+      if (state.habits.length === 0) {
+        habitsListEl.innerHTML = `<div style="font-size:0.75rem; color:var(--text-dim); padding:8px;">No hay hábitos en el catálogo.</div>`;
+      } else {
+        habitsListEl.innerHTML = state.habits.map(h => `
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:7px 10px; border-radius:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:${h.color}; display:inline-block;"></span>
+              <span style="font-size:0.78rem; font-weight:700; color:var(--text);">${h.name}</span>
+              <span style="font-size:0.66rem; color:var(--text-dim); font-family:var(--font-mono);">${h.format === 'block' ? 'Bloque' : 'Micro'} · +${h.points} pts</span>
+            </div>
+            <button type="button" data-del-setting-habit="${h.id}" style="background:transparent; border:none; color:#fca5a5; font-size:0.7rem; font-weight:600; cursor:pointer;">Eliminar</button>
+          </div>
+        `).join('');
+      }
+    }
+  }
+
+  // Selector de tema oscuro
+  document.getElementById('darkThemesGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-theme-id]');
+    if (!btn) return;
+    const themeId = btn.dataset.themeId;
+    state.settings.themeId = themeId;
+    state.settings.customPrimary = '';
+    state.settings.customAccent = '';
+    applyTheme(themeId, '', '');
+    saveSettings();
+    renderSettingsView();
+    const tObj = DARK_THEMES.find(t => t.id === themeId);
+    showToast(`Tema aplicado: ${tObj ? tObj.name : themeId}`);
   });
 
-  document.getElementById('btnRunAiPlanner').addEventListener('click', async () => {
-    const promptText = document.getElementById('aiPromptText').value.trim();
-    if (!promptText) { showToast('Describe tu jornada'); return; }
+  // Color Pickers personalizados (siempre sobre atmósfera modo oscuro)
+  document.getElementById('settingCustomPrimary').addEventListener('input', (e) => {
+    const val = e.target.value;
+    state.settings.customPrimary = val;
+    document.getElementById('labelCustomPrimaryHex').textContent = val.toUpperCase();
+    applyTheme(state.settings.themeId, state.settings.customPrimary, state.settings.customAccent);
+    saveSettings();
+  });
 
-    const btn = document.getElementById('btnRunAiPlanner');
-    btn.disabled = true;
-    btn.textContent = 'Generando...';
+  document.getElementById('settingCustomAccent').addEventListener('input', (e) => {
+    const val = e.target.value;
+    state.settings.customAccent = val;
+    document.getElementById('labelCustomAccentHex').textContent = val.toUpperCase();
+    applyTheme(state.settings.themeId, state.settings.customPrimary, state.settings.customAccent);
+    saveSettings();
+  });
 
-    const habitsList = state.habits.filter(h => h.format === 'block');
-    const nowH = new Date().getHours();
-    const h1 = Math.max(nowH, 9);
-    const h2 = Math.min(21, h1 + 2);
-    const h3 = Math.min(22, h2 + 2);
+  document.getElementById('btnResetCustomColors').addEventListener('click', () => {
+    state.settings.customPrimary = '';
+    state.settings.customAccent = '';
+    applyTheme(state.settings.themeId, '', '');
+    saveSettings();
+    renderSettingsView();
+    showToast('Colores del tema oscuro restaurados');
+  });
 
-    try {
-      await new Promise(r => setTimeout(r, 350));
-      const planned = [
-        { habitId: habitsList[0]?.id || 'h_deepwork', startTime: `${String(h1).padStart(2, '0')}:00`, endTime: `${String(Math.min(23, h1 + 1)).padStart(2, '0')}:30`, notes: 'Bloque principal de enfoque' },
-        { habitId: habitsList[1]?.id || 'h_gym', startTime: `${String(h2).padStart(2, '0')}:00`, endTime: `${String(Math.min(23, h2 + 1)).padStart(2, '0')}:00`, notes: 'Entrenamiento físico' },
-        { habitId: habitsList[2]?.id || 'h_reading', startTime: `${String(h3).padStart(2, '0')}:00`, endTime: `${String(h3).padStart(2, '0')}:45`, notes: 'Lectura estratégica' }
-      ];
+  // Guardar Preferencias Generales
+  document.getElementById('btnSaveGeneralSettings').addEventListener('click', () => {
+    state.settings.userName = document.getElementById('settingUserName').value.trim();
+    state.settings.dailyScoreGoal = Math.max(20, parseInt(document.getElementById('settingDailyScoreGoal').value, 10) || 100);
+    state.settings.defaultBlockDuration = parseInt(document.getElementById('settingDefaultBlockDuration').value, 10) || 60;
+    state.settings.timelineStartMode = document.getElementById('settingTimelineStartMode').value;
+    state.settings.soundEnabled = document.getElementById('settingSoundEnabled').checked;
 
-      const log = getTodayLog();
-      let count = 0;
-      planned.forEach(item => {
-        log.blocks.push({
-          id: 'blk_' + genId(),
-          habitId: item.habitId,
-          startTime: item.startTime,
-          endTime: item.endTime,
-          status: 'planned',
-          isCritical: count === 0,
-          notes: item.notes,
-          objectives: []
-        });
-        count++;
-      });
-
-      saveLogs();
-      renderTimelineBlocks();
-      renderHeader();
-      document.getElementById('modalAiPlanner').classList.remove('open');
-      showToast(`${count} bloques planificados a partir de las ${String(h1).padStart(2, '0')}:00.`);
-    } catch (e) {
-      showToast('Error al procesar la planeación.');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Generar Bloques';
+    state.timelineFullDay = state.settings.timelineStartMode === 'fullday';
+    const btnRange = document.getElementById('btnToggleTimelineRange');
+    if (btnRange) {
+      btnRange.textContent = state.timelineFullDay ? 'Desde Hora Actual' : 'Ver Día Completo (00:00)';
     }
+
+    saveSettings();
+    renderTimelineGrid();
+    renderTimelineBlocks();
+    renderHeader();
+    showToast('Preferencias guardadas correctamente');
+  });
+
+  // Gestión de hábitos en Ajustes
+  document.getElementById('settingsHabitsManageList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-del-setting-habit]');
+    if (!btn) return;
+    const hId = btn.dataset.delSettingHabit;
+    if (state.habits.length <= 1) {
+      showToast('Debes conservar al menos un hábito en el catálogo');
+      return;
+    }
+    state.habits = state.habits.filter(h => h.id !== hId);
+    saveHabits();
+    renderHabitsCatalog();
+    renderMicroHabits();
+    renderSettingsView();
+    showToast('Hábito eliminado del catálogo');
+  });
+
+  document.getElementById('btnRestoreDefaultHabits').addEventListener('click', () => {
+    state.habits = JSON.parse(JSON.stringify(DEFAULT_HABITS));
+    saveHabits();
+    renderHabitsCatalog();
+    renderMicroHabits();
+    renderSettingsView();
+    showToast('Catálogo de hábitos base restaurado');
+  });
+
+  // Exportar / Importar Respaldo JSON
+  document.getElementById('btnExportBackupJson').addEventListener('click', () => {
+    const payload = {
+      app: 'SUMA+ HABITS',
+      exportedAt: new Date().toISOString(),
+      habits: state.habits,
+      logs: state.logs,
+      settings: state.settings
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `SUMA_HABITS_Respaldo_${state.currentDate}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Copia de seguridad (.JSON) descargada');
+  });
+
+  document.getElementById('btnImportBackupJson').addEventListener('click', () => {
+    document.getElementById('inputImportBackupFile').click();
+  });
+
+  document.getElementById('inputImportBackupFile').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (Array.isArray(data.habits)) state.habits = data.habits;
+        if (data.logs && typeof data.logs === 'object') state.logs = data.logs;
+        if (data.settings && typeof data.settings === 'object') {
+          state.settings = { ...JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), ...data.settings };
+        }
+        saveHabits();
+        saveLogs();
+        saveSettings();
+        applyTheme(state.settings.themeId, state.settings.customPrimary, state.settings.customAccent);
+        renderAll();
+        showToast('Copia de seguridad restaurada con éxito');
+      } catch (err) {
+        showToast('Archivo JSON inválido');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // Reiniciar Jornada Actual (con confirmación inline)
+  document.getElementById('btnTriggerClearDay').addEventListener('click', () => {
+    document.getElementById('confirmClearDayBox').style.display = 'flex';
+  });
+
+  document.getElementById('btnCancelClearDay').addEventListener('click', () => {
+    document.getElementById('confirmClearDayBox').style.display = 'none';
+  });
+
+  document.getElementById('btnConfirmClearDay').addEventListener('click', () => {
+    state.logs[state.currentDate] = {
+      blocks: [],
+      microHabitsCompleted: [],
+      customRoutineChecks: {},
+      screenLogs: []
+    };
+    saveLogs();
+    document.getElementById('confirmClearDayBox').style.display = 'none';
+    renderAll();
+    renderScreenView();
+    renderReportsView();
+    showToast('Registros del día actual reiniciados');
+  });
+
+  // Eliminar Todos los Datos - Empezar de Cero (con confirmación inline)
+  document.getElementById('btnTriggerFactoryReset').addEventListener('click', () => {
+    document.getElementById('confirmFactoryResetBox').style.display = 'flex';
+  });
+
+  document.getElementById('btnCancelFactoryReset').addEventListener('click', () => {
+    document.getElementById('confirmFactoryResetBox').style.display = 'none';
+  });
+
+  document.getElementById('btnConfirmFactoryReset').addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEYS.HABITS);
+    localStorage.removeItem(STORAGE_KEYS.LOGS);
+    localStorage.removeItem(STORAGE_KEYS.SETTINGS);
+
+    state.habits = JSON.parse(JSON.stringify(DEFAULT_HABITS));
+    state.logs = {};
+    state.settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+    state.currentDate = formatDateKey(new Date());
+    state.timelineFullDay = false;
+
+    const datePicker = document.getElementById('datePickerInput');
+    if (datePicker) datePicker.value = state.currentDate;
+
+    saveHabits();
+    saveLogs();
+    saveSettings();
+    applyTheme(state.settings.themeId, '', '');
+
+    document.getElementById('confirmFactoryResetBox').style.display = 'none';
+    renderAll();
+    renderScreenView();
+    renderReportsView();
+    renderSettingsView();
+    showToast('Todos los datos fueron eliminados. Aplicación reiniciada de cero.');
   });
 
   // Diagnóstico en Reportes
@@ -4687,6 +5197,7 @@
     renderMicroHabits();
     renderTimelineGrid();
     renderTimelineBlocks();
+    renderSettingsView();
     updateCurrentTimeIndicator(true);
   }
 

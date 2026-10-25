@@ -255,3 +255,107 @@ export function hasBlockOverlap(
     return nStart < bEnd && bStart < nEnd;
   });
 }
+
+export interface DarkThemePreset {
+  id: string;
+  name: string;
+  subtitle: string;
+  bgBody: string;
+  bgSurface: string;
+  bgCard: string;
+  bgInput: string;
+  primary: string;
+  primaryHover: string;
+  accent: string;
+}
+
+export const DARK_THEMES: DarkThemePreset[] = [
+  {
+    id: 'obsidian_indigo',
+    name: 'Índigo Obsidiana',
+    subtitle: 'Original Liquid Glass',
+    bgBody: '#070a13',
+    bgSurface: 'rgba(17, 24, 39, 0.65)',
+    bgCard: 'rgba(21, 29, 48, 0.55)',
+    bgInput: 'rgba(14, 20, 34, 0.85)',
+    primary: '#6366f1',
+    primaryHover: '#4f46e5',
+    accent: '#10b981',
+  },
+  {
+    id: 'titanium_emerald',
+    name: 'Esmeralda Titanio',
+    subtitle: 'Bio-Rendimiento Oscuro',
+    bgBody: '#050c0a',
+    bgSurface: 'rgba(12, 28, 23, 0.65)',
+    bgCard: 'rgba(15, 35, 29, 0.55)',
+    bgInput: 'rgba(9, 22, 18, 0.85)',
+    primary: '#10b981',
+    primaryHover: '#059669',
+    accent: '#38bdf8',
+  },
+  {
+    id: 'sapphire_cyber',
+    name: 'Zafiro Profundo',
+    subtitle: 'Enfoque Ejecutivo Azul',
+    bgBody: '#040914',
+    bgSurface: 'rgba(12, 23, 43, 0.65)',
+    bgCard: 'rgba(16, 30, 56, 0.55)',
+    bgInput: 'rgba(10, 19, 36, 0.85)',
+    primary: '#0ea5e9',
+    primaryHover: '#0284c7',
+    accent: '#6366f1',
+  },
+  {
+    id: 'crimson_onyx',
+    name: 'Ónix Carmesí',
+    subtitle: 'Intensidad Nocturna',
+    bgBody: '#0c0508',
+    bgSurface: 'rgba(31, 14, 22, 0.65)',
+    bgCard: 'rgba(40, 18, 28, 0.55)',
+    bgInput: 'rgba(24, 10, 17, 0.85)',
+    primary: '#f43f5e',
+    primaryHover: '#e11d48',
+    accent: '#f59e0b',
+  },
+  {
+    id: 'amber_carbon',
+    name: 'Carbono Ámbar',
+    subtitle: 'Contraste Cálido Oscuro',
+    bgBody: '#0b0905',
+    bgSurface: 'rgba(29, 23, 14, 0.65)',
+    bgCard: 'rgba(38, 30, 18, 0.55)',
+    bgInput: 'rgba(22, 18, 11, 0.85)',
+    primary: '#f59e0b',
+    primaryHover: '#d97706',
+    accent: '#10b981',
+  },
+  {
+    id: 'amethyst_void',
+    name: 'Amatista Nocturno',
+    subtitle: 'Creatividad y Calma',
+    bgBody: '#090512',
+    bgSurface: 'rgba(23, 14, 38, 0.65)',
+    bgCard: 'rgba(30, 18, 49, 0.55)',
+    bgInput: 'rgba(18, 11, 30, 0.85)',
+    primary: '#a855f7',
+    primaryHover: '#9333ea',
+    accent: '#ec4899',
+  },
+];
+
+export function isDarkHexColor(hex: string): boolean {
+  const clean = hex.replace('#', '').trim();
+  if (clean.length !== 6) return false;
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  // Relative luminance check: dark mode backgrounds must have low luminance (< 40 out of 255)
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return lum < 40;
+}
+
+export function getDarkThemeById(themeId: string): DarkThemePreset {
+  return DARK_THEMES.find(t => t.id === themeId) || DARK_THEMES[0];
+}
+

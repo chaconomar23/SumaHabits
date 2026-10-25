@@ -195,3 +195,14 @@ test('hasBlockOverlap correctly identifies colliding times', () => {
   assert.equal(hasBlockOverlap('10:00', '11:00', existing), false);
   assert.equal(hasBlockOverlap('08:00', '10:30', existing, 'b1'), false);
 });
+
+test('DARK_THEMES presets are all strictly dark mode and fallback works', async () => {
+  const { DARK_THEMES, isDarkHexColor, getDarkThemeById } = await import('./scoring.ts');
+  assert.equal(DARK_THEMES.length, 6);
+  for (const theme of DARK_THEMES) {
+    assert.equal(isDarkHexColor(theme.bgBody), true, `Theme ${theme.id} must have a dark background`);
+  }
+  assert.equal(getDarkThemeById('titanium_emerald').name, 'Esmeralda Titanio');
+  assert.equal(getDarkThemeById('non_existent').id, 'obsidian_indigo');
+});
+
