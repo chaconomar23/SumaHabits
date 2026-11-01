@@ -28,6 +28,13 @@ export interface Habit {
   color: string;
   icon?: string;
   points: number;
+  isTemporary?: boolean;
+  temporaryDate?: string; // "YYYY-MM-DD"
+}
+
+export function isHabitActiveForDate(habit: Habit, dateKey: string): boolean {
+  if (!habit.isTemporary) return true;
+  return Boolean(habit.temporaryDate && habit.temporaryDate === dateKey);
 }
 
 export interface ScreenLogItem {
@@ -45,6 +52,7 @@ export interface CustomRoutine {
 export interface DayLog {
   blocks: TimelineBlock[];
   microHabitsCompleted: string[];
+  microHabitsFailed?: string[];
   routines?: {
     morning?: boolean[];
     night?: boolean[];
@@ -358,4 +366,86 @@ export function isDarkHexColor(hex: string): boolean {
 export function getDarkThemeById(themeId: string): DarkThemePreset {
   return DARK_THEMES.find(t => t.id === themeId) || DARK_THEMES[0];
 }
+
+export interface SnappedSlotResult {
+  startMin: number;
+  endMin: number;
+  topPx: number;
+  startTime: string;
+  endTime: string;
+  hudTopPx: number;
+  hudLeftPx: number;
+}
+
+export function calculateSnappedTimelineSlot(params: {
+  clientY: number;
+  clientX: number;
+  gridTopPx: number;
+  startHour: number;
+  durationMinutes: number;
+  viewportWidth?: number;
+  fingerOffsetPx?: number;
+}): SnappedSlotResult {
+  const {
+    clientY,
+    clientX,
+    gridTopPx,
+    startHour,
+    durationMinutes,
+    viewportWidth = 390,
+    fingerOffsetPx = 68,
+  } = params;
+
+  const dur = Math.max(15, durationMinutes || 60);
+  const baseMin = Math.max(0, Math.min(23, startHour)) * 60;
+  const rawY = Math.max(0, clientY - gridTopPx);
+  const snappedOffset = Math.floor(rawY / 15) * 15;
+  const startMin = Math.max(baseMin, Math.min(1440 - dur, baseMin + snappedOffset));
+  const endMin = Math.min(1440, startMin + dur);
+  const topPx = startMin - baseMin;
+
+  // Position HUD clearly above the finger so the user never covers the time
+  const hudTopPx = Math.max(58, clientY - fingerOffsetPx);
+  const hudLeftPx = Math.max(110, Math.min(viewportWidth - 110, clientX));
+
+  return {
+    startMin,
+    endMin,
+    topPx,
+    startTime: minutesToTime(startMin),
+    endTime: minutesToTime(endMin),
+    hudTopPx,
+    hudLeftPx,
+  };
+}
+
+export function shouldUnlockBlockDrag(params: {
+  startedOnDragHandle: boolean;
+  holdDurationMs: number;
+  moveDeltaY: number;
+  moveDeltaX: number;
+  requiredHoldMs?: number;
+}): boolean {
+  const {
+    startedOnDragHandle,
+    holdDurationMs,
+    moveDeltaY,
+    moveDeltaX,
+    requiredHoldMs = 420,
+  } = params;
+
+  // If the user explicitly grabs the dedicated drag handle, unlock after deliberate movement (>= 8px)
+  if (startedOnDragHandle) {
+    return Math.abs(moveDeltaY) >= 8;
+  }
+
+  // If touching the block body, normal vertical swipe must scroll the page (never unlock drag if user moved > 6px before hold completes)
+  const movedBeforeHold = Math.abs(moveDeltaY) > 6 || Math.abs(moveDeltaX) > 6;
+  if (holdDurationMs < requiredHoldMs && movedBeforeHold) {
+    return false;
+  }
+
+  return holdDurationMs >= requiredHoldMs;
+}
+
 

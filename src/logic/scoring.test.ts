@@ -206,3 +206,105 @@ test('DARK_THEMES presets are all strictly dark mode and fallback works', async 
   assert.equal(getDarkThemeById('non_existent').id, 'obsidian_indigo');
 });
 
+test('isHabitActiveForDate shows temporary habits only on their assigned date and hides them the next day', async () => {
+  const { isHabitActiveForDate } = await import('./scoring.ts');
+  const permHabit: Habit = {
+    id: 'h_perm',
+    name: 'Trabajo Profundo',
+    category: 'trabajo',
+    format: 'block',
+    color: '#6366f1',
+    points: 25,
+    isTemporary: false,
+  };
+  const tempBlockHabit: Habit = {
+    id: 'h_temp_block',
+    name: 'Presentación Trimestral',
+    category: 'trabajo',
+    format: 'block',
+    color: '#ec4899',
+    points: 40,
+    isTemporary: true,
+    temporaryDate: '2026-11-01',
+  };
+  const tempMicroHabit: Habit = {
+    id: 'h_temp_micro',
+    name: 'Enviar documentos fiscales',
+    category: 'trabajo',
+    format: 'micro',
+    color: '#f59e0b',
+    points: 10,
+    isTemporary: true,
+    temporaryDate: '2026-11-01',
+  };
+
+  assert.equal(isHabitActiveForDate(permHabit, '2026-11-01'), true);
+  assert.equal(isHabitActiveForDate(permHabit, '2026-11-02'), true);
+
+  assert.equal(isHabitActiveForDate(tempBlockHabit, '2026-11-01'), true);
+  assert.equal(isHabitActiveForDate(tempBlockHabit, '2026-11-02'), false);
+
+  assert.equal(isHabitActiveForDate(tempMicroHabit, '2026-11-01'), true);
+  assert.equal(isHabitActiveForDate(tempMicroHabit, '2026-11-02'), false);
+});
+
+test('calculateSnappedTimelineSlot snaps to 15m intervals and positions floating HUD above the finger', async () => {
+  const { calculateSnappedTimelineSlot } = await import('./scoring.ts');
+  const slot = calculateSnappedTimelineSlot({
+    clientY: 320,
+    clientX: 200,
+    gridTopPx: 200,
+    startHour: 8,
+    durationMinutes: 60,
+    viewportWidth: 390,
+    fingerOffsetPx: 68,
+  });
+
+  // rawY = 120px -> +120m from 08:00 = 10:00 - 11:00
+  assert.equal(slot.startTime, '10:00');
+  assert.equal(slot.endTime, '11:00');
+  assert.equal(slot.topPx, 120);
+  // HUD top is positioned 68px ABOVE clientY (320 - 68 = 252)
+  assert.equal(slot.hudTopPx, 252);
+  assert.ok(slot.hudTopPx < 320, 'HUD must appear higher than the finger/pointer Y position');
+});
+
+test('shouldUnlockBlockDrag prevents accidental block movement during vertical scroll and allows drag via handle or long-press', async () => {
+  const { shouldUnlockBlockDrag } = await import('./scoring.ts');
+
+  // 1. User swipes vertically on the timeline to scroll (touches block body, moves 45px in 90ms) -> MUST NOT move block!
+  assert.equal(
+    shouldUnlockBlockDrag({
+      startedOnDragHandle: false,
+      holdDurationMs: 90,
+      moveDeltaY: 45,
+      moveDeltaX: 2,
+    }),
+    false
+  );
+
+  // 2. User grabs dedicated drag handle and moves 12px -> unlocks drag immediately
+  assert.equal(
+    shouldUnlockBlockDrag({
+      startedOnDragHandle: true,
+      holdDurationMs: 40,
+      moveDeltaY: 12,
+      moveDeltaX: 0,
+    }),
+    true
+  );
+
+  // 3. User holds stationary on block for 450ms -> unlocks drag
+  assert.equal(
+    shouldUnlockBlockDrag({
+      startedOnDragHandle: false,
+      holdDurationMs: 450,
+      moveDeltaY: 2,
+      moveDeltaX: 1,
+    }),
+    true
+  );
+});
+
+
+

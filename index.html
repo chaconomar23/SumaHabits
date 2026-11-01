@@ -449,7 +449,7 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--glass-border);
       border-radius: 10px;
-      padding: 7px 12px;
+      padding: 7px 11px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -465,8 +465,13 @@
     }
     .micro-pill.completed {
       background: var(--accent-dim);
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgba(16, 185, 129, 0.45);
       color: #a7f3d0;
+    }
+    .micro-pill.failed {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
     }
 
     .micro-check-box {
@@ -483,6 +488,11 @@
       background: var(--accent);
       border-color: var(--accent);
       color: #070a13;
+    }
+    .micro-pill.failed .micro-check-box {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #fff;
     }
 
     /* ========================================================
@@ -548,19 +558,84 @@
       position: absolute;
       left: 56px;
       right: 12px;
-      border-radius: 8px;
-      background: rgba(99, 102, 241, 0.22);
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.25);
       border: 2px dashed #818cf8;
       pointer-events: none;
       z-index: 25;
       display: none;
       align-items: center;
+      justify-content: space-between;
       padding: 0 12px;
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       font-weight: 700;
       color: #fff;
       font-family: var(--font-mono);
-      transition: top 0.08s ease, height 0.08s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      transition: top 0.06s ease, height 0.06s ease;
+    }
+
+    /* Floating Time HUD ABOVE User's Finger while Dragging */
+    .drag-floating-hud {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform: translate(-50%, -100%);
+      background: rgba(10, 15, 29, 0.94);
+      backdrop-filter: blur(20px) saturate(190%);
+      -webkit-backdrop-filter: blur(20px) saturate(190%);
+      border: 2px solid #818cf8;
+      border-radius: 14px;
+      padding: 8px 14px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.78), 0 0 20px rgba(99, 102, 241, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      min-width: 185px;
+      text-align: center;
+      animation: hudPopIn 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .drag-floating-hud::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 8px 8px 0 8px;
+      border-style: solid;
+      border-color: #818cf8 transparent transparent transparent;
+    }
+    .drag-floating-hud .hud-top-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      max-width: 210px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .drag-floating-hud .hud-time-main {
+      font-family: var(--font-mono);
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+    }
+    .drag-floating-hud .hud-sub-hint {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    @keyframes hudPopIn {
+      from { opacity: 0; transform: translate(-50%, -90%) scale(0.92); }
+      to { opacity: 1; transform: translate(-50%, -100%) scale(1); }
     }
 
     /* Current time indicator line */
@@ -594,33 +669,34 @@
       font-weight: 700;
     }
 
-    /* Time Block on Timeline */
+    /* Time Block on Timeline (Scroll-Safe: pan-y on body, drag via grip handle or long-press) */
     .time-block {
       position: absolute;
       left: 56px;
       right: 12px;
       border-radius: 10px;
-      padding: 6px 12px;
+      padding: 6px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      cursor: grab;
+      cursor: pointer;
       user-select: none;
-      touch-action: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      touch-action: pan-y;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
       z-index: 10;
       overflow: hidden;
     }
-    .time-block:active { cursor: grabbing; }
     .time-block:hover {
       border-color: var(--glass-border-hover);
       z-index: 16;
     }
     .time-block.block-moving {
-      opacity: 0.85;
-      z-index: 30;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
+      opacity: 0.94;
+      z-index: 35;
+      cursor: grabbing;
+      transform: scale(1.015);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8), 0 0 0 2px #818cf8 !important;
     }
 
     /* Clean Block States */
@@ -638,10 +714,22 @@
       opacity: 0.8;
     }
 
-    /* Priority Task Indicator */
+    /* IMPOSING NEON ORANGE CONTOUR FOR PRIORITY OF THE DAY ("DEBE CUMPLIRSE SÍ O SÍ") */
+    @keyframes criticalOrangePulse {
+      0%, 100% {
+        box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.65), 0 0 22px rgba(255, 102, 0, 0.5), inset 0 0 18px rgba(255, 123, 0, 0.22);
+      }
+      50% {
+        box-shadow: 0 0 0 3px rgba(255, 145, 0, 0.9), 0 0 30px rgba(255, 102, 0, 0.72), inset 0 0 24px rgba(255, 123, 0, 0.34);
+      }
+    }
+
     .time-block.is-critical {
-      border-color: var(--gold);
-      box-shadow: inset 0 0 0 1px var(--gold);
+      border: 2.5px solid #ff7b00 !important;
+      border-left: 7px solid #ff5500 !important;
+      box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.65), 0 0 24px rgba(255, 102, 0, 0.52), inset 0 0 20px rgba(255, 123, 0, 0.24) !important;
+      animation: criticalOrangePulse 2.8s infinite ease-in-out;
+      z-index: 14;
     }
 
     .time-block .b-content {
@@ -649,12 +737,14 @@
       flex-direction: column;
       gap: 2px;
       min-width: 0;
+      flex: 1;
     }
 
     .time-block .b-header {
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .time-block .b-title {
@@ -667,14 +757,20 @@
     }
 
     .priority-badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #fef08a;
-      background: rgba(245, 158, 11, 0.25);
-      border: 1px solid rgba(245, 158, 11, 0.45);
-      padding: 1px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.63rem;
+      font-weight: 800;
+      color: #fff7ed;
+      background: linear-gradient(135deg, #ff6b00 0%, #ea580c 100%);
+      border: 1px solid #fdba74;
+      box-shadow: 0 0 12px rgba(255, 107, 0, 0.65);
+      padding: 1px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      flex-shrink: 0;
     }
 
     .time-block .b-time {
@@ -686,7 +782,36 @@
     .time-block .b-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    /* Dedicated Drag Handle Button on Placed Blocks (Prevents Accidental Scroll Drag) */
+    .btn-b-drag-handle {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      transition: all 0.15s;
+      padding: 0;
+    }
+    .btn-b-drag-handle:hover {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: #818cf8;
+      color: #fff;
+    }
+    .btn-b-drag-handle:active {
+      cursor: grabbing;
+      background: rgba(99, 102, 241, 0.4);
+      color: #fff;
     }
 
     .btn-b-check {
@@ -1903,51 +2028,10 @@
       </div>
     </section>
 
-    <!-- VIEW 4: AJUSTES & PERSONALIZACIÓN -->
+    <!-- VIEW 4: AJUSTES & CONFIGURACIÓN -->
     <section class="view-tab" id="view-settings">
 
-      <!-- 1. Personalización de Colores (Modo Oscuro Liquid Glass) -->
-      <div class="liquid-card">
-        <div class="card-header">
-          <div>
-            <h2 class="card-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-              <span>Apariencia y Colores (Modo Oscuro)</span>
-            </h2>
-            <p class="card-sub">Personaliza la atmósfera oscura Liquid Glass y los acentos visuales de toda la aplicación.</p>
-          </div>
-          <span style="font-size:0.68rem; font-family:var(--font-mono); padding:3px 8px; border-radius:6px; background:var(--primary-dim); color:var(--primary); border:1px solid var(--glass-border);">Modo Oscuro Activo</span>
-        </div>
-
-        <!-- Selector de Temas Oscuros Curados -->
-        <div id="darkThemesGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:8px;"></div>
-
-        <!-- Ajuste Fino de Colores de Acento -->
-        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--glass-border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-            <span style="font-size:0.78rem; font-weight:700; color:var(--text);">Personalización Manual de Acentos</span>
-            <button type="button" class="btn-secondary" id="btnResetCustomColors" style="padding:4px 10px; font-size:0.7rem;">Restaurar Colores del Tema</button>
-          </div>
-          <div class="grid-2">
-            <div class="field-group">
-              <label>Color Principal (Botones y Enfoque)</label>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="color" id="settingCustomPrimary" value="#6366f1" style="width:44px; height:36px; padding:2px; cursor:pointer; border-radius:8px;">
-                <span id="labelCustomPrimaryHex" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">#6366f1</span>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Color de Acento (Logros y Puntaje)</label>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="color" id="settingCustomAccent" value="#10b981" style="width:44px; height:36px; padding:2px; cursor:pointer; border-radius:8px;">
-                <span id="labelCustomAccentHex" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">#10b981</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. Preferencias Operativas y Perfil para Reportes -->
+      <!-- 1. Preferencias Operativas y Perfil para Reportes -->
       <div class="liquid-card">
         <div class="card-header">
           <div>
@@ -2229,9 +2313,21 @@
         <input type="number" id="habitInputPoints" value="20" min="5" step="5">
       </div>
       <div class="field-group">
-        <label>Color</label>
+        <label>Color del Bloque / Hábito</label>
         <input type="color" id="habitInputColor" value="#6366f1" style="height:40px; padding:2px; cursor:pointer;">
       </div>
+    </div>
+
+    <!-- Switch: Hábito Temporal (Solo por un día) -->
+    <div class="switch-card">
+      <div class="switch-info">
+        <span class="switch-label">Hábito Temporal (Solo por un día)</span>
+        <span class="switch-sub">Solo estará activo en la fecha seleccionada, contará para tus estadísticas (completado / no completado) y desaparecerá al día siguiente.</span>
+      </div>
+      <label class="clean-switch">
+        <input type="checkbox" id="habitIsTemporary">
+        <span class="clean-switch-track"></span>
+      </label>
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
@@ -2289,10 +2385,13 @@
     </div>
 
     <!-- Priority Task Switch -->
-    <div class="switch-card">
+    <div class="switch-card" style="border: 1.5px solid rgba(255, 123, 0, 0.45); background: rgba(255, 107, 0, 0.08);">
       <div class="switch-info">
-        <span class="switch-label">Prioridad del Día</span>
-        <span class="switch-sub">Otorga puntaje doble (x2) al completarse.</span>
+        <span class="switch-label" style="color:#ff9f43; display:flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#ff7b00" stroke="#ff7b00" stroke-width="1.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          Prioridad del Día (Debe cumplirse sí o sí)
+        </span>
+        <span class="switch-sub">Destaca con contorno anaranjado imponente, emblema de prioridad y otorga puntaje doble (x2).</span>
       </div>
       <label class="clean-switch">
         <input type="checkbox" id="blockIsCritical">
@@ -2397,6 +2496,9 @@
     <button class="btn-secondary" id="btnFocusComplete" style="padding:10px 16px; color:var(--accent);">Finalizar</button>
   </div>
 </div>
+
+<!-- Floating Time HUD (Always rendered ABOVE user's finger during drag) -->
+<div id="dragFloatingTimeHud" class="drag-floating-hud" style="display:none;" aria-live="polite"></div>
 
 <!-- ================= MAIN JAVASCRIPT ================= -->
 <script>
@@ -2648,22 +2750,24 @@
   }
 
   function applyTheme() {
-    const themeId = state.settings.themeId || 'obsidian_indigo';
-    const preset = DARK_THEMES.find(t => t.id === themeId) || DARK_THEMES[0];
-    const primary = state.settings.customPrimary || preset.primary;
-    const accent = state.settings.customAccent || preset.accent;
-
+    const preset = DARK_THEMES[0];
     const root = document.documentElement;
     root.style.setProperty('--bg-body', preset.bgBody);
     root.style.setProperty('--bg-surface', preset.bgSurface);
     root.style.setProperty('--bg-card', preset.bgCard);
     root.style.setProperty('--bg-card-hover', preset.bgCardHover);
     root.style.setProperty('--bg-input', preset.bgInput);
-    root.style.setProperty('--primary', primary);
-    root.style.setProperty('--primary-hover', state.settings.customPrimary ? primary : preset.primaryHover);
-    root.style.setProperty('--primary-dim', hexToRgba(primary, 0.16));
-    root.style.setProperty('--accent', accent);
-    root.style.setProperty('--accent-dim', hexToRgba(accent, 0.16));
+    root.style.setProperty('--primary', preset.primary);
+    root.style.setProperty('--primary-hover', preset.primaryHover);
+    root.style.setProperty('--primary-dim', hexToRgba(preset.primary, 0.16));
+    root.style.setProperty('--accent', preset.accent);
+    root.style.setProperty('--accent-dim', hexToRgba(preset.accent, 0.16));
+  }
+
+  function isHabitActiveForDate(habit, dateKey) {
+    if (!habit) return false;
+    if (!habit.isTemporary) return true;
+    return Boolean(habit.temporaryDate && habit.temporaryDate === dateKey);
   }
 
   // --- State & Storage ---
@@ -2769,6 +2873,7 @@
       state.logs[dateKey] = {
         blocks: [],
         microHabitsCompleted: [],
+        microHabitsFailed: [],
         customRoutineChecks: {},
         screenLogs: [],
         screenDivisions: {
@@ -2784,6 +2889,7 @@
       if (!Array.isArray(b.objectives)) b.objectives = [];
     });
     if (!log.microHabitsCompleted) log.microHabitsCompleted = [];
+    if (!log.microHabitsFailed) log.microHabitsFailed = [];
     if (!log.customRoutineChecks) log.customRoutineChecks = {};
     if (!log.screenLogs) log.screenLogs = [];
     if (!log.screenDivisions) {
@@ -2806,6 +2912,7 @@
 
     let blockPoints = 0;
     let completedBlocks = 0;
+    let failedBlocks = 0;
     let totalBlocks = (log.blocks || []).length;
     let focusMinutes = 0;
 
@@ -2820,14 +2927,21 @@
         const s = timeToMinutes(b.startTime);
         const e = timeToMinutes(b.endTime);
         focusMinutes += Math.max(0, e - s);
+      } else if (b.status === 'failed') {
+        failedBlocks++;
       }
     });
 
     let microPoints = 0;
-    (log.microHabitsCompleted || []).forEach(hId => {
+    const completedMicroIds = log.microHabitsCompleted || [];
+    const failedMicroIds = log.microHabitsFailed || [];
+    completedMicroIds.forEach(hId => {
       const h = habitsMap[hId];
       if (h) microPoints += h.points;
     });
+
+    const completedMicros = completedMicroIds.length;
+    const failedMicros = failedMicroIds.length;
 
     let routineBonus = 0;
     const customRoutines = state.settings.customRoutines || [];
@@ -2861,7 +2975,9 @@
     }
 
     const totalScore = Math.max(0, blockPoints + microPoints + routineBonus - screenPenalty);
-    const effectiveness = totalBlocks > 0 ? Math.round((completedBlocks / totalBlocks) * 100) : 0;
+    const totalEvaluatedItems = totalBlocks + completedMicros + failedMicros;
+    const totalCompletedItems = completedBlocks + completedMicros;
+    const effectiveness = totalEvaluatedItems > 0 ? Math.round((totalCompletedItems / totalEvaluatedItems) * 100) : 0;
 
     return {
       blockPoints,
@@ -2871,6 +2987,9 @@
       totalScore,
       totalBlocks,
       completedBlocks,
+      failedBlocks,
+      completedMicros,
+      failedMicros,
       effectiveness,
       totalScreenMinutes,
       totalSocial,
@@ -2961,41 +3080,49 @@
     renderHabitsCatalog();
   });
 
-  // Render habits catalog with HTML5 and Touch DRAG & DROP support!
+  // Render habits catalog with HTML5 and Touch/Pointer DRAG & DROP support + Floating Time HUD above finger!
   function renderHabitsCatalog() {
     const list = document.getElementById('habitsRowList');
     list.innerHTML = '';
-    const filtered = state.habits.filter(h => {
+    const activeForDay = state.habits.filter(h => isHabitActiveForDate(h, state.currentDate));
+    const filtered = activeForDay.filter(h => {
       if (state.selectedCategory === 'all') return true;
       return h.category === state.selectedCategory;
     });
 
-    document.getElementById('habitCountText').textContent = `${state.habits.length} hábitos`;
+    document.getElementById('habitCountText').textContent = `${activeForDay.length} hábitos`;
 
     filtered.forEach(h => {
       const item = document.createElement('div');
       item.className = 'habit-item';
       item.dataset.habitId = h.id;
+      item.dataset.format = h.format;
+      item.style.borderLeft = `3px solid ${h.color || '#6366f1'}`;
 
       if (h.format === 'block') {
         item.setAttribute('draggable', 'true');
-        item.title = 'Arrastra a la línea de 24h para agendar';
+        item.title = 'Arrastra hacia la línea de tiempo (verás la hora arriba de tu dedo) o pulsa para agendar';
       }
+
+      const tempBadge = h.isTemporary
+        ? `<span style="font-size:0.58rem; font-weight:800; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); color:#fcd34d; border:1px solid rgba(245,158,11,0.4); margin-left:4px;">TEMPORAL · 1 DÍA</span>`
+        : '';
 
       item.innerHTML = `
         <div style="display:flex; align-items:center; gap:8px;">
-          ${h.format === 'block' ? '<span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); cursor:grab;" title="Arrastrar">:::</span>' : ''}
+          ${h.format === 'block' ? '<span data-catalog-grip="true" style="font-family:var(--font-mono); font-size:0.82rem; color:var(--text-muted); cursor:grab; touch-action:none; padding:2px 4px; border-radius:4px; background:rgba(255,255,255,0.05);" title="Arrastrar a la línea del tiempo">⋮⋮</span>' : ''}
           <div class="habit-dot" style="background:${h.color}; color:${h.color};"></div>
         </div>
         <div style="flex:1;">
-          <div class="h-title">${h.name}</div>
-          <div class="h-type">${h.format === 'micro' ? 'Micro-hábito' : 'Arrastrable (60m)'}</div>
+          <div class="h-title" style="display:flex; align-items:center; flex-wrap:wrap;">${h.name}${tempBadge}</div>
+          <div class="h-type">${h.format === 'micro' ? 'Micro-hábito' : 'Arrastrable a línea 24h'}</div>
         </div>
         <div class="h-pts">+${h.points}</div>
       `;
 
-      // Click to open modal or toggle micro
+      // Click to open modal or toggle micro (ignored if just dragged via pointer)
       item.addEventListener('click', () => {
+        if (catalogHabitJustDragged) return;
         if (h.format === 'block') {
           openScheduleBlockModal(h.id);
         } else {
@@ -3003,68 +3130,110 @@
         }
       });
 
-      // Desktop HTML5 drag start
+      // Desktop HTML5 drag start + Touch/Pointer drag support
       if (h.format === 'block') {
         item.addEventListener('dragstart', (e) => {
+          state.draggingHabitId = h.id;
           e.dataTransfer.setData('text/plain', h.id);
           e.dataTransfer.effectAllowed = 'copy';
           item.classList.add('is-dragging');
         });
         item.addEventListener('dragend', () => {
+          state.draggingHabitId = null;
           item.classList.remove('is-dragging');
           hideTimelineDropPreview();
+          hideDragFloatingHud();
         });
+
+        initCatalogHabitPointerDrag(item, h);
       }
 
       list.appendChild(item);
     });
   }
 
-  // --- Micro-habits Quick Check System ---
+  // --- Micro-habits Quick Check System (Completado / No Completado) ---
   function renderMicroHabits() {
     const grid = document.getElementById('microPillsGrid');
     grid.innerHTML = '';
-    const microHabits = state.habits.filter(h => h.format === 'micro');
+    const microHabits = state.habits.filter(h => h.format === 'micro' && isHabitActiveForDate(h, state.currentDate));
     const log = getTodayLog();
     const completed = log.microHabitsCompleted || [];
+    const failed = log.microHabitsFailed || [];
 
-    document.getElementById('microCountText').textContent = `${completed.length} / ${microHabits.length}`;
+    const doneActiveCount = microHabits.filter(h => completed.includes(h.id)).length;
+    document.getElementById('microCountText').textContent = `${doneActiveCount} / ${microHabits.length}`;
 
     if (microHabits.length === 0) {
-      grid.innerHTML = `<span style="font-size:0.75rem; color:var(--text-dim); font-style:italic;">No hay micro-hábitos. Crea uno en formato "Micro-hábito".</span>`;
+      grid.innerHTML = `<span style="font-size:0.75rem; color:var(--text-dim); font-style:italic;">No hay micro-hábitos para este día. Crea uno en "+ Nuevo Hábito".</span>`;
       return;
     }
 
     microHabits.forEach(h => {
       const isDone = completed.includes(h.id);
+      const isFailed = failed.includes(h.id);
       const pill = document.createElement('div');
-      pill.className = `micro-pill ${isDone ? 'completed' : ''}`;
+      pill.className = `micro-pill ${isDone ? 'completed' : (isFailed ? 'failed' : '')}`;
+      pill.style.borderLeft = `3px solid ${h.color || '#10b981'}`;
+
+      const tempTag = h.isTemporary
+        ? `<span style="font-size:0.58rem; font-weight:800; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); color:#fcd34d;">1 DÍA</span>`
+        : '';
+
       pill.innerHTML = `
-        <div class="micro-check-box">
-          ${isDone ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+        <div class="micro-check-box" data-micro-action="complete" title="Marcar completado">
+          ${isDone ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : (isFailed ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' : '')}
         </div>
-        <span>${h.name}</span>
-        <span style="font-size:0.7rem; font-family:var(--font-mono); color:var(--accent);">+${h.points}</span>
+        <span data-micro-action="complete">${h.name}</span>
+        ${tempTag}
+        <span style="font-size:0.7rem; font-family:var(--font-mono); color:${isFailed ? '#fca5a5' : 'var(--accent)'};">${isFailed ? '0 pts' : `+${h.points}`}</span>
+        <button type="button" data-micro-action="fail" title="Marcar como no completado" style="background:${isFailed ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.06)'}; border:1px solid ${isFailed ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.12)'}; color:${isFailed ? '#fecaca' : 'var(--text-dim)'}; border-radius:5px; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; padding:0; margin-left:2px;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       `;
-      pill.addEventListener('click', () => toggleMicroHabit(h.id));
+
+      pill.addEventListener('click', (e) => {
+        const failBtn = e.target.closest('[data-micro-action="fail"]');
+        if (failBtn) {
+          e.stopPropagation();
+          setMicroHabitStatus(h.id, isFailed ? 'pending' : 'failed');
+        } else {
+          setMicroHabitStatus(h.id, isDone ? 'pending' : 'completed');
+        }
+      });
+
       grid.appendChild(pill);
     });
   }
 
-  function toggleMicroHabit(hId) {
+  function setMicroHabitStatus(hId, status) {
     const log = getTodayLog();
-    const idx = log.microHabitsCompleted.indexOf(hId);
-    if (idx >= 0) {
-      log.microHabitsCompleted.splice(idx, 1);
-      showToast('Micro-hábito desmarcado');
-    } else {
+    if (!Array.isArray(log.microHabitsCompleted)) log.microHabitsCompleted = [];
+    if (!Array.isArray(log.microHabitsFailed)) log.microHabitsFailed = [];
+
+    log.microHabitsCompleted = log.microHabitsCompleted.filter(id => id !== hId);
+    log.microHabitsFailed = log.microHabitsFailed.filter(id => id !== hId);
+
+    if (status === 'completed') {
       log.microHabitsCompleted.push(hId);
       Sound.chime();
       showToast('Micro-hábito completado');
+    } else if (status === 'failed') {
+      log.microHabitsFailed.push(hId);
+      showToast('Micro-hábito marcado como no completado');
+    } else {
+      showToast('Micro-hábito pendiente');
     }
+
     saveLogs();
     renderMicroHabits();
     renderHeader();
+  }
+
+  function toggleMicroHabit(hId) {
+    const log = getTodayLog();
+    const isDone = (log.microHabitsCompleted || []).includes(hId);
+    setMicroHabitStatus(hId, isDone ? 'pending' : 'completed');
   }
 
   // --- Dynamic Timeline Starting at Current Hour ---
@@ -3153,63 +3322,82 @@
     });
   }
 
-  // --- DRAG & DROP ENGINE: Habits Catalog -> Timeline & Moving Timeline Blocks ---
+  // --- DRAG & DROP ENGINE: Habits Catalog -> Timeline & Scroll-Safe Moving Timeline Blocks ---
   const timelineGridArea = document.getElementById('timelineGridArea');
   const timelineDropPreview = document.getElementById('timelineDropPreview');
+  const dragFloatingTimeHud = document.getElementById('dragFloatingTimeHud');
 
-  function showTimelineDropPreview(topPx, actualStartMin, durationMin, labelText) {
+  // Floating Time HUD positioned ABOVE the user's finger (clientY - 68px) so finger never obscures the time
+  function showDragFloatingHud(clientX, clientY, startMin, endMin, habitName, habitColor, hintText) {
+    if (!dragFloatingTimeHud) return;
+    const col = habitColor || '#6366f1';
+    const startStr = minutesToTime(startMin);
+    const endStr = minutesToTime(endMin);
+    const vh = window.innerHeight || 800;
+    const vw = window.innerWidth || 390;
+    const hudTop = Math.max(72, Math.min(vh - 36, clientY - 68));
+    const hudLeft = Math.max(105, Math.min(vw - 105, clientX));
+
+    dragFloatingTimeHud.style.display = 'flex';
+    dragFloatingTimeHud.style.top = `${hudTop}px`;
+    dragFloatingTimeHud.style.left = `${hudLeft}px`;
+    dragFloatingTimeHud.style.borderColor = col;
+    dragFloatingTimeHud.dataset.startTime = startStr;
+    dragFloatingTimeHud.dataset.endTime = endStr;
+
+    dragFloatingTimeHud.innerHTML = `
+      <div class="hud-top-row">
+        <span style="width:8px; height:8px; border-radius:50%; background:${col}; box-shadow:0 0 8px ${col}; display:inline-block; flex-shrink:0;"></span>
+        <span>${habitName || 'Hábito'}</span>
+      </div>
+      <div class="hud-time-main">${startStr} - ${endStr}</div>
+      <div class="hud-sub-hint">${hintText || 'Soltar aquí · ↕ desliza para ajustar'}</div>
+    `;
+  }
+
+  function hideDragFloatingHud() {
+    if (!dragFloatingTimeHud) return;
+    dragFloatingTimeHud.style.display = 'none';
+  }
+
+  function showTimelineDropPreview(topPx, actualStartMin, durationMin, labelText, previewColor) {
+    const col = previewColor || '#6366f1';
     timelineDropPreview.style.display = 'flex';
+    timelineDropPreview.style.overflow = 'visible';
     timelineDropPreview.style.top = `${topPx}px`;
     timelineDropPreview.style.height = `${durationMin}px`;
+    timelineDropPreview.style.background = hexToRgba(col, 0.28);
+    timelineDropPreview.style.borderColor = col;
+    timelineDropPreview.style.borderLeft = `5px solid ${col}`;
     const startStr = minutesToTime(actualStartMin);
     const endStr = minutesToTime(actualStartMin + durationMin);
-    timelineDropPreview.textContent = `${labelText}: ${startStr} - ${endStr}`;
+    timelineDropPreview.innerHTML = `
+      <div style="position:absolute; top:-34px; left:50%; transform:translateX(-50%); background:rgba(10,15,29,0.95); border:1.5px solid ${col}; color:#fff; padding:3px 10px; border-radius:999px; font-size:0.72rem; font-weight:800; font-family:var(--font-mono); white-space:nowrap; box-shadow:0 6px 16px rgba(0,0,0,0.65);">
+        ⏱ ${startStr} - ${endStr} · Soltar aquí
+      </div>
+      <span>${labelText}</span>
+      <span style="background:rgba(0,0,0,0.45); padding:2px 7px; border-radius:6px; border:1px solid ${col};">${startStr} - ${endStr}</span>
+    `;
   }
 
   function hideTimelineDropPreview() {
     timelineDropPreview.style.display = 'none';
   }
 
-  // 1. Dragover and drop on timeline area
-  timelineGridArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-
+  function computeSnappedSlotFromClientY(clientY, durationMin) {
+    const durMins = Math.max(15, durationMin || parseInt(state.settings.defaultBlockDuration, 10) || 60);
     const startHour = getTimelineStartHour();
     const baseMin = startHour * 60;
     const rect = timelineGridArea.getBoundingClientRect();
-    const rawY = Math.max(0, e.clientY - rect.top);
+    const rawY = Math.max(0, clientY - rect.top);
     const snappedOffset = Math.floor(rawY / 15) * 15;
-    const actualStartMin = Math.max(baseMin, Math.min(1440 - 60, baseMin + snappedOffset));
+    const actualStartMin = Math.max(baseMin, Math.min(1440 - durMins, baseMin + snappedOffset));
+    const actualEndMin = Math.min(1440, actualStartMin + durMins);
     const topPx = actualStartMin - baseMin;
+    return { actualStartMin, actualEndMin, durMins, topPx };
+  }
 
-    showTimelineDropPreview(topPx, actualStartMin, 60, 'Agendar hábito');
-  });
-
-  timelineGridArea.addEventListener('dragleave', (e) => {
-    if (!timelineGridArea.contains(e.relatedTarget)) {
-      hideTimelineDropPreview();
-    }
-  });
-
-  timelineGridArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    hideTimelineDropPreview();
-
-    const habitId = e.dataTransfer.getData('text/plain');
-    if (!habitId) return;
-
-    const habit = state.habits.find(h => h.id === habitId);
-    if (!habit) return;
-
-    const startHour = getTimelineStartHour();
-    const baseMin = startHour * 60;
-    const rect = timelineGridArea.getBoundingClientRect();
-    const rawY = Math.max(0, e.clientY - rect.top);
-    const snappedOffset = Math.floor(rawY / 15) * 15;
-    const startMin = Math.max(baseMin, Math.min(1440 - 60, baseMin + snappedOffset));
-    const endMin = Math.min(1440, startMin + 60);
-
+  function scheduleHabitAtSlot(habit, startMin, endMin) {
     const log = getTodayLog();
     log.blocks.push({
       id: 'blk_' + genId(),
@@ -3227,38 +3415,248 @@
     renderHeader();
     Sound.chime();
     showToast(`Agendado: ${habit.name} (${minutesToTime(startMin)} - ${minutesToTime(endMin)})`);
+  }
+
+  // 1A. HTML5 Dragover and drop on timeline area (with Floating Time HUD above finger/cursor)
+  timelineGridArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+
+    const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+    const { actualStartMin, actualEndMin, topPx } = computeSnappedSlotFromClientY(e.clientY, durMins);
+
+    const draggedHabit = state.habits.find(h => h.id === state.draggingHabitId);
+    const label = draggedHabit ? draggedHabit.name : 'Agendar hábito';
+    const col = draggedHabit ? draggedHabit.color : '#6366f1';
+
+    showTimelineDropPreview(topPx, actualStartMin, durMins, label, col);
+    showDragFloatingHud(e.clientX, e.clientY, actualStartMin, actualEndMin, label, col, 'Soltar en este horario');
   });
 
-  // 2. Drag & Move existing Timeline Blocks (Pointer Events: Desktop + Touch)
+  timelineGridArea.addEventListener('dragleave', (e) => {
+    if (!timelineGridArea.contains(e.relatedTarget)) {
+      hideTimelineDropPreview();
+      hideDragFloatingHud();
+    }
+  });
+
+  timelineGridArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    hideTimelineDropPreview();
+    hideDragFloatingHud();
+
+    const habitId = e.dataTransfer.getData('text/plain') || state.draggingHabitId;
+    if (!habitId) return;
+
+    const habit = state.habits.find(h => h.id === habitId);
+    if (!habit) return;
+
+    const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+    const { actualStartMin, actualEndMin } = computeSnappedSlotFromClientY(e.clientY, durMins);
+    scheduleHabitAtSlot(habit, actualStartMin, actualEndMin);
+  });
+
+  // 1B. Touch / Pointer Drag from Habits Catalog to Timeline (so users see the HUD above their finger)
+  let activeCatalogDrag = null;
+  let catalogHabitJustDragged = false;
+
+  function initCatalogHabitPointerDrag(itemEl, habit) {
+    itemEl.addEventListener('pointerdown', (e) => {
+      // Only primary button / touch
+      if (e.button && e.button !== 0) return;
+      const startedOnGrip = Boolean(e.target.closest('[data-catalog-grip="true"]'));
+
+      activeCatalogDrag = {
+        habit,
+        itemEl,
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        startedOnGrip,
+        isDragging: false
+      };
+
+      if (startedOnGrip) {
+        try { itemEl.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+    });
+
+    itemEl.addEventListener('pointermove', (e) => {
+      if (!activeCatalogDrag || activeCatalogDrag.habit.id !== habit.id) return;
+      const dy = e.clientY - activeCatalogDrag.startY;
+      const dx = e.clientX - activeCatalogDrag.startX;
+
+      if (!activeCatalogDrag.isDragging) {
+        // If user is scrolling horizontally inside the catalog row, cancel catalog drag
+        if (!activeCatalogDrag.startedOnGrip && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+          activeCatalogDrag = null;
+          return;
+        }
+        if (Math.abs(dy) > 10 || (activeCatalogDrag.startedOnGrip && Math.hypot(dx, dy) > 6)) {
+          activeCatalogDrag.isDragging = true;
+          catalogHabitJustDragged = true;
+          state.draggingHabitId = habit.id;
+          itemEl.classList.add('is-dragging');
+          try { itemEl.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+      }
+
+      if (!activeCatalogDrag.isDragging) return;
+      e.preventDefault();
+
+      const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+      const { actualStartMin, actualEndMin, topPx } = computeSnappedSlotFromClientY(e.clientY, durMins);
+
+      showTimelineDropPreview(topPx, actualStartMin, durMins, habit.name, habit.color);
+      showDragFloatingHud(
+        e.clientX,
+        e.clientY,
+        actualStartMin,
+        actualEndMin,
+        habit.name,
+        habit.color,
+        'Soltar aquí · ↕ más arriba o abajo'
+      );
+
+      // Auto-scroll timeline or window when dragging near top/bottom edges
+      const scrollArea = document.getElementById('timelineScrollArea');
+      if (scrollArea) {
+        const areaRect = scrollArea.getBoundingClientRect();
+        if (e.clientY > areaRect.bottom - 45) {
+          scrollArea.scrollTop += 14;
+        } else if (e.clientY < areaRect.top + 45 && e.clientY > areaRect.top - 40) {
+          scrollArea.scrollTop -= 14;
+        }
+      }
+    });
+
+    const finishCatalogPointerDrag = (e) => {
+      if (!activeCatalogDrag || activeCatalogDrag.habit.id !== habit.id) return;
+      const wasDragging = activeCatalogDrag.isDragging;
+      itemEl.classList.remove('is-dragging');
+      state.draggingHabitId = null;
+      hideTimelineDropPreview();
+      hideDragFloatingHud();
+
+      if (wasDragging) {
+        const gridRect = timelineGridArea.getBoundingClientRect();
+        // Drop succeeds if pointer released over or within the timeline area
+        if (e.clientY >= gridRect.top - 30 && e.clientY <= gridRect.bottom + 30) {
+          const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+          const { actualStartMin, actualEndMin } = computeSnappedSlotFromClientY(e.clientY, durMins);
+          scheduleHabitAtSlot(habit, actualStartMin, actualEndMin);
+        }
+        setTimeout(() => { catalogHabitJustDragged = false; }, 260);
+      }
+
+      activeCatalogDrag = null;
+    };
+
+    itemEl.addEventListener('pointerup', finishCatalogPointerDrag);
+    itemEl.addEventListener('pointercancel', finishCatalogPointerDrag);
+  }
+
+  // 2. Scroll-Safe Drag & Move for Placed Timeline Blocks
+  //    - Normal vertical swipe over blocks scrolls the timeline (touch-action: pan-y) without moving blocks!
+  //    - Moving a block requires EITHER grabbing the dedicated `.btn-b-drag-handle` button OR holding still for 420ms.
   let activeBlockDrag = null;
   let blockJustDragged = false;
 
   function initBlockDrag(blockElement, block) {
-    blockElement.style.touchAction = 'none';
+    blockElement.style.touchAction = 'pan-y';
 
     blockElement.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('button') || e.target.closest('input') || e.target.closest('label')) return;
+      const dragHandleBtn = e.target.closest('[data-drag-handle="true"]');
+      // Ignore clicks on other buttons (focus, check), inputs, or objective labels
+      if (!dragHandleBtn && (e.target.closest('button') || e.target.closest('input') || e.target.closest('label'))) {
+        return;
+      }
+
+      const habit = state.habits.find(h => h.id === block.habitId) || { name: 'Hábito', color: '#6366f1' };
+      const initialStartMin = timeToMinutes(block.startTime);
+      const initialEndMin = timeToMinutes(block.endTime);
+      const duration = Math.max(15, initialEndMin - initialStartMin);
+
+      if (activeBlockDrag && activeBlockDrag.holdTimer) {
+        clearTimeout(activeBlockDrag.holdTimer);
+      }
 
       activeBlockDrag = {
         blockId: block.id,
         blockEl: blockElement,
+        pointerId: e.pointerId,
+        startX: e.clientX,
         startY: e.clientY,
-        initialStartMin: timeToMinutes(block.startTime),
-        initialEndMin: timeToMinutes(block.endTime),
-        duration: Math.max(15, timeToMinutes(block.endTime) - timeToMinutes(block.startTime)),
-        hasMoved: false
+        lastClientX: e.clientX,
+        lastClientY: e.clientY,
+        startedOnHandle: Boolean(dragHandleBtn),
+        unlocked: Boolean(dragHandleBtn),
+        initialStartMin,
+        initialEndMin,
+        duration,
+        habitName: habit.name,
+        habitColor: habit.color || '#6366f1',
+        hasMoved: false,
+        holdTimer: null
       };
 
-      try {
-        blockElement.setPointerCapture(e.pointerId);
-      } catch (err) {}
+      if (dragHandleBtn) {
+        e.stopPropagation();
+        try {
+          blockElement.setPointerCapture(e.pointerId);
+        } catch (err) {}
+        // Show floating time HUD immediately above finger when pressing the dedicated drag handle
+        showDragFloatingHud(
+          e.clientX,
+          e.clientY,
+          initialStartMin,
+          initialEndMin,
+          habit.name,
+          habit.color || '#6366f1',
+          'Desliza ↕ para cambiar de horario'
+        );
+      } else {
+        // On block body: only unlock drag if user holds still for 420ms without scrolling
+        activeBlockDrag.holdTimer = setTimeout(() => {
+          if (!activeBlockDrag || activeBlockDrag.blockId !== block.id) return;
+          activeBlockDrag.unlocked = true;
+          activeBlockDrag.hasMoved = true;
+          blockJustDragged = true;
+          blockElement.classList.add('block-moving');
+          try {
+            blockElement.setPointerCapture(activeBlockDrag.pointerId);
+          } catch (err) {}
+          showDragFloatingHud(
+            activeBlockDrag.lastClientX,
+            activeBlockDrag.lastClientY,
+            activeBlockDrag.initialStartMin,
+            activeBlockDrag.initialEndMin,
+            activeBlockDrag.habitName,
+            activeBlockDrag.habitColor,
+            'Reubicando · ↕ desliza a otro horario'
+          );
+        }, 420);
+      }
     });
 
     blockElement.addEventListener('pointermove', (e) => {
       if (!activeBlockDrag || activeBlockDrag.blockId !== block.id) return;
 
+      activeBlockDrag.lastClientX = e.clientX;
+      activeBlockDrag.lastClientY = e.clientY;
       const deltaY = e.clientY - activeBlockDrag.startY;
-      if (Math.abs(deltaY) > 4) {
+      const deltaX = e.clientX - activeBlockDrag.startX;
+
+      // If drag is NOT unlocked yet (user touched block body and started scrolling), abort immediately so native scroll works!
+      if (!activeBlockDrag.unlocked) {
+        if (Math.abs(deltaY) > 6 || Math.abs(deltaX) > 6) {
+          if (activeBlockDrag.holdTimer) clearTimeout(activeBlockDrag.holdTimer);
+          activeBlockDrag = null;
+        }
+        return;
+      }
+
+      if (Math.abs(deltaY) >= 8 || activeBlockDrag.hasMoved) {
         activeBlockDrag.hasMoved = true;
         blockJustDragged = true;
         blockElement.classList.add('block-moving');
@@ -3280,6 +3678,17 @@
         timeLabel.textContent = `${minutesToTime(newStart)} - ${minutesToTime(newEnd)} (${activeBlockDrag.duration}m)`;
       }
 
+      // Update Floating Time HUD ABOVE the user's finger
+      showDragFloatingHud(
+        e.clientX,
+        e.clientY,
+        newStart,
+        newEnd,
+        activeBlockDrag.habitName,
+        activeBlockDrag.habitColor,
+        'Soltar aquí · ↕ desliza para ajustar'
+      );
+
       const scrollArea = document.getElementById('timelineScrollArea');
       if (scrollArea) {
         const areaRect = scrollArea.getBoundingClientRect();
@@ -3293,10 +3702,12 @@
 
     const finishDrag = (e) => {
       if (!activeBlockDrag || activeBlockDrag.blockId !== block.id) return;
+      if (activeBlockDrag.holdTimer) clearTimeout(activeBlockDrag.holdTimer);
 
       blockElement.classList.remove('block-moving');
+      hideDragFloatingHud();
 
-      if (activeBlockDrag.hasMoved) {
+      if (activeBlockDrag.unlocked && activeBlockDrag.hasMoved) {
         const startHour = getTimelineStartHour();
         const baseMin = startHour * 60;
         const deltaY = e.clientY - activeBlockDrag.startY;
@@ -3305,14 +3716,16 @@
         newStart = Math.max(baseMin, Math.min(1440 - activeBlockDrag.duration, newStart));
         const newEnd = newStart + activeBlockDrag.duration;
 
-        block.startTime = minutesToTime(newStart);
-        block.endTime = minutesToTime(newEnd);
+        if (minutesToTime(newStart) !== block.startTime || minutesToTime(newEnd) !== block.endTime) {
+          block.startTime = minutesToTime(newStart);
+          block.endTime = minutesToTime(newEnd);
 
-        saveLogs();
-        renderTimelineBlocks();
-        renderHeader();
-        Sound.chime();
-        showToast(`Horario actualizado: ${block.startTime} - ${block.endTime}`);
+          saveLogs();
+          renderTimelineBlocks();
+          renderHeader();
+          Sound.chime();
+          showToast(`Horario actualizado: ${block.startTime} - ${block.endTime}`);
+        }
 
         setTimeout(() => { blockJustDragged = false; }, 300);
       }
@@ -3337,6 +3750,7 @@
 
     blocks.forEach(block => {
       const habit = habitsMap[block.habitId] || { name: 'Hábito', color: '#6366f1', points: 10 };
+      const hColor = habit.color || '#6366f1';
       const startMin = timeToMinutes(block.startTime);
       const endMin = timeToMinutes(block.endTime);
 
@@ -3345,24 +3759,51 @@
       }
 
       const visibleStartMin = Math.max(baseMin, startMin);
-      const dur = Math.max(32, endMin - visibleStartMin);
+      const dur = Math.max(36, endMin - visibleStartMin);
 
       const objs = Array.isArray(block.objectives) ? block.objectives : [];
       const doneObjs = objs.filter(o => o.done).length;
       const allObjsDone = objs.length === 0 || doneObjs === objs.length;
 
       const el = document.createElement('div');
-      el.className = `time-block status-${block.status || 'planned'} ${block.isCritical ? 'is-critical' : ''}`;
+      const status = block.status || 'planned';
+      el.className = `time-block status-${status} ${block.isCritical ? 'is-critical' : ''}`;
       el.style.top = `${visibleStartMin - baseMin}px`;
       el.style.height = `${dur}px`;
       el.dataset.id = block.id;
+      el.dataset.habitColor = hColor;
+      el.dataset.isCritical = block.isCritical ? 'true' : 'false';
+
+      // Apply the habit's custom color for visual separation on the timeline
+      if (status === 'completed' && allObjsDone) {
+        el.style.background = `linear-gradient(135deg, ${hexToRgba(hColor, 0.38)} 0%, ${hexToRgba(hColor, 0.16)} 100%)`;
+        el.style.border = `1px solid ${hexToRgba(hColor, 0.85)}`;
+        el.style.borderLeft = `5px solid ${hColor}`;
+        el.style.boxShadow = `0 4px 16px ${hexToRgba(hColor, 0.25)}, inset 0 1px 1px rgba(255,255,255,0.22)`;
+      } else if (status === 'failed') {
+        el.style.background = `linear-gradient(135deg, ${hexToRgba(hColor, 0.18)} 0%, rgba(239, 68, 68, 0.15) 100%)`;
+        el.style.border = `1px solid rgba(239, 68, 68, 0.45)`;
+        el.style.borderLeft = `5px solid ${hColor}`;
+      } else {
+        el.style.background = `linear-gradient(135deg, ${hexToRgba(hColor, 0.28)} 0%, ${hexToRgba(hColor, 0.11)} 100%)`;
+        el.style.border = `1px dashed ${hexToRgba(hColor, 0.65)}`;
+        el.style.borderLeft = `5px solid ${hColor}`;
+        el.style.boxShadow = `0 4px 14px ${hexToRgba(hColor, 0.16)}, inset 0 1px 1px rgba(255,255,255,0.14)`;
+      }
+
+      // If marked as Priority of the Day ("debe cumplirse sí o sí"), apply imposing neon orange contour & glow
+      if (block.isCritical) {
+        el.style.border = '2.5px solid #ff7b00';
+        el.style.borderLeft = '7px solid #ff5500';
+        el.style.boxShadow = '0 0 0 2px rgba(255, 123, 0, 0.65), 0 0 24px rgba(255, 102, 0, 0.52), inset 0 0 20px rgba(255, 123, 0, 0.24)';
+      }
 
       const pts = block.isCritical ? (habit.points * 2) : habit.points;
 
       let objsHtml = '';
       if (objs.length > 0) {
         const itemsHtml = objs.slice(0, 3).map((o, idx) => `
-          <label class="b-obj-chip" style="display:inline-flex; align-items:center; gap:3px; font-size:0.65rem; background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; cursor:pointer; color:${o.done ? 'var(--accent)' : 'var(--text-muted)'}; text-decoration:${o.done ? 'line-through' : 'none'};" data-obj-block="${block.id}" data-obj-idx="${idx}">
+          <label class="b-obj-chip" style="display:inline-flex; align-items:center; gap:3px; font-size:0.65rem; background:rgba(0,0,0,0.28); padding:1px 5px; border-radius:4px; cursor:pointer; color:${o.done ? 'var(--accent)' : '#e2e8f0'}; text-decoration:${o.done ? 'line-through' : 'none'};" data-obj-block="${block.id}" data-obj-idx="${idx}">
             <input type="checkbox" ${o.done ? 'checked' : ''} style="width:10px; height:10px; margin:0; accent-color:var(--accent);" data-obj-block="${block.id}" data-obj-idx="${idx}">
             <span>${o.text}</span>
           </label>
@@ -3375,25 +3816,47 @@
         `;
       }
 
+      const tempBadge = habit.isTemporary
+        ? `<span style="font-size:0.58rem; font-weight:800; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.22); color:#fde68a;">Temporal</span>`
+        : '';
+
+      const criticalEmblemBadge = block.isCritical
+        ? `<span class="priority-badge" title="Prioridad del Día: Debe cumplirse sí o sí (Puntaje x2)">
+             <svg width="11" height="11" viewBox="0 0 24 24" fill="#fff7ed" stroke="#fff7ed" stroke-width="1.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+             <span>PRIORIDAD · SÍ O SÍ · x2</span>
+           </span>`
+        : '';
+
+      const statusBadge = (status === 'completed' && allObjsDone)
+        ? `<span style="color:#6ee7b7; font-weight:700; margin-left:4px;">✓ Completado (+${pts} pts)</span>`
+        : (status === 'failed'
+          ? `<span style="color:#fca5a5; font-weight:700; margin-left:4px;">✕ No completado (0 pts)</span>`
+          : '');
+
       el.innerHTML = `
         <div class="b-content" style="overflow:hidden;">
           <div class="b-header">
+            <span style="width:9px; height:9px; border-radius:50%; background:${hColor}; box-shadow:0 0 8px ${hColor}; display:inline-block; flex-shrink:0;"></span>
             <span class="b-title">${habit.name}</span>
-            ${block.isCritical ? '<span class="priority-badge">Prioridad</span>' : ''}
+            ${tempBadge}
+            ${criticalEmblemBadge}
           </div>
           <div class="b-time">
             ${block.startTime} - ${block.endTime} (${endMin - startMin}m)
-            ${(block.status === 'completed' && allObjsDone) ? `<span style="color:var(--accent); font-weight:700; margin-left:4px;">+${pts} pts</span>` : ''}
+            ${statusBadge}
           </div>
           ${objsHtml}
         </div>
 
         <div class="b-actions">
-          <button class="btn-b-focus" title="Iniciar enfoque" data-action="focus" data-id="${block.id}" aria-label="Iniciar enfoque">
+          <button type="button" class="btn-b-drag-handle" data-drag-handle="true" data-id="${block.id}" title="Mantén y arrastra desde aquí para mover de horario" aria-label="Mover bloque de horario">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="5" r="1.8"/><circle cx="15" cy="5" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="19" r="1.8"/><circle cx="15" cy="19" r="1.8"/></svg>
+          </button>
+          <button type="button" class="btn-b-focus" title="Iniciar enfoque" data-action="focus" data-id="${block.id}" aria-label="Iniciar enfoque">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
-          <button class="btn-b-check" title="Cambiar estado" data-action="toggle-status" data-id="${block.id}" aria-label="Cambiar estado">
-            ${block.status === 'completed' ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : (block.status === 'failed' ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' : '')}
+          <button type="button" class="btn-b-check" title="Cambiar estado (Completado / No completado)" data-action="toggle-status" data-id="${block.id}" aria-label="Cambiar estado">
+            ${status === 'completed' ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : (status === 'failed' ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' : '')}
           </button>
         </div>
       `;
@@ -3767,7 +4230,7 @@
     document.getElementById('kpiNetScoreSub').textContent = `+${stats.blockPoints} bloques, +${stats.microPoints} micros, -${stats.screenPenalty} penalización`;
 
     document.getElementById('kpiEffectiveness').textContent = `${stats.effectiveness}%`;
-    document.getElementById('kpiEffectivenessSub').textContent = `${stats.completedBlocks} de ${stats.totalBlocks} bloques`;
+    document.getElementById('kpiEffectivenessSub').textContent = `${stats.completedBlocks}/${stats.totalBlocks} bloques · ${stats.completedMicros} micros`;
 
     document.getElementById('kpiScreenTime').textContent = `${stats.totalScreenMinutes}m`;
     document.getElementById('kpiScreenPenalty').textContent = `-${stats.screenPenalty} pts penalización`;
@@ -3972,7 +4435,7 @@
 
     document.getElementById('printRoutinesSummary').innerHTML = `
       ${routinesLines ? routinesLines + '<br>' : ''}
-      • <strong>Micro-hábitos del Día:</strong> ${(log.microHabitsCompleted || []).length} completados (+${stats.microPoints} pts).
+      • <strong>Micro-hábitos del Día:</strong> ${(log.microHabitsCompleted || []).length} completados (+${stats.microPoints} pts) · ${(log.microHabitsFailed || []).length} no completados.
     `;
 
     document.getElementById('printAuditContent').textContent = document.getElementById('aiAuditText').textContent;
@@ -4276,6 +4739,8 @@
     document.getElementById('habitSelectFormat').value = 'block';
     document.getElementById('habitInputPoints').value = '20';
     document.getElementById('habitInputColor').value = '#6366f1';
+    const chkTemp = document.getElementById('habitIsTemporary');
+    if (chkTemp) chkTemp.checked = false;
     document.getElementById('modalHabit').classList.add('open');
   });
 
@@ -4283,21 +4748,26 @@
     const name = document.getElementById('habitInputName').value.trim();
     if (!name) { showToast('Ingresa un nombre para el hábito'); return; }
 
+    const isTemporary = Boolean(document.getElementById('habitIsTemporary')?.checked);
+
     const newH = {
       id: 'h_' + genId(),
       name,
       category: document.getElementById('habitSelectCategory').value,
       format: document.getElementById('habitSelectFormat').value,
       points: parseInt(document.getElementById('habitInputPoints').value, 10) || 10,
-      color: document.getElementById('habitInputColor').value || '#6366f1'
+      color: document.getElementById('habitInputColor').value || '#6366f1',
+      isTemporary,
+      temporaryDate: isTemporary ? state.currentDate : null
     };
 
     state.habits.push(newH);
     saveHabits();
     renderHabitsCatalog();
     renderMicroHabits();
+    renderSettingsView();
     document.getElementById('modalHabit').classList.remove('open');
-    showToast('Hábito creado.');
+    showToast(isTemporary ? 'Hábito temporal creado para hoy.' : 'Hábito creado.');
   });
 
   // Modal Agendar Bloque con Objetivos (Checklist)
@@ -4375,11 +4845,11 @@
   function populateHabitSelect(selectedHabitId) {
     const sel = document.getElementById('blockHabitSelect');
     sel.innerHTML = '';
-    const blockHabits = state.habits.filter(h => h.format === 'block');
+    const blockHabits = state.habits.filter(h => h.format === 'block' && (isHabitActiveForDate(h, state.currentDate) || h.id === selectedHabitId));
     blockHabits.forEach(h => {
       const opt = document.createElement('option');
       opt.value = h.id;
-      opt.textContent = `${h.name} (+${h.points} pts)`;
+      opt.textContent = `${h.name}${h.isTemporary ? ' [Temporal]' : ''} (+${h.points} pts)`;
       if (h.id === selectedHabitId) opt.selected = true;
       sel.appendChild(opt);
     });
@@ -4736,50 +5206,6 @@
 
   // --- Pantalla de Ajustes y Configuración (#view-settings) ---
   function renderSettingsView() {
-    const grid = document.getElementById('darkThemesGrid');
-    if (!grid) return;
-
-    const currentThemeId = state.settings.themeId || 'obsidian_indigo';
-    const activeTheme = DARK_THEMES.find(t => t.id === currentThemeId) || DARK_THEMES[0];
-    const effectivePrimary = state.settings.customPrimary || activeTheme.primary;
-    const effectiveAccent = state.settings.customAccent || activeTheme.accent;
-
-    grid.innerHTML = DARK_THEMES.map(theme => {
-      const isBaseActive = theme.id === currentThemeId;
-      return `
-        <button type="button" data-theme-id="${theme.id}" style="
-          display:flex; flex-direction:column; gap:8px; padding:11px; border-radius:12px; text-align:left; cursor:pointer;
-          background:${theme.bgSurface};
-          border:${isBaseActive ? `2px solid ${theme.primary}` : '1px solid rgba(255,255,255,0.1)'};
-          box-shadow:${isBaseActive ? `0 0 18px ${hexToRgba(theme.primary, 0.25)}` : 'none'};
-          transition:all 0.18s ease;
-        ">
-          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-            <div style="display:flex; align-items:center; gap:6px;">
-              <span style="width:16px; height:16px; border-radius:50%; background:${theme.bgBody}; border:2px solid ${theme.primary}; display:inline-block;"></span>
-              <span style="width:14px; height:14px; border-radius:50%; background:${theme.primary}; display:inline-block;"></span>
-              <span style="width:14px; height:14px; border-radius:50%; background:${theme.accent}; display:inline-block;"></span>
-            </div>
-            ${isBaseActive ? `<span style="font-size:0.62rem; font-weight:800; padding:2px 6px; border-radius:5px; background:${hexToRgba(theme.primary, 0.22)}; color:#fff;">ACTIVO</span>` : ''}
-          </div>
-          <div>
-            <div style="font-size:0.78rem; font-weight:800; color:#f8fafc;">${theme.name}</div>
-            <div style="font-size:0.66rem; color:#94a3b8; margin-top:2px; line-height:1.3;">${theme.subtitle}</div>
-          </div>
-        </button>
-      `;
-    }).join('');
-
-    const inpPrimary = document.getElementById('settingCustomPrimary');
-    const lblPrimary = document.getElementById('labelCustomPrimaryHex');
-    const inpAccent = document.getElementById('settingCustomAccent');
-    const lblAccent = document.getElementById('labelCustomAccentHex');
-
-    if (inpPrimary) inpPrimary.value = effectivePrimary;
-    if (lblPrimary) lblPrimary.textContent = effectivePrimary.toUpperCase();
-    if (inpAccent) inpAccent.value = effectiveAccent;
-    if (lblAccent) lblAccent.textContent = effectiveAccent.toUpperCase();
-
     const inpUserName = document.getElementById('settingUserName');
     const inpGoal = document.getElementById('settingDailyScoreGoal');
     const selDur = document.getElementById('settingDefaultBlockDuration');
@@ -4800,10 +5226,10 @@
       } else {
         habitsListEl.innerHTML = state.habits.map(h => `
           <div style="display:flex; align-items:center; justify-content:space-between; padding:7px 10px; border-radius:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="width:10px; height:10px; border-radius:50%; background:${h.color}; display:inline-block;"></span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="width:10px; height:10px; border-radius:50%; background:${h.color}; box-shadow:0 0 6px ${h.color}; display:inline-block;"></span>
               <span style="font-size:0.78rem; font-weight:700; color:var(--text);">${h.name}</span>
-              <span style="font-size:0.66rem; color:var(--text-dim); font-family:var(--font-mono);">${h.format === 'block' ? 'Bloque' : 'Micro'} · +${h.points} pts</span>
+              <span style="font-size:0.66rem; color:var(--text-dim); font-family:var(--font-mono);">${h.format === 'block' ? 'Bloque' : 'Micro'} · +${h.points} pts${h.isTemporary ? ` · Temporal (${h.temporaryDate})` : ''}</span>
             </div>
             <button type="button" data-del-setting-habit="${h.id}" style="background:transparent; border:none; color:#fca5a5; font-size:0.7rem; font-weight:600; cursor:pointer;">Eliminar</button>
           </div>
@@ -4811,47 +5237,6 @@
       }
     }
   }
-
-  // Selector de tema oscuro
-  document.getElementById('darkThemesGrid').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-theme-id]');
-    if (!btn) return;
-    const themeId = btn.dataset.themeId;
-    state.settings.themeId = themeId;
-    state.settings.customPrimary = '';
-    state.settings.customAccent = '';
-    applyTheme(themeId, '', '');
-    saveSettings();
-    renderSettingsView();
-    const tObj = DARK_THEMES.find(t => t.id === themeId);
-    showToast(`Tema aplicado: ${tObj ? tObj.name : themeId}`);
-  });
-
-  // Color Pickers personalizados (siempre sobre atmósfera modo oscuro)
-  document.getElementById('settingCustomPrimary').addEventListener('input', (e) => {
-    const val = e.target.value;
-    state.settings.customPrimary = val;
-    document.getElementById('labelCustomPrimaryHex').textContent = val.toUpperCase();
-    applyTheme(state.settings.themeId, state.settings.customPrimary, state.settings.customAccent);
-    saveSettings();
-  });
-
-  document.getElementById('settingCustomAccent').addEventListener('input', (e) => {
-    const val = e.target.value;
-    state.settings.customAccent = val;
-    document.getElementById('labelCustomAccentHex').textContent = val.toUpperCase();
-    applyTheme(state.settings.themeId, state.settings.customPrimary, state.settings.customAccent);
-    saveSettings();
-  });
-
-  document.getElementById('btnResetCustomColors').addEventListener('click', () => {
-    state.settings.customPrimary = '';
-    state.settings.customAccent = '';
-    applyTheme(state.settings.themeId, '', '');
-    saveSettings();
-    renderSettingsView();
-    showToast('Colores del tema oscuro restaurados');
-  });
 
   // Guardar Preferencias Generales
   document.getElementById('btnSaveGeneralSettings').addEventListener('click', () => {
@@ -4964,6 +5349,7 @@
     state.logs[state.currentDate] = {
       blocks: [],
       microHabitsCompleted: [],
+      microHabitsFailed: [],
       customRoutineChecks: {},
       screenLogs: []
     };
