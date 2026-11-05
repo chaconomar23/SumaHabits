@@ -448,4 +448,81 @@ export function shouldUnlockBlockDrag(params: {
   return holdDurationMs >= requiredHoldMs;
 }
 
+export interface TimelineDisplayConfig {
+  isToday: boolean;
+  startHour: number;
+  showScrollToNowButton: boolean;
+  showToggleFullDayButton: boolean;
+  badgeText: string;
+}
+
+export function getTimelineDisplayConfig(params: {
+  currentDate: string;
+  todayDate: string;
+  timelineFullDay: boolean;
+  currentHour: number;
+  isDraggingHabit?: boolean;
+}): TimelineDisplayConfig {
+  const { currentDate, todayDate, timelineFullDay, currentHour, isDraggingHabit = false } = params;
+  const isToday = currentDate === todayDate;
+
+  // For any date that is NOT today (planning another day), always show the full 24h day (startHour = 0)
+  // and hide the "Hora actual" button since we are not in that day.
+  if (!isToday) {
+    return {
+      isToday: false,
+      startHour: 0,
+      showScrollToNowButton: false,
+      showToggleFullDayButton: false,
+      badgeText: 'Día completo (00:00 - 23:59)',
+    };
+  }
+
+  // While dragging a habit on Today, unlock 00:00 - 23:59 so the user can scroll up or down to any hour of the day
+  const effectiveFullDay = timelineFullDay || isDraggingHabit;
+  const startHour = effectiveFullDay ? 0 : Math.max(0, Math.min(23, currentHour));
+
+  return {
+    isToday: true,
+    startHour,
+    showScrollToNowButton: true,
+    showToggleFullDayButton: true,
+    badgeText: effectiveFullDay
+      ? 'Día completo (00:00 - 23:59)'
+      : `Iniciando desde ${String(startHour).padStart(2, '0')}:00`,
+  };
+}
+
+export function calculateAutoScrollDelta(params: {
+  pointerY: number;
+  containerTop: number;
+  containerBottom: number;
+  edgeThresholdPx?: number;
+  maxSpeedPx?: number;
+}): number {
+  const {
+    pointerY,
+    containerTop,
+    containerBottom,
+    edgeThresholdPx = 85,
+    maxSpeedPx = 14,
+  } = params;
+
+  const topTrigger = containerTop + edgeThresholdPx;
+  const bottomTrigger = containerBottom - edgeThresholdPx;
+
+  if (pointerY < topTrigger && pointerY >= containerTop - 60) {
+    const intensity = Math.min(1, Math.max(0.2, (topTrigger - pointerY) / edgeThresholdPx));
+    return -Math.round(intensity * maxSpeedPx);
+  }
+
+  if (pointerY > bottomTrigger && pointerY <= containerBottom + 60) {
+    const intensity = Math.min(1, Math.max(0.2, (pointerY - bottomTrigger) / edgeThresholdPx));
+    return Math.round(intensity * maxSpeedPx);
+  }
+
+  return 0;
+}
+
+
 

@@ -306,5 +306,72 @@ test('shouldUnlockBlockDrag prevents accidental block movement during vertical s
   );
 });
 
+test('getTimelineDisplayConfig shows full day (startHour=0) and hides Hora actual button when date is not today', async () => {
+  const { getTimelineDisplayConfig } = await import('./scoring.ts');
+
+  // Planning tomorrow: must show full day (00:00 - 23:59) by default and hide "Hora actual" button
+  const tomorrowCfg = getTimelineDisplayConfig({
+    currentDate: '2026-11-05',
+    todayDate: '2026-11-04',
+    timelineFullDay: false,
+    currentHour: 17,
+  });
+  assert.equal(tomorrowCfg.isToday, false);
+  assert.equal(tomorrowCfg.startHour, 0);
+  assert.equal(tomorrowCfg.showScrollToNowButton, false);
+  assert.equal(tomorrowCfg.showToggleFullDayButton, false);
+  assert.equal(tomorrowCfg.badgeText, 'Día completo (00:00 - 23:59)');
+
+  // Today default: starts at currentHour and shows "Hora actual" button
+  const todayCfg = getTimelineDisplayConfig({
+    currentDate: '2026-11-04',
+    todayDate: '2026-11-04',
+    timelineFullDay: false,
+    currentHour: 17,
+  });
+  assert.equal(todayCfg.isToday, true);
+  assert.equal(todayCfg.startHour, 17);
+  assert.equal(todayCfg.showScrollToNowButton, true);
+
+  // Today while dragging a habit: unlocks full 24h range (startHour=0) so user can scroll up or down to any hour
+  const todayDraggingCfg = getTimelineDisplayConfig({
+    currentDate: '2026-11-04',
+    todayDate: '2026-11-04',
+    timelineFullDay: false,
+    currentHour: 17,
+    isDraggingHabit: true,
+  });
+  assert.equal(todayDraggingCfg.startHour, 0);
+});
+
+test('calculateAutoScrollDelta scrolls up near top edge and down near bottom edge during habit drag', async () => {
+  const { calculateAutoScrollDelta } = await import('./scoring.ts');
+
+  // Near top edge (containerTop = 200, pointerY = 220) -> negative delta (scroll up)
+  const upDelta = calculateAutoScrollDelta({
+    pointerY: 220,
+    containerTop: 200,
+    containerBottom: 800,
+  });
+  assert.ok(upDelta < 0, 'Must scroll upward when dragging near top edge');
+
+  // Near bottom edge (containerBottom = 800, pointerY = 780) -> positive delta (scroll down)
+  const downDelta = calculateAutoScrollDelta({
+    pointerY: 780,
+    containerTop: 200,
+    containerBottom: 800,
+  });
+  assert.ok(downDelta > 0, 'Must scroll downward when dragging near bottom edge');
+
+  // Middle of container (pointerY = 500) -> 0 delta
+  const midDelta = calculateAutoScrollDelta({
+    pointerY: 500,
+    containerTop: 200,
+    containerBottom: 800,
+  });
+  assert.equal(midDelta, 0);
+});
+
+
 
 

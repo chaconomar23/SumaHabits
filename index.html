@@ -508,6 +508,8 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
     .timeline-scroll-wrap {
@@ -517,6 +519,65 @@
       border-radius: var(--radius-sm);
       background: rgba(8, 12, 22, 0.95);
       border: 1px solid var(--glass-border);
+      transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      scroll-behavior: auto;
+    }
+
+    /* Temporary Timeline Expansion when Dragging a Habit from the Catalog */
+    #view-habits.catalog-drag-expanded #habitsTopActionsBar,
+    #view-habits.catalog-drag-expanded #microHabitsCard,
+    #view-habits.catalog-drag-expanded .drag-hint-bar,
+    #view-habits.catalog-drag-expanded #categoryFilterBar {
+      display: none !important;
+    }
+
+    #view-habits.catalog-drag-expanded #habitsCatalogCard {
+      padding: 8px 10px !important;
+      margin-bottom: 0 !important;
+    }
+
+    #view-habits.catalog-drag-expanded #habitsCatalogCard .card-header {
+      margin-bottom: 4px !important;
+    }
+
+    #view-habits.catalog-drag-expanded .timeline-card {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 1.5px rgba(129, 140, 248, 0.5), 0 12px 32px rgba(0, 0, 0, 0.7);
+    }
+
+    #view-habits.catalog-drag-expanded .timeline-scroll-wrap {
+      height: calc(100vh - 365px) !important;
+      min-height: 310px;
+      max-height: 64vh;
+    }
+
+    /* Visual Auto-Scroll Edge Indicators inside Timeline */
+    .drag-autoscroll-edge {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #c7d2fe;
+      background: linear-gradient(180deg, rgba(79, 70, 229, 0.38) 0%, rgba(15, 23, 42, 0.85) 100%);
+      border: 1px dashed rgba(129, 140, 248, 0.65);
+      border-radius: 8px;
+      padding: 5px 10px;
+      text-align: center;
+      pointer-events: none;
+      letter-spacing: 0.3px;
+      transition: all 0.15s ease;
+    }
+    .drag-autoscroll-edge.is-scrolling-active {
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.75) 0%, rgba(67, 56, 202, 0.9) 100%);
+      color: #ffffff;
+      border-style: solid;
+      border-color: #a5b4fc;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.6);
+    }
+    #view-habits.catalog-drag-expanded .drag-autoscroll-edge {
+      display: flex;
     }
 
     .timeline-grid-area {
@@ -1632,7 +1693,7 @@
     <!-- VIEW 1: TIMELINE & HABITOS (WITH NATIVE DRAG & DROP) -->
     <section class="view-tab active" id="view-habits">
       <!-- Minimalist Actions Toolbar -->
-      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <div id="habitsTopActionsBar" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
         <button class="btn-primary" id="btnNewHabit">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>Nuevo Hábito</span>
@@ -1648,7 +1709,7 @@
       </div>
 
       <!-- Habits Catalog (Draggable into Timeline) -->
-      <div class="liquid-card">
+      <div class="liquid-card" id="habitsCatalogCard">
         <div class="card-header">
           <h2 class="card-title">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -1679,7 +1740,7 @@
       </div>
 
       <!-- Micro-habits Section -->
-      <div class="liquid-card" style="padding:14px;">
+      <div class="liquid-card" id="microHabitsCard" style="padding:14px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h3 class="card-title" style="font-size:0.82rem;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1691,7 +1752,7 @@
       </div>
 
       <!-- 24-Hour Vertical Timeline -->
-      <div class="timeline-card">
+      <div class="timeline-card" id="timelineMainCard">
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0 4px; flex-wrap:wrap; gap:6px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <h2 class="card-title">
@@ -1710,6 +1771,10 @@
           </div>
         </div>
 
+        <div class="drag-autoscroll-edge" id="dragAutoScrollTopEdge">
+          ▲ Acerca tu dedo aquí para subir a horas anteriores ▲
+        </div>
+
         <div class="timeline-scroll-wrap" id="timelineScrollArea">
           <div class="timeline-grid-area" id="timelineGridArea">
             <div id="hourGridRows"></div>
@@ -1726,6 +1791,10 @@
             <!-- Blocks Layer -->
             <div id="timelineBlocksLayer"></div>
           </div>
+        </div>
+
+        <div class="drag-autoscroll-edge" id="dragAutoScrollBottomEdge">
+          ▼ Acerca tu dedo aquí para bajar a horas posteriores ▼
         </div>
       </div>
     </section>
@@ -3137,10 +3206,12 @@
           e.dataTransfer.setData('text/plain', h.id);
           e.dataTransfer.effectAllowed = 'copy';
           item.classList.add('is-dragging');
+          enterCatalogDragExpansion(h);
         });
         item.addEventListener('dragend', () => {
           state.draggingHabitId = null;
           item.classList.remove('is-dragging');
+          exitCatalogDragExpansion();
           hideTimelineDropPreview();
           hideDragFloatingHud();
         });
@@ -3236,9 +3307,18 @@
     setMicroHabitStatus(hId, isDone ? 'pending' : 'completed');
   }
 
-  // --- Dynamic Timeline Starting at Current Hour ---
+  // --- Dynamic Timeline: Full Day by default on non-today dates; Current Hour on Today ---
+  let isCatalogDraggingActive = false;
+
+  function isTodayDate() {
+    return state.currentDate === formatDateKey(new Date());
+  }
+
   function getTimelineStartHour() {
-    if (state.timelineFullDay) return 0;
+    // When planning any date that is NOT today, always show the full 24h day (00:00 - 23:59) by default!
+    if (!isTodayDate()) return 0;
+    // When full-day mode is toggled OR while dragging a habit from the catalog, unlock 00:00 - 23:59
+    if (state.timelineFullDay || isCatalogDraggingActive) return 0;
     const now = new Date();
     return now.getHours();
   }
@@ -3248,6 +3328,7 @@
     const gridArea = document.getElementById('timelineGridArea');
     rowsContainer.innerHTML = '';
 
+    const isToday = isTodayDate();
     const startHour = getTimelineStartHour();
     const totalHours = 24 - startHour;
     if (gridArea) {
@@ -3255,14 +3336,25 @@
     }
 
     const startBadge = document.getElementById('timelineStartInfoBadge');
-    if (startBadge) {
-      startBadge.textContent = state.timelineFullDay
-        ? 'Día completo (00:00 - 23:59)'
-        : `Iniciando desde ${String(startHour).padStart(2, '0')}:00`;
-    }
     const btnFull = document.getElementById('btnToggleFullDay');
-    if (btnFull) {
-      btnFull.textContent = state.timelineFullDay ? 'Desde hora actual' : 'Ver día completo';
+    const btnNow = document.getElementById('btnScrollToNow');
+
+    if (!isToday) {
+      // On non-today dates: hide "Hora actual" and "Ver día completo" buttons, show full day by default
+      if (btnNow) btnNow.style.display = 'none';
+      if (btnFull) btnFull.style.display = 'none';
+      if (startBadge) startBadge.textContent = 'Día completo (00:00 - 23:59)';
+    } else {
+      if (btnNow) btnNow.style.display = 'inline-flex';
+      if (btnFull) {
+        btnFull.style.display = 'inline-flex';
+        btnFull.textContent = state.timelineFullDay ? 'Desde hora actual' : 'Ver día completo';
+      }
+      if (startBadge) {
+        startBadge.textContent = (state.timelineFullDay || startHour === 0)
+          ? 'Día completo (00:00 - 23:59)'
+          : `Iniciando desde ${String(startHour).padStart(2, '0')}:00`;
+      }
     }
 
     for (let h = startHour; h < 24; h++) {
@@ -3284,6 +3376,7 @@
     const marker = document.getElementById('currentTimeMarker');
     const startHour = getTimelineStartHour();
     const baseMin = startHour * 60;
+    const scrollArea = document.getElementById('timelineScrollArea');
 
     if (state.currentDate === todayStr) {
       const curMins = (now.getHours() * 60) + now.getMinutes();
@@ -3292,14 +3385,14 @@
       marker.style.top = `${offsetPx}px`;
       document.getElementById('currentTimeLabel').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      if (autoScroll) {
-        const scrollArea = document.getElementById('timelineScrollArea');
-        if (scrollArea) {
-          scrollArea.scrollTop = state.timelineFullDay ? Math.max(0, offsetPx - 80) : 0;
-        }
+      if (autoScroll && scrollArea && !isCatalogDraggingActive) {
+        scrollArea.scrollTop = state.timelineFullDay ? Math.max(0, offsetPx - 80) : 0;
       }
     } else {
       marker.style.display = 'none';
+      if (autoScroll && scrollArea && !isCatalogDraggingActive) {
+        scrollArea.scrollTop = 0;
+      }
     }
   }
 
@@ -3326,6 +3419,126 @@
   const timelineGridArea = document.getElementById('timelineGridArea');
   const timelineDropPreview = document.getElementById('timelineDropPreview');
   const dragFloatingTimeHud = document.getElementById('dragFloatingTimeHud');
+  const dragAutoScrollTopEdge = document.getElementById('dragAutoScrollTopEdge');
+  const dragAutoScrollBottomEdge = document.getElementById('dragAutoScrollBottomEdge');
+
+  let dragAutoScrollRaf = null;
+  const liveDragPointer = {
+    active: false,
+    clientX: 0,
+    clientY: 0,
+    habit: null,
+    durationMin: 60
+  };
+
+  function startContinuousDragAutoScroll() {
+    if (dragAutoScrollRaf) cancelAnimationFrame(dragAutoScrollRaf);
+
+    const step = () => {
+      if (!liveDragPointer.active) {
+        dragAutoScrollRaf = null;
+        return;
+      }
+
+      const scrollArea = document.getElementById('timelineScrollArea');
+      if (scrollArea && liveDragPointer.clientY > 0) {
+        const areaRect = scrollArea.getBoundingClientRect();
+        const vh = window.innerHeight || 800;
+        const visibleTop = Math.max(60, areaRect.top);
+        const visibleBottom = Math.min(vh - 64, areaRect.bottom);
+        const edgeThreshold = 95;
+        const maxSpeed = 14;
+        let delta = 0;
+
+        if (liveDragPointer.clientY < visibleTop + edgeThreshold && liveDragPointer.clientY >= visibleTop - 80) {
+          const intensity = Math.min(1, Math.max(0.25, ((visibleTop + edgeThreshold) - liveDragPointer.clientY) / edgeThreshold));
+          delta = -Math.round(intensity * maxSpeed);
+        } else if (liveDragPointer.clientY > visibleBottom - edgeThreshold && liveDragPointer.clientY <= visibleBottom + 80) {
+          const intensity = Math.min(1, Math.max(0.25, (liveDragPointer.clientY - (visibleBottom - edgeThreshold)) / edgeThreshold));
+          delta = Math.round(intensity * maxSpeed);
+        }
+
+        if (dragAutoScrollTopEdge) {
+          dragAutoScrollTopEdge.classList.toggle('is-scrolling-active', delta < 0);
+        }
+        if (dragAutoScrollBottomEdge) {
+          dragAutoScrollBottomEdge.classList.toggle('is-scrolling-active', delta > 0);
+        }
+
+        if (delta !== 0) {
+          const prevScroll = scrollArea.scrollTop;
+          scrollArea.scrollTop = Math.max(0, scrollArea.scrollTop + delta);
+          if (scrollArea.scrollTop !== prevScroll && liveDragPointer.habit) {
+            const { actualStartMin, actualEndMin, durMins, topPx } = computeSnappedSlotFromClientY(
+              liveDragPointer.clientY,
+              liveDragPointer.durationMin
+            );
+            showTimelineDropPreview(topPx, actualStartMin, durMins, liveDragPointer.habit.name, liveDragPointer.habit.color);
+            showDragFloatingHud(
+              liveDragPointer.clientX,
+              liveDragPointer.clientY,
+              actualStartMin,
+              actualEndMin,
+              liveDragPointer.habit.name,
+              liveDragPointer.habit.color,
+              delta < 0 ? '▲ Subiendo horario...' : '▼ Bajando horario...'
+            );
+          }
+        }
+      }
+
+      dragAutoScrollRaf = requestAnimationFrame(step);
+    };
+
+    dragAutoScrollRaf = requestAnimationFrame(step);
+  }
+
+  function stopContinuousDragAutoScroll() {
+    liveDragPointer.active = false;
+    if (dragAutoScrollRaf) {
+      cancelAnimationFrame(dragAutoScrollRaf);
+      dragAutoScrollRaf = null;
+    }
+    if (dragAutoScrollTopEdge) dragAutoScrollTopEdge.classList.remove('is-scrolling-active');
+    if (dragAutoScrollBottomEdge) dragAutoScrollBottomEdge.classList.remove('is-scrolling-active');
+  }
+
+  function enterCatalogDragExpansion(habit) {
+    if (isCatalogDraggingActive) return;
+    const scrollArea = document.getElementById('timelineScrollArea');
+    const prevStartHour = getTimelineStartHour();
+    const prevScrollTop = scrollArea ? scrollArea.scrollTop : 0;
+
+    isCatalogDraggingActive = true;
+    const viewHabits = document.getElementById('view-habits');
+    if (viewHabits) viewHabits.classList.add('catalog-drag-expanded');
+
+    renderTimelineGrid();
+    renderTimelineBlocks();
+    updateCurrentTimeIndicator(false);
+
+    if (scrollArea) {
+      // Preserve the exact hour the user was looking at while unlocking 00:00 - 23:59 so they can scroll both UP and DOWN
+      scrollArea.scrollTop = prevScrollTop + (prevStartHour * 60);
+    }
+
+    liveDragPointer.active = true;
+    liveDragPointer.habit = habit;
+    liveDragPointer.durationMin = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+    startContinuousDragAutoScroll();
+  }
+
+  function exitCatalogDragExpansion() {
+    stopContinuousDragAutoScroll();
+    if (!isCatalogDraggingActive) return;
+    isCatalogDraggingActive = false;
+    const viewHabits = document.getElementById('view-habits');
+    if (viewHabits) viewHabits.classList.remove('catalog-drag-expanded');
+
+    renderTimelineGrid();
+    renderTimelineBlocks();
+    updateCurrentTimeIndicator(false);
+  }
 
   // Floating Time HUD positioned ABOVE the user's finger (clientY - 68px) so finger never obscures the time
   function showDragFloatingHud(clientX, clientY, startMin, endMin, habitName, habitColor, hintText) {
@@ -3398,6 +3611,11 @@
   }
 
   function scheduleHabitAtSlot(habit, startMin, endMin) {
+    // If scheduled on Today at an hour earlier than the current hour, enable full-day view so it stays visible
+    if (isTodayDate() && startMin < (new Date().getHours() * 60)) {
+      state.timelineFullDay = true;
+    }
+
     const log = getTodayLog();
     log.blocks.push({
       id: 'blk_' + genId(),
@@ -3411,23 +3629,32 @@
     });
 
     saveLogs();
+    renderTimelineGrid();
     renderTimelineBlocks();
     renderHeader();
     Sound.chime();
     showToast(`Agendado: ${habit.name} (${minutesToTime(startMin)} - ${minutesToTime(endMin)})`);
   }
 
-  // 1A. HTML5 Dragover and drop on timeline area (with Floating Time HUD above finger/cursor)
+  // 1A. HTML5 Dragover and drop on timeline area (with Floating Time HUD above finger/cursor + Auto-Scroll)
   timelineGridArea.addEventListener('dragover', (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
 
     const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
-    const { actualStartMin, actualEndMin, topPx } = computeSnappedSlotFromClientY(e.clientY, durMins);
-
     const draggedHabit = state.habits.find(h => h.id === state.draggingHabitId);
     const label = draggedHabit ? draggedHabit.name : 'Agendar hábito';
     const col = draggedHabit ? draggedHabit.color : '#6366f1';
+
+    if (draggedHabit && !isCatalogDraggingActive) {
+      enterCatalogDragExpansion(draggedHabit);
+    }
+    liveDragPointer.clientX = e.clientX;
+    liveDragPointer.clientY = e.clientY;
+    liveDragPointer.habit = draggedHabit || { name: label, color: col };
+    liveDragPointer.durationMin = durMins;
+
+    const { actualStartMin, actualEndMin, topPx } = computeSnappedSlotFromClientY(e.clientY, durMins);
 
     showTimelineDropPreview(topPx, actualStartMin, durMins, label, col);
     showDragFloatingHud(e.clientX, e.clientY, actualStartMin, actualEndMin, label, col, 'Soltar en este horario');
@@ -3442,27 +3669,30 @@
 
   timelineGridArea.addEventListener('drop', (e) => {
     e.preventDefault();
-    hideTimelineDropPreview();
-    hideDragFloatingHud();
-
+    const dropClientY = e.clientY;
     const habitId = e.dataTransfer.getData('text/plain') || state.draggingHabitId;
-    if (!habitId) return;
-
     const habit = state.habits.find(h => h.id === habitId);
-    if (!habit) return;
 
-    const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
-    const { actualStartMin, actualEndMin } = computeSnappedSlotFromClientY(e.clientY, durMins);
-    scheduleHabitAtSlot(habit, actualStartMin, actualEndMin);
+    if (habit) {
+      const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+      const { actualStartMin, actualEndMin } = computeSnappedSlotFromClientY(dropClientY, durMins);
+      exitCatalogDragExpansion();
+      hideTimelineDropPreview();
+      hideDragFloatingHud();
+      scheduleHabitAtSlot(habit, actualStartMin, actualEndMin);
+    } else {
+      exitCatalogDragExpansion();
+      hideTimelineDropPreview();
+      hideDragFloatingHud();
+    }
   });
 
-  // 1B. Touch / Pointer Drag from Habits Catalog to Timeline (so users see the HUD above their finger)
+  // 1B. Touch / Pointer Drag from Habits Catalog to Timeline (Expands Timeline + Continuous Auto-Scroll Up/Down)
   let activeCatalogDrag = null;
   let catalogHabitJustDragged = false;
 
   function initCatalogHabitPointerDrag(itemEl, habit) {
     itemEl.addEventListener('pointerdown', (e) => {
-      // Only primary button / touch
       if (e.button && e.button !== 0) return;
       const startedOnGrip = Boolean(e.target.closest('[data-catalog-grip="true"]'));
 
@@ -3487,7 +3717,6 @@
       const dx = e.clientX - activeCatalogDrag.startX;
 
       if (!activeCatalogDrag.isDragging) {
-        // If user is scrolling horizontally inside the catalog row, cancel catalog drag
         if (!activeCatalogDrag.startedOnGrip && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
           activeCatalogDrag = null;
           return;
@@ -3498,6 +3727,7 @@
           state.draggingHabitId = habit.id;
           itemEl.classList.add('is-dragging');
           try { itemEl.setPointerCapture(e.pointerId); } catch (err) {}
+          enterCatalogDragExpansion(habit);
         }
       }
 
@@ -3505,6 +3735,11 @@
       e.preventDefault();
 
       const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
+      liveDragPointer.clientX = e.clientX;
+      liveDragPointer.clientY = e.clientY;
+      liveDragPointer.habit = habit;
+      liveDragPointer.durationMin = durMins;
+
       const { actualStartMin, actualEndMin, topPx } = computeSnappedSlotFromClientY(e.clientY, durMins);
 
       showTimelineDropPreview(topPx, actualStartMin, durMins, habit.name, habit.color);
@@ -3515,19 +3750,8 @@
         actualEndMin,
         habit.name,
         habit.color,
-        'Soltar aquí · ↕ más arriba o abajo'
+        'Soltar aquí · ↕ acerca al borde para recorrer horas'
       );
-
-      // Auto-scroll timeline or window when dragging near top/bottom edges
-      const scrollArea = document.getElementById('timelineScrollArea');
-      if (scrollArea) {
-        const areaRect = scrollArea.getBoundingClientRect();
-        if (e.clientY > areaRect.bottom - 45) {
-          scrollArea.scrollTop += 14;
-        } else if (e.clientY < areaRect.top + 45 && e.clientY > areaRect.top - 40) {
-          scrollArea.scrollTop -= 14;
-        }
-      }
     });
 
     const finishCatalogPointerDrag = (e) => {
@@ -3535,18 +3759,30 @@
       const wasDragging = activeCatalogDrag.isDragging;
       itemEl.classList.remove('is-dragging');
       state.draggingHabitId = null;
-      hideTimelineDropPreview();
-      hideDragFloatingHud();
 
       if (wasDragging) {
         const gridRect = timelineGridArea.getBoundingClientRect();
-        // Drop succeeds if pointer released over or within the timeline area
-        if (e.clientY >= gridRect.top - 30 && e.clientY <= gridRect.bottom + 30) {
+        const scrollArea = document.getElementById('timelineScrollArea');
+        const scrollRect = scrollArea ? scrollArea.getBoundingClientRect() : gridRect;
+        const isInsideTimeline = e.clientY >= scrollRect.top - 35 && e.clientY <= scrollRect.bottom + 35;
+
+        if (isInsideTimeline) {
           const durMins = parseInt(state.settings.defaultBlockDuration, 10) || 60;
           const { actualStartMin, actualEndMin } = computeSnappedSlotFromClientY(e.clientY, durMins);
+          exitCatalogDragExpansion();
+          hideTimelineDropPreview();
+          hideDragFloatingHud();
           scheduleHabitAtSlot(habit, actualStartMin, actualEndMin);
+        } else {
+          exitCatalogDragExpansion();
+          hideTimelineDropPreview();
+          hideDragFloatingHud();
         }
         setTimeout(() => { catalogHabitJustDragged = false; }, 260);
+      } else {
+        exitCatalogDragExpansion();
+        hideTimelineDropPreview();
+        hideDragFloatingHud();
       }
 
       activeCatalogDrag = null;
